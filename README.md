@@ -1,1 +1,3 @@
-# fliplet-widget-google-submission
+# Goole Play App Submission Widget
+
+Component to capture App data for Google Play submission
