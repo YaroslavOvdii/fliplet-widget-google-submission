@@ -174,69 +174,66 @@
                     <p class="help-block label-helper"><small>This is the name that will appear below the icon of your app</small></p>
                   </div>
                   <div class="col-sm-8">
-                    <input type="text" name="fl-store-iconName" class="form-control" id="fl-store-iconName" placeholder="Enter the app icon name" maxlength="30" data-error="Please enter an app icon name" required/>
+                    <input type="text" name="fl-store-iconName" class="form-control" id="fl-store-iconName" placeholder="Enter the app icon name" maxlength="50" data-error="Please enter an app icon name" required/>
                     <div class="help-block with-errors"></div>
-                    <p class="help-block"><small>The length of your app icon name is limited to 30 characters</small></p>
+                    <p class="help-block"><small>The length of your app icon name is limited to 50 characters</small></p>
                   </div>
                 </div>
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
-                    <label for="fl-store-subtitle">App subtitle</label>
-                    <p class="help-block label-helper"><small>Optional</small></p>
+                    <label for="fl-store-short-description">App short description</label>
                   </div>
                   <div class="col-sm-8">
-                    <textarea name="fl-store-subtitle" class="form-control" id="fl-store-subtitle" placeholder="Enter an app subtitle" maxlength="30"></textarea>
-                    <p class="help-block"><small>Subtitles are limited to 30 characters and appear below your app’s name throughout Google Play.</small></p>
+                    <textarea name="fl-store-short-description" class="form-control" id="fl-store-short-description" placeholder="Enter an app short description" maxlength="80" data-error="Please enter an app short description" required></textarea>
+                    <div class="help-block with-errors"></div>
+                    <p class="help-block"><small>Short descriptions are limited to 80 characters.</small></p>
                   </div>
                 </div>
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
                     <label for="fl-store-description">App description</label>
-                    <p class="help-block label-helper"><small>Optional</small></p>
                   </div>
                   <div class="col-sm-8">
-                    <textarea name="fl-store-description" class="form-control" id="fl-store-description" placeholder="Enter an app description"></textarea>
+                    <textarea name="fl-store-description" class="form-control" id="fl-store-description" placeholder="Enter an app description" maxlength="4000" data-error="Please enter an app description" required></textarea>
+                    <div class="help-block with-errors"></div>
                     <p class="help-block"><small>Provide an engaging description that highlights the features and functionality of your app.</small></p>
                   </div>
                 </div>
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
-                    <label for="fl-store-promotional">App promotional text</label>
-                    <p class="help-block label-helper"><small>Optional</small></p>
+                    <label>Application Type</label>
+                    <p class="help-block label-helper"><small>The type that best describes this app.</small></p>
                   </div>
                   <div class="col-sm-8">
-                    <textarea name="fl-store-promotional" class="form-control" id="fl-store-promotional" placeholder="Enter an app promotional text" maxlength="170"></textarea>
-                    <p class="help-block"><small>Your app’s promotional text appears at the top of the description and is limited to 170 characters. </small></p>
+                    <label for="fl-store-type" class="select-proxy-display">
+                      <span class="icon fa fa-chevron-down"></span>
+                      <span class="select-value-proxy">-- Select a type</span>
+                      <select id="fl-store-type" name="fl-store-type" data-label="select" class="hidden-select form-control" data-error="Please select a type" required>
+                        <option value="">-- Select a type</option>
+                        <option value="Applications">Applications</option>
+                        <option value="Games">Games</option>
+                      </select>
+                    </label>
+                    <div class="help-block with-errors"></div>
                   </div>
                 </div>
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
-                    <label>Application Category</label>
-                    <p class="help-block label-helper"><small>The category that best describes this app. For more information, see the <a href="https://itunesconnect.apple.com/itc/static/category_definitions" target="_blank">Google Play Category Definitions.</a></small></p>
+                    <label>Application Catergory</label>
+                    <p class="help-block label-helper"><small>The category that best describes this app.</small></p>
                   </div>
                   <div class="col-sm-8">
-                    <label for="fl-store-category1" class="select-proxy-display">
-                    <span class="icon fa fa-chevron-down"></span>
-                    <span class="select-value-proxy">-- Primary Category</span>
-                    <select id="fl-store-category1" name="fl-store-category1" data-label="select" class="hidden-select form-control" data-error="Please select a category" required>
-                      <option value="">-- Primary Category</option>
-                      <option value="1">Option 1</option>
-                      <option value="2">Option 2</option>
-                      <option value="2">Option 3</option>
-                    </select>
-                  </label>
+                    <label for="fl-store-category" class="select-proxy-display">
+                      <span class="icon fa fa-chevron-down"></span>
+                      <span class="select-value-proxy">-- Select a category</span>
+                      <select id="fl-store-category" name="fl-store-category" data-label="select" class="hidden-select form-control" data-error="Please select a category" required>
+                        <option value="">-- Select a category</option>
+                        <option value="1">Option 1</option>
+                        <option value="2">Option 2</option>
+                        <option value="2">Option 3</option>
+                      </select>
+                    </label>
                     <div class="help-block with-errors"></div>
-                    <label for="fl-store-category2" class="select-proxy-display">
-                    <span class="icon fa fa-chevron-down"></span>
-                    <span class="select-value-proxy">-- Secondary Category</span>
-                    <select id="fl-store-category2" name="fl-store-category2" data-label="select" class="hidden-select form-control">
-                      <option value="">-- Secondary Category</option>
-                      <option value="1">Option 1</option>
-                      <option value="2">Option 2</option>
-                      <option value="2">Option 3</option>
-                    </select>
-                  </label>
-                    <p class="help-block"><small>Secondary category is optional</small></p>
                   </div>
                 </div>
                 <div class="form-group clearfix">
@@ -324,17 +321,6 @@
                     </select>
                   </label>
                     <div class="help-block with-errors"></div>
-                  </div>
-                </div>
-                <div class="form-group clearfix">
-                  <div class="col-sm-4 control-label">
-                    <label for="fl-store-keywords">Keywords</label>
-                    <p class="help-block label-helper"><small>Keywords help determine where your app displays in search results.</small></p>
-                  </div>
-                  <div class="col-sm-8">
-                    <input type="text" name="fl-store-keywords" class="form-control" id="fl-store-keywords" placeholder="Type a keyword" data-error="Please enter at least one keyword" required/>
-                    <div class="help-block with-errors"></div>
-                    <p class="help-block"><small>Keywords are limited to 100 characters total.</small></p>
                   </div>
                 </div>
                 <div class="form-group clearfix">
@@ -526,27 +512,7 @@
                     <label for="fl-store-keywords">Rating</label>
                   </div>
                   <div class="col-sm-8">
-                    Your app rating is determined by Apple based on your app type. The app rating will display on Google Play across all your platforms. Fliplet apps will be rated <strong>17+</strong> by default.
-                  </div>
-                </div>
-                <div class="form-group clearfix">
-                  <div class="col-sm-4 control-label">
-                    <label for="fl-store-support">Support URL</label>
-                    <p class="help-block label-helper"><small>A URL that links to your organization's support page.</small></p>
-                  </div>
-                  <div class="col-sm-8">
-                    <input type="text" name="fl-store-support" class="form-control" id="fl-store-support" placeholder="Enter your Support URL" data-error="Please enter your Support URL" required/>
-                    <div class="help-block with-errors"></div>
-                  </div>
-                </div>
-                <div class="form-group clearfix">
-                  <div class="col-sm-4 control-label">
-                    <label for="fl-store-marketing">Marketing URL</label>
-                    <p class="help-block label-helper"><small>A URL that links to your organization's marketing website.</small></p>
-                  </div>
-                  <div class="col-sm-8">
-                    <input type="text" name="fl-store-marketing" class="form-control" id="fl-store-marketing" placeholder="Enter your Marketing URL" data-error="Please enter your Marketing URL" required/>
-                    <div class="help-block with-errors"></div>
+                    Your app rating is determined by Google based on your app type. The app rating will be displayed on Google Play across all your platforms. Fliplet apps will be rated <strong>17+</strong> by default.
                   </div>
                 </div>
                 <div class="form-group clearfix">
@@ -561,12 +527,43 @@
                 </div>
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
-                    <label for="fl-store-copyright">Copyright</label>
-                    <p class="help-block label-helper"><small>The name of the person or entity that owns the exclusive rights to your app, preceded by the year the rights were obtained.</small></p>
+                    <label for="fl-store-marketing-optout">Marketing opt-out</label>
                   </div>
                   <div class="col-sm-8">
-                    <input type="text" name="fl-store-copyright" class="form-control" id="fl-store-copyright" placeholder="Eg: 2008 Acme Inc." data-error="Please enter your Copyright text" required/>
-                    <div class="help-block with-errors"></div>
+                    <div class="checkbox checkbox-icon">
+                      <input type="checkbox" id="fl-store-marketing-optout" name="fl-store-marketing-optout" value="on">
+                      <label for="fl-store-marketing-optout">
+                        <span class="check"><i class="fa fa-check"></i></span> Do not promote my application except in Google Play and in any Google-owned online or mobile properties. I understand that any changes to this preference may take sixty days to take effect.
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group clearfix">
+                  <div class="col-sm-4 control-label">
+                    <label for="fl-store-content-guidelines">Content guidelines</label>
+                  </div>
+                  <div class="col-sm-8">
+                    <div class="checkbox checkbox-icon">
+                      <input type="checkbox" id="fl-store-content-guidelines" name="fl-store-content-guidelines" value="on">
+                      <label for="fl-store-content-guidelines">
+                        <span class="check"><i class="fa fa-check"></i></span> This application meets <a href="https://play.google.com/about/developer-content-policy.html" target="_blank">Android Content Guidelines</a>.
+                      </label>
+                      <br><br>
+                      <p class="help-block label-helper"><small>Please check out these <a href="https://play.google.com/about/developer-content-policy.html" target="_blank">tips on how to create policy compliant app descriptions</a> to avoid some common reasons for app suspension.</small></p>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group clearfix">
+                  <div class="col-sm-4 control-label">
+                    <label for="fl-store-export-laws">US export laws</label>
+                  </div>
+                  <div class="col-sm-8">
+                    <div class="checkbox checkbox-icon">
+                      <input type="checkbox" id="fl-store-export-laws" name="fl-store-export-laws" value="on">
+                      <label for="fl-store-content-guidelines">
+                        <span class="check"><i class="fa fa-check"></i></span> I acknowledge that my software application may be subject to United States export laws, regardless of my location or nationality. I agree that I have complied with all such laws, including any requirements for software with encryption functions. I hereby certify that my application is authorised for export from the United States under these laws. <a style="white-space: nowrap;" href="https://support.google.com/googleplay/android-developer/answer/113770" target="_blank">Learn more</a>
+                      </label>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -581,7 +578,7 @@
                 <p>Now it's down to the technical inforamtion.</p>
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
-                    <label for="fl-store-appDevLogin">App Developer account login</label>
+                    <label for="fl-store-appDevLogin">Google Play account login</label>
                   </div>
                   <div class="col-sm-8">
                     <input type="email" name="fl-store-appDevLogin" class="form-control" id="fl-store-appDevLogin" placeholder="Enter App Developer login email" data-error="Please enter a valid email address" required/>
@@ -590,7 +587,7 @@
                 </div>
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
-                    <label for="fl-store-appDevPass">App Developer account password</label>
+                    <label for="fl-store-appDevPass">Google Play account password</label>
                     <p class="help-block label-helper"><small>The password will be encrypted, safely stored and never shown.</small></p>
                   </div>
                   <div class="col-sm-8">
@@ -634,229 +631,13 @@
             </div>
             <div id="appStoreContacts" class="panel-collapse collapse" role="tabpanel" aria-labelledby="appStoreContactsHeading">
               <div class="panel-body">
-                <p>These details will be used by Apple Review team to get in touch with you if needed.</p>
+                <p>These details will be used by Google Review team to get in touch with you if needed.</p>
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
-                    <label for="fl-store-fname">First Name</label>
+                    <label for="fl-store-website">Website</label>
                   </div>
                   <div class="col-sm-8">
-                    <input type="text" name="fl-store-fname" class="form-control" id="fl-store-fname" placeholder="Enter your first name" data-error="Please enter your first name" required/>
-                    <div class="help-block with-errors"></div>
-                  </div>
-                </div>
-                <div class="form-group clearfix">
-                  <div class="col-sm-4 control-label">
-                    <label for="fl-store-lname">Last Name</label>
-                  </div>
-                  <div class="col-sm-8">
-                    <input type="text" name="fl-store-lname" class="form-control" id="fl-store-lname" placeholder="Enter your last name" data-error="Please enter your last name" required/>
-                    <div class="help-block with-errors"></div>
-                  </div>
-                </div>
-                <div class="form-group clearfix">
-                  <div class="col-sm-4 control-label">
-                    <label for="fl-store-address1">Address line 1</label>
-                  </div>
-                  <div class="col-sm-8">
-                    <input type="text" name="fl-store-address1" class="form-control" id="fl-store-address1" placeholder="Enter your address" data-error="Please enter your address" required/>
-                    <div class="help-block with-errors"></div>
-                  </div>
-                </div>
-                <div class="form-group clearfix">
-                  <div class="col-sm-4 control-label">
-                    <label for="fl-store-address2">Address line 2</label>
-                    <p class="help-block label-helper"><small>Optional</small></p>
-                  </div>
-                  <div class="col-sm-8">
-                    <input type="text" name="fl-store-address2" class="form-control" id="fl-store-address2" placeholder="Enter your address" />
-                  </div>
-                </div>
-                <div class="form-group clearfix">
-                  <div class="col-sm-4 control-label">
-                    <label for="fl-store-postCode">Post Code</label>
-                  </div>
-                  <div class="col-sm-8">
-                    <input type="text" name="fl-store-postCode" class="form-control" id="fl-store-postCode" placeholder="Enter your post code" data-error="Please enter your post code" required/>
-                    <div class="help-block with-errors"></div>
-                  </div>
-                </div>
-                <div class="form-group clearfix">
-                  <div class="col-sm-4 control-label">
-                    <label for="fl-store-userCountry">Country</label>
-                  </div>
-                  <div class="col-sm-8">
-                    <label for="fl-store-userCountry" class="select-proxy-display">
-                    <span class="icon fa fa-chevron-down"></span>
-                    <span class="select-value-proxy">-- Select a country</span>
-                    <select id="fl-store-userCountry" data-label="select" name="fl-store-userCountry" class="hidden-select form-control" data-error="Please enter your country" required>
-                      <option value="">-- Select a country</option>
-                      <option value="Albania">Albania</option>
-                      <option value="Algeria">Algeria</option>
-                      <option value="Angola">Angola</option>
-                      <option value="Anguilla">Anguilla</option>
-                      <option value="Antigua and Barbuda">Antigua and Barbuda</option>
-                      <option value="Argentina">Argentina</option>
-                      <option value="Armenia">Armenia</option>
-                      <option value="Australia">Australia</option>
-                      <option value="Austria">Austria</option>
-                      <option value="Azerbaijan">Azerbaijan</option>
-                      <option value="Bahamas">Bahamas</option>
-                      <option value="Bahrain">Bahrain</option>
-                      <option value="Barbados">Barbados</option>
-                      <option value="Belarus">Belarus</option>
-                      <option value="Belgium">Belgium</option>
-                      <option value="Belize">Belize</option>
-                      <option value="Benin">Benin</option>
-                      <option value="Bermuda">Bermuda</option>
-                      <option value="Bhutan">Bhutan</option>
-                      <option value="Bolivia">Bolivia</option>
-                      <option value="Botswana">Botswana</option>
-                      <option value="Brazil">Brazil</option>
-                      <option value="Brunei Darussalam">Brunei Darussalam</option>
-                      <option value="Bulgaria">Bulgaria</option>
-                      <option value="Burkina Faso">Burkina Faso</option>
-                      <option value="Cambodia">Cambodia</option>
-                      <option value="Canada">Canada</option>
-                      <option value="Cape Verde">Cape Verde</option>
-                      <option value="Cayman Islands">Cayman Islands</option>
-                      <option value="Chad">Chad</option>
-                      <option value="Chile">Chile</option>
-                      <option value="China">China</option>
-                      <option value="Colombia">Colombia</option>
-                      <option value="Congo, Republic of">Congo, Republic of</option>
-                      <option value="Costa Rica">Costa Rica</option>
-                      <option value="Croatia">Croatia</option>
-                      <option value="Cyprus">Cyprus</option>
-                      <option value="Czech Republic">Czech Republic</option>
-                      <option value="Denmark">Denmark</option>
-                      <option value="Dominica">Dominica</option>
-                      <option value="Dominican Republic">Dominican Republic</option>
-                      <option value="Ecuador">Ecuador</option>
-                      <option value="Egypt">Egypt</option>
-                      <option value="El Salvador">El Salvador</option>
-                      <option value="Estonia">Estonia</option>
-                      <option value="Fiji">Fiji</option>
-                      <option value="Finland">Finland</option>
-                      <option value="France">France</option>
-                      <option value="Gambia">Gambia</option>
-                      <option value="Germany">Germany</option>
-                      <option value="Ghana">Ghana</option>
-                      <option value="Greece">Greece</option>
-                      <option value="Grenada">Grenada</option>
-                      <option value="Guatemala">Guatemala</option>
-                      <option value="Guinea-Bissau">Guinea-Bissau</option>
-                      <option value="Guyana">Guyana</option>
-                      <option value="Honduras">Honduras</option>
-                      <option value="Hong Kong">Hong Kong</option>
-                      <option value="Hungary">Hungary</option>
-                      <option value="Iceland">Iceland</option>
-                      <option value="India">India</option>
-                      <option value="Indonesia">Indonesia</option>
-                      <option value="Ireland">Ireland</option>
-                      <option value="Israel">Israel</option>
-                      <option value="Italy">Italy</option>
-                      <option value="Jamaica">Jamaica</option>
-                      <option value="Japan">Japan</option>
-                      <option value="Jordan">Jordan</option>
-                      <option value="Kazakhstan">Kazakhstan</option>
-                      <option value="Kenya">Kenya</option>
-                      <option value="Korea, Republic Of">Korea, Republic Of</option>
-                      <option value="Kuwait">Kuwait</option>
-                      <option value="Kyrgyzstan">Kyrgyzstan</option>
-                      <option value="Lao People's Democratic Republic">Lao People's Democratic Republic</option>
-                      <option value="Latvia">Latvia</option>
-                      <option value="Lebanon">Lebanon</option>
-                      <option value="Liberia">Liberia</option>
-                      <option value="Lithuania">Lithuania</option>
-                      <option value="Luxembourg">Luxembourg</option>
-                      <option value="Macau">Macau</option>
-                      <option value="Macedonia, The Former Yugoslav Republic Of">Macedonia, The Former Yugoslav Republic Of</option>
-                      <option value="Madagascar">Madagascar</option>
-                      <option value="Malawi">Malawi</option>
-                      <option value="Malaysia">Malaysia</option>
-                      <option value="Mali">Mali</option>
-                      <option value="Malta">Malta</option>
-                      <option value="Mauritania">Mauritania</option>
-                      <option value="Mauritius">Mauritius</option>
-                      <option value="Mexico">Mexico</option>
-                      <option value="Micronesia, Federated States of">Micronesia, Federated States of</option>
-                      <option value="Moldova, Republic Of">Moldova, Republic Of</option>
-                      <option value="Mongolia">Mongolia</option>
-                      <option value="Montserrat">Montserrat</option>
-                      <option value="Mozambique">Mozambique</option>
-                      <option value="Namibia">Namibia</option>
-                      <option value="Nepal">Nepal</option>
-                      <option value="Netherlands">Netherlands</option>
-                      <option value="New Zealand">New Zealand</option>
-                      <option value="Nicaragua">Nicaragua</option>
-                      <option value="Niger">Niger</option>
-                      <option value="Nigeria">Nigeria</option>
-                      <option value="Norway">Norway</option>
-                      <option value="Oman">Oman</option>
-                      <option value="Pakistan">Pakistan</option>
-                      <option value="Palau">Palau</option>
-                      <option value="Panama">Panama</option>
-                      <option value="Papua New Guinea">Papua New Guinea</option>
-                      <option value="Paraguay">Paraguay</option>
-                      <option value="Peru">Peru</option>
-                      <option value="Philippines">Philippines</option>
-                      <option value="Poland">Poland</option>
-                      <option value="Portugal">Portugal</option>
-                      <option value="Qatar">Qatar</option>
-                      <option value="Romania">Romania</option>
-                      <option value="Russia">Russia</option>
-                      <option value="Saint Lucia">Saint Lucia</option>
-                      <option value="Saudi Arabia">Saudi Arabia</option>
-                      <option value="Senegal">Senegal</option>
-                      <option value="Seychelles">Seychelles</option>
-                      <option value="Sierra Leone">Sierra Leone</option>
-                      <option value="Singapore">Singapore</option>
-                      <option value="Slovakia">Slovakia</option>
-                      <option value="Slovenia">Slovenia</option>
-                      <option value="Solomon Islands">Solomon Islands</option>
-                      <option value="South Africa">South Africa</option>
-                      <option value="Spain">Spain</option>
-                      <option value="Sri Lanka">Sri Lanka</option>
-                      <option value="St. Kitts and Nevis">St. Kitts and Nevis</option>
-                      <option value="St. Vincent and The Grenadines">St. Vincent and The Grenadines</option>
-                      <option value="Suriname">Suriname</option>
-                      <option value="Swaziland">Swaziland</option>
-                      <option value="Sweden">Sweden</option>
-                      <option value="Switzerland">Switzerland</option>
-                      <option value="São Tomé and Príncipe">São Tomé and Príncipe</option>
-                      <option value="Taiwan">Taiwan</option>
-                      <option value="Tajikistan">Tajikistan</option>
-                      <option value="Tanzania, United Republic Of">Tanzania, United Republic Of</option>
-                      <option value="Thailand">Thailand</option>
-                      <option value="Trinidad and Tobago">Trinidad and Tobago</option>
-                      <option value="Tunisia">Tunisia</option>
-                      <option value="Turkey">Turkey</option>
-                      <option value="Turkmenistan">Turkmenistan</option>
-                      <option value="Turks and Caicos">Turks and Caicos</option>
-                      <option value="Uganda">Uganda</option>
-                      <option value="Ukraine">Ukraine</option>
-                      <option value="United Arab Emirates">United Arab Emirates</option>
-                      <option value="United Kingdom">United Kingdom</option>
-                      <option value="United States">United States</option>
-                      <option value="Uruguay">Uruguay</option>
-                      <option value="Uzbekistan">Uzbekistan</option>
-                      <option value="Venezuela">Venezuela</option>
-                      <option value="Vietnam">Vietnam</option>
-                      <option value="Virgin Islands, British">Virgin Islands, British</option>
-                      <option value="Yemen">Yemen</option>
-                      <option value="Zimbabwe">Zimbabwe</option>
-                    </select>
-                  </label>
-                    <div class="help-block with-errors"></div>
-                  </div>
-                </div>
-                <div class="form-group clearfix">
-                  <div class="col-sm-4 control-label">
-                    <label for="fl-store-phone">Phone Number</label>
-                  </div>
-                  <div class="col-sm-8">
-                    <input type="number" name="fl-store-phone" class="form-control" id="fl-store-phone" placeholder="Enter your phone number" data-error="Please enter a valid phone number" required/>
-                    <div class="help-block with-errors"></div>
+                    <input type="text" name="fl-store-website" class="form-control" id="fl-store-website" placeholder="Enter your website url" />
                   </div>
                 </div>
                 <div class="form-group clearfix">
@@ -866,7 +647,7 @@
                   <div class="col-sm-8">
                     <input type="email" name="fl-store-email" class="form-control" id="fl-store-email" placeholder="Enter your email address" data-error="Please enter a valid email address" required/>
                     <div class="help-block with-errors"></div>
-                    <p class="help-block"><small>Apple will use this email to get in touch if there are any issues with your app submission. Fliplet will not receive any correspondence from Apple.</small></p>
+                    <p class="help-block"><small>Google will use this email to get in touch if there are any issues with your app submission. Fliplet will not receive any correspondence from Google.</small></p>
                   </div>
                 </div>
                 <div class="form-group clearfix">
@@ -876,7 +657,7 @@
                   </div>
                   <div class="col-sm-8">
                     <textarea name="fl-store-review-notes" class="form-control" id="fl-store-review-notes" placeholder="Enter your message"></textarea>
-                    <p class="help-block"><small>Use this text area to add any notes to the Apple Review team. <i>Eg: Email and Verification Code for a Registration screen</i></small></p>
+                    <p class="help-block"><small>Use this text area to add any notes to the Google Review team. <i>Eg: Email and Verification Code for a Registration screen</i></small></p>
                   </div>
                 </div>
               </div>
