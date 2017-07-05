@@ -174,9 +174,9 @@
                     <p class="help-block label-helper"><small>This is the name that will appear below the icon of your app</small></p>
                   </div>
                   <div class="col-sm-8">
-                    <input type="text" name="fl-store-iconName" class="form-control" id="fl-store-iconName" placeholder="Enter the app icon name" maxlength="50" data-error="Please enter an app icon name" required/>
+                    <input type="text" name="fl-store-iconName" class="form-control" id="fl-store-iconName" placeholder="Enter the app icon name" maxlength="13" data-error="Please enter an app icon name" required/>
                     <div class="help-block with-errors"></div>
-                    <p class="help-block"><small>The length of your app icon name is limited to 50 characters</small></p>
+                    <p class="help-block"><small>The length of your app icon name is limited to 13 characters</small></p>
                   </div>
                 </div>
                 <div class="form-group clearfix">
@@ -328,7 +328,7 @@
                     <label>Availability (Countries)</label>
                   </div>
                   <div class="col-sm-8">
-                    <select id="fl-store-availability" name="fl-store-availability" data-live-search="true" data-actions-box="true" data-none-selected-text="Select from the list of countries" multiple class="form-control selectpicker" data-error="Please select at least one country"
+                    <select id="fl-store-availability" name="fl-store-availability" data-size="10" data-live-search="true" data-actions-box="true" data-none-selected-text="Select from the list of countries" multiple class="form-control selectpicker" data-error="Please select at least one country"
                       required>
                     <option value="Albania">Albania</option>
                     <option value="Algeria">Algeria</option>
@@ -494,17 +494,7 @@
                     <label>Price</label>
                   </div>
                   <div class="col-sm-8">
-                    <label for="fl-store-pricing" class="select-proxy-display">
-                    <span class="icon fa fa-chevron-down"></span>
-                    <span class="select-value-proxy">Free</span>
-                    <select id="fl-store-pricing" name="fl-store-pricing" data-label="select" class="hidden-select form-control" data-error="Please select a price" required>
-                      <option value="free">Free</option>
-                      <option value="1">£0.99</option>
-                      <option value="2">£1.99</option>
-                      <option value="2">£2.99</option>
-                    </select>
-                  </label>
-                    <div class="help-block with-errors"></div>
+                    Your app will be set to <strong>free app</strong> by default. If you want to change it to a paid app, please get in touch with us.
                   </div>
                 </div>
                 <div class="form-group clearfix">
@@ -527,6 +517,28 @@
                 </div>
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
+                    <label for="fl-store-marketing-optout">Does your app contain ads?</label>
+                    <p class="help-block label-helper"><small>Take a look at Google's Play Store <a href="https://play.google.com/about/monetization.html#ads-policy" target="_blank">Ads policy</a> to avoid common violations.</small></p>
+                    <p class="help-block label-helper"><small>If yes, users will be able to see the <b>'ads'</b> label on your application in the Play Store.</small></p>
+                  </div>
+                  <div class="col-sm-8">
+                    <div class="radio radio-icon">
+                      <input type="radio" id="fl-store-ads-yes" name="fl-store-ads" value="yes" data-error="Please tick the appropriate answer for your app" required>
+                      <label for="fl-store-ads-yes">
+                        <span class="check"><i class="fa fa-circle"></i></span> Yes, it has ads
+                      </label>
+                    </div>
+                    <div class="radio radio-icon">
+                      <input type="radio" id="fl-store-ads-no" name="fl-store-ads" value="no">
+                      <label for="fl-store-ads-no">
+                        <span class="check"><i class="fa fa-circle"></i></span> No, it has no ads
+                      </label>
+                    </div>
+                    <div class="help-block with-errors"></div>
+                  </div>
+                </div>
+                <div class="form-group clearfix">
+                  <div class="col-sm-4 control-label">
                     <label for="fl-store-marketing-optout">Marketing opt-out</label>
                   </div>
                   <div class="col-sm-8">
@@ -544,12 +556,13 @@
                   </div>
                   <div class="col-sm-8">
                     <div class="checkbox checkbox-icon">
-                      <input type="checkbox" id="fl-store-content-guidelines" name="fl-store-content-guidelines" value="on">
+                      <input type="checkbox" id="fl-store-content-guidelines" name="fl-store-content-guidelines" value="on" data-error="Please tick this field" checked required>
                       <label for="fl-store-content-guidelines">
                         <span class="check"><i class="fa fa-check"></i></span> This application meets <a href="https://play.google.com/about/developer-content-policy.html" target="_blank">Android Content Guidelines</a>.
                       </label>
                       <br><br>
                       <p class="help-block label-helper"><small>Please check out these <a href="https://play.google.com/about/developer-content-policy.html" target="_blank">tips on how to create policy compliant app descriptions</a> to avoid some common reasons for app suspension.</small></p>
+                      <div class="help-block with-errors"></div>
                     </div>
                   </div>
                 </div>
@@ -559,10 +572,12 @@
                   </div>
                   <div class="col-sm-8">
                     <div class="checkbox checkbox-icon">
-                      <input type="checkbox" id="fl-store-export-laws" name="fl-store-export-laws" value="on">
-                      <label for="fl-store-content-guidelines">
+                      <input type="checkbox" id="fl-store-export-laws" name="fl-store-export-laws" value="on" data-error="Please tick this field" checked required>
+                      <label for="fl-store-export-laws">
                         <span class="check"><i class="fa fa-check"></i></span> I acknowledge that my software application may be subject to United States export laws, regardless of my location or nationality. I agree that I have complied with all such laws, including any requirements for software with encryption functions. I hereby certify that my application is authorised for export from the United States under these laws. <a style="white-space: nowrap;" href="https://support.google.com/googleplay/android-developer/answer/113770" target="_blank">Learn more</a>
                       </label>
+                      <br><br>
+                      <div class="help-block with-errors"></div>
                     </div>
                   </div>
                 </div>
@@ -578,7 +593,7 @@
                 <p>Now it's down to the technical inforamtion.</p>
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
-                    <label for="fl-store-appDevLogin">Google Play account login</label>
+                    <label for="fl-store-appDevLogin">Google Play Developer account login</label>
                   </div>
                   <div class="col-sm-8">
                     <input type="email" name="fl-store-appDevLogin" class="form-control" id="fl-store-appDevLogin" placeholder="Enter App Developer login email" data-error="Please enter a valid email address" required/>
@@ -587,7 +602,7 @@
                 </div>
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
-                    <label for="fl-store-appDevPass">Google Play account password</label>
+                    <label for="fl-store-appDevPass">Google Play Developer account password</label>
                     <p class="help-block label-helper"><small>The password will be encrypted, safely stored and never shown.</small></p>
                   </div>
                   <div class="col-sm-8">
@@ -598,7 +613,7 @@
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
                     <label for="fl-store-bundleId">Bundle ID</label>
-                    <p class="help-block label-helper"><small>This is a unique ID for your app on Google Play. Fliplet auto-generated one for you.</small></p>
+                    <p class="help-block label-helper"><small>This is a unique ID for your app on Google Play. Fliplet auto-generated one for you. <strong>The Bundle ID will appear in the Google Play listing link.</strong></small></p>
                   </div>
                   <div class="col-sm-8 fl-bundleId-holder">
                     <span class="bundleId-ast-text"></span> <span class="btn btn-sm btn-default" change-bundleid>Change</span>
@@ -612,14 +627,15 @@
                     </div>
                   </div>
                 </div>
+                <h4>Push notifications</h4>
+                <p>Fill in the fields bellow if you want to enable Push Notifications for your app.</p>
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
-                    <label for="fl-store-teamId">Team ID</label>
+                    <label for="fl-push-senderId">Sender ID</label>
+                    <p class="help-block label-helper"><small>A unique numerical value created when you configure your API project. The sender ID is used in the <a target="_blank" href="https://developers.google.com/cloud-messaging/registration">registration process</a> to identify an app server that is permitted to send messages to the client app.</small></p>
                   </div>
                   <div class="col-sm-8">
-                    <input type="text" name="fl-store-teamId" class="form-control" id="fl-store-teamId" placeholder="Enter your Team ID" data-error="Please enter your Team ID" required/>
-                    <div class="help-block with-errors"></div>
-                    <p class="help-block"><small>Your Team ID can be found <a href="https://developer.apple.com/account/#/membership/">here</a>.</small></p>
+                    <input type="text" name="fl-push-senderId" class="form-control" id="fl-push-senderId" placeholder="Enter your Sender ID" />
                   </div>
                 </div>
               </div>
@@ -648,16 +664,6 @@
                     <input type="email" name="fl-store-email" class="form-control" id="fl-store-email" placeholder="Enter your email address" data-error="Please enter a valid email address" required/>
                     <div class="help-block with-errors"></div>
                     <p class="help-block"><small>Google will use this email to get in touch if there are any issues with your app submission. Fliplet will not receive any correspondence from Google.</small></p>
-                  </div>
-                </div>
-                <div class="form-group clearfix">
-                  <div class="col-sm-4 control-label">
-                    <label for="fl-store-review-notes">Reviewer Notes</label>
-                    <p class="help-block"><small>Optional</small></p>
-                  </div>
-                  <div class="col-sm-8">
-                    <textarea name="fl-store-review-notes" class="form-control" id="fl-store-review-notes" placeholder="Enter your message"></textarea>
-                    <p class="help-block"><small>Use this text area to add any notes to the Google Review team. <i>Eg: Email and Verification Code for a Registration screen</i></small></p>
                   </div>
                 </div>
               </div>
@@ -709,12 +715,51 @@
             </div>
           </div>
           <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="enterpriseGeneralHeading">
+              <h4 class="panel-title" role="button" data-toggle="collapse" data-parent="#accordionEnterprise" href="#appStoreGeneral" aria-expanded="true" aria-controls="appStoreGeneral">App listing details <small>(Required)</small></h4>
+            </div>
+            <div id="enterpriseGeneral" class="panel-collapse collapse" role="tabpanel" aria-labelledby="enterpriseGeneralHeading">
+              <div class="panel-body">
+                <div class="form-group clearfix">
+                  <div class="col-sm-4 control-label">
+                    <label for="fl-ent-iconName">App icon name</label>
+                    <p class="help-block label-helper"><small>This is the name that will appear below the icon of your app</small></p>
+                  </div>
+                  <div class="col-sm-8">
+                    <input type="text" name="fl-ent-iconName" class="form-control" id="fl-ent-iconName" placeholder="Enter the app icon name" maxlength="13" data-error="Please enter an app icon name" required/>
+                    <div class="help-block with-errors"></div>
+                    <p class="help-block"><small>The length of your app icon name is limited to 13 characters</small></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
             <div class="panel-heading" role="tab" id="enterpriseTechHeading">
               <h4 class="panel-title" role="button" data-toggle="collapse" data-parent="#accordionEnterprise" href="#enterpriseTech" aria-expanded="true" aria-controls="enterpriseTech">App technical details <small>(Required)</small></h4>
             </div>
             <div id="enterpriseTech" class="panel-collapse collapse" role="tabpanel" aria-labelledby="enterpriseTechHeading">
               <div class="panel-body">
                 <p>Now it's down to the technical inforamtion.</p>
+                <div class="form-group clearfix">
+                  <div class="col-sm-4 control-label">
+                    <label for="fl-ent-appDevLogin">Google Play Developer account login</label>
+                  </div>
+                  <div class="col-sm-8">
+                    <input type="email" name="fl-ent-appDevLogin" class="form-control" id="fl-ent-appDevLogin" placeholder="Enter App Developer login email" data-error="Please enter a valid email address" required/>
+                    <div class="help-block with-errors"></div>
+                  </div>
+                </div>
+                <div class="form-group clearfix">
+                  <div class="col-sm-4 control-label">
+                    <label for="fl-ent-appDevPass">Google Play Developer account password</label>
+                    <p class="help-block label-helper"><small>The password will be encrypted, safely stored and never shown.</small></p>
+                  </div>
+                  <div class="col-sm-8">
+                    <input type="password" name="fl-ent-appDevPass" class="form-control" id="fl-ent-appDevPass" placeholder="Enter App Developer account pass" data-error="Please enter a password" required/>
+                    <div class="help-block with-errors"></div>
+                  </div>
+                </div>
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
                     <label for="fl-enterprise-bundleId">Bundle ID</label>
@@ -732,14 +777,15 @@
                     </div>
                   </div>
                 </div>
+                <h4>Push notifications</h4>
+                <p>Fill in the fields bellow if you want to enable Push Notifications for your app.</p>
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
-                    <label for="fl-enterprise-teamId">Team ID</label>
+                    <label for="fl-push-senderId">Sender ID</label>
+                    <p class="help-block label-helper"><small>A unique numerical value created when you configure your API project. The sender ID is used in the <a target="_blank" href="https://developers.google.com/cloud-messaging/registration">registration process</a> to identify an app server that is permitted to send messages to the client app.</small></p>
                   </div>
                   <div class="col-sm-8">
-                    <input type="text" name="fl-enterprise-teamId" class="form-control" id="fl-enterprise-teamId" placeholder="Enter your Team ID" data-error="Please enter your Team ID" required/>
-                    <div class="help-block with-errors"></div>
-                    <p class="help-block"><small>The Team ID can be found <a href="https://developer.apple.com/account/#/membership/">here</a>.</small></p>
+                    <input type="text" name="fl-push-senderId" class="form-control" id="fl-push-senderId" placeholder="Enter your Sender ID" />
                   </div>
                 </div>
               </div>
@@ -791,6 +837,26 @@
             </div>
           </div>
           <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="unsignedGeneralHeading">
+              <h4 class="panel-title" role="button" data-toggle="collapse" data-parent="#accordionUnsigned" href="#unsignedGeneral" aria-expanded="true" aria-controls="unsignedGeneral">App listing details <small>(Required)</small></h4>
+            </div>
+            <div id="unsignedGeneral" class="panel-collapse collapse" role="tabpanel" aria-labelledby="unsignedGeneralHeading">
+              <div class="panel-body">
+                <div class="form-group clearfix">
+                  <div class="col-sm-4 control-label">
+                    <label for="fl-unsigned-iconName">App icon name</label>
+                    <p class="help-block label-helper"><small>This is the name that will appear below the icon of your app</small></p>
+                  </div>
+                  <div class="col-sm-8">
+                    <input type="text" name="fl-unsigned-iconName" class="form-control" id="fl-unsigned-iconName" placeholder="Enter the app icon name" maxlength="13" data-error="Please enter an app icon name" required/>
+                    <div class="help-block with-errors"></div>
+                    <p class="help-block"><small>The length of your app icon name is limited to 13 characters</small></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
             <div class="panel-heading" role="tab" id="unsignedTechHeading">
               <h4 class="panel-title" role="button" data-toggle="collapse" data-parent="#accordionUnsigned" href="#unsignedTech" aria-expanded="true" aria-controls="unsignedTech">App technical details <small>(Required)</small></h4>
             </div>
@@ -812,6 +878,17 @@
                       <div class="help-block with-errors"></div>
                       <p class="help-block"><small>This value needs to be unique and the structure must be <code>com.<i>organisationName</i>.<i>appName</i></code>.</small></p>
                     </div>
+                  </div>
+                </div>
+                <h4>Push notifications</h4>
+                <p>Fill in the fields bellow if you want to enable Push Notifications for your app.</p>
+                <div class="form-group clearfix">
+                  <div class="col-sm-4 control-label">
+                    <label for="fl-push-senderId">Sender ID</label>
+                    <p class="help-block label-helper"><small>A unique numerical value created when you configure your API project. The sender ID is used in the <a target="_blank" href="https://developers.google.com/cloud-messaging/registration">registration process</a> to identify an app server that is permitted to send messages to the client app.</small></p>
+                  </div>
+                  <div class="col-sm-8">
+                    <input type="text" name="fl-push-senderId" class="form-control" id="fl-push-senderId" placeholder="Enter your Sender ID" />
                   </div>
                 </div>
               </div>
@@ -847,7 +924,7 @@
                   <li <li><a href="http://help.fliplet.com/being-successful/using-analytics/adding-googles-firebase-push-notifications-for-android" target="_blank">How to set-up push notifications for Android</a></li>
                 </ul>
                 <p>For push notification best practices, you might also want to check out our blog post <a href="https://fliplet.com/blog/start-using-push-notifications-the-right-way/" target="_blank">everything you need to know about push notifications and how to use them well</a>.</p>
-                <p><strong>Push Notifications will only work for your latest app request.</strong></p>
+                <p><strong>Push Notifications will only work for the app with the same Sender ID entered bellow.</strong></p>
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
                     <label for="fl-push-senderId">Sender ID</label>
@@ -859,7 +936,7 @@
                 </div>
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
-                    <label for="fl-push-serverKey">Server Key></label>
+                    <label for="fl-push-serverKey">Server Key</label>
                     <p class="help-block label-helper"><small>The server key can be created in the Firebase Console using the Cloud Messaging tab of the Settings panel.</small></p>
                   </div>
                   <div class="col-sm-8">
