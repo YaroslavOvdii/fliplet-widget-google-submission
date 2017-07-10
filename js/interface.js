@@ -61,6 +61,20 @@ function loadAppStoreData() {
       return;
     }
 
+    /* FEATURED GRAPHIC */
+    if (name === "fl-store-featuredGraphic") {
+      $(el).parents('.fileUpload').next('.image-name').find('small').html(widgetData.formData.appStore[name][0].name);
+      return;
+    }
+
+    /* NOTIFICATION ICON */
+    if (name === "fl-store-notificationIcon") {
+      if (widgetData.formData.appStore[name]) {
+        $(el).parents('.fileUpload').next('.image-name').find('small').html(widgetData.formData.appStore[name][0].name);
+      }
+      return;
+    }
+
     /* CHECK COUNTRIES */
     if (name === "fl-store-availability") {
       $('[name="' + name + '"]').selectpicker('val', ((typeof widgetData.formData.appStore[name] !== "undefined") ? widgetData.formData.appStore[name] : []));
@@ -109,7 +123,7 @@ function loadEnterpriseData() {
     var name = $(el).attr("name");
 
     /* ADD BUNDLE ID */
-    if (name === "fl-enterprise-bundleId" && typeof widgetData.formData.enterprise[name] === "undefined") {
+    if (name === "fl-ent-bundleId" && typeof widgetData.formData.enterprise[name] === "undefined") {
       createBundleID(organisationName.toCamelCase(), appName.toCamelCase()).then(function(response) {
         if (response.resultCount === 0) {
           $('.bundleId-ent-text').html('com.' + organisationName.toCamelCase() + '.' + appName.toCamelCase());
@@ -121,9 +135,17 @@ function loadEnterpriseData() {
       });
       return;
     }
-    if (name === "fl-enterprise-bundleId" && typeof widgetData.formData.enterprise[name] !== "undefined") {
+    if (name === "fl-ent-bundleId" && typeof widgetData.formData.enterprise[name] !== "undefined") {
       $('.bundleId-ent-text').html(widgetData.formData.enterprise[name]);
       $('[name="' + name + '"]').val(widgetData.formData.enterprise[name]);
+      return;
+    }
+
+    /* NOTIFICATION ICON */
+    if (name === "fl-ent-notificationIcon") {
+      if (widgetData.formData.enterprise[name]) {
+        $(el).parents('.fileUpload').next('.image-name').find('small').html(widgetData.formData.enterprise[name][0].name);
+      }
       return;
     }
 
@@ -137,7 +159,7 @@ function loadUnsignedData() {
     var name = $(el).attr("name");
 
     /* ADD BUNDLE ID */
-    if (name === "fl-unsigned-bundleId" && typeof widgetData.formData.unsigned[name] === "undefined") {
+    if (name === "fl-uns-bundleId" && typeof widgetData.formData.unsigned[name] === "undefined") {
       createBundleID(organisationName.toCamelCase(), appName.toCamelCase()).then(function(response) {
         if (response.resultCount === 0) {
           $('.bundleId-uns-text').html('com.' + organisationName.toCamelCase() + '.' + appName.toCamelCase());
@@ -149,9 +171,16 @@ function loadUnsignedData() {
       });
       return;
     }
-    if (name === "fl-unsigned-bundleId" && typeof widgetData.formData.unsigned[name] !== "undefined") {
+    if (name === "fl-uns-bundleId" && typeof widgetData.formData.unsigned[name] !== "undefined") {
       $('.bundleId-uns-text').html(widgetData.formData.unsigned[name]);
       $('[name="' + name + '"]').val(widgetData.formData.unsigned[name]);
+      return;
+    }
+    /* NOTIFICATION ICON */
+    if (name === "fl-uns-notificationIcon") {
+      if (widgetData.formData.unsigned[name]) {
+        $(el).parents('.fileUpload').next('.image-name').find('small').html(widgetData.formData.unsigned[name][0].name);
+      }
       return;
     }
 
@@ -162,7 +191,7 @@ function loadUnsignedData() {
 function loadPushNotesData() {
   $('#pushConfiguration [name]').each(function(i, el) {
     var name = $(el).attr("name");
-    console.log(name);
+
     /* ADDING NOTIFICATIONS SETTINGS */
     if (name === 'fl-push-senderId') {
       $('[name="' + name + '"]').val(widgetData.formData.notificationSettings.gcmSenderId || '');
@@ -208,6 +237,15 @@ function requestBuild(origin) {
       showRequestStatus();
       Fliplet.Widget.autosize();
     });
+
+    Fliplet.App.Submissions.create({
+      platform: 'android',
+      data: widgetData.formData.appStore
+    }).then(function(response) {
+      console.log(response);
+    }).catch(function(err) {
+      alert(err.responseJSON.message);
+    });
   }
 
   if (origin === 'enterprise') {
@@ -226,6 +264,15 @@ function requestBuild(origin) {
 
       showRequestStatus();
       Fliplet.Widget.autosize();
+    });
+
+    Fliplet.App.Submissions.create({
+      platform: 'android',
+      data: widgetData.formData.enterprise
+    }).then(function(response) {
+      console.log(response);
+    }).catch(function(err) {
+      alert(err.responseJSON.message);
     });
   }
 
@@ -248,7 +295,7 @@ function requestBuild(origin) {
     });
 
     Fliplet.App.Submissions.create({
-      platform: 'ios',
+      platform: 'android',
       data: widgetData.formData.unsigned
     }).then(function(response) {
       console.log(response);
@@ -270,12 +317,12 @@ function showRequestStatus() {
 function saveAppStoreData(request) {
   var data = widgetData.formData.appStore;
   var pushData = widgetData.formData.notificationSettings;
+  var uploadFilePromise = Promise.resolve();
 
-  $('#appStoreConfiguration [name]').each(function(i, el) {
+  $('#appStoreConfiguration [name]').each(function(idx, el) {
     var name = $(el).attr("name");
     var value = $(el).val();
 
-    /* PROCESSING KEYWORDS */
     if (name === 'fl-store-keywords') {
       var newValue = value.replace(/,\s+/g, ',');
       data[name] = newValue;
@@ -288,63 +335,133 @@ function saveAppStoreData(request) {
       return;
     }
 
-    data[name] = value;
-  });
+    if ($(el).attr('type') === "file") {
+      var fileList = el.files;
+      var file = new FormData();
 
-  widgetData.formData.appStore = data;
-  widgetData.formData.notificationSettings = pushData;
+      if (fileList.length > 0) {
+        for (var i = 0; i < fileList.length; i++) {
+          file.append(name, fileList[i]);
+        }
 
-  if (request) {
-    requestBuild('appStore');
-  } else {
-    save('appStore');
-  }
-}
-
-function saveEnterpriseData(request) {
-  var data = widgetData.formData.enterprise;
-  var pushData = widgetData.formData.notificationSettings;
-
-  $('#enterpriseConfiguration [name]').each(function(i, el) {
-    var name = $(el).attr("name");
-    var value = $(el).val();
-
-    if (name === 'fl-enterprise-bundleId') {
-      pushData.gcmPackageName = value;
-      data[name] = value;
+        uploadFilePromise = Fliplet.Media.Files.upload({
+          data: file,
+          appId: Fliplet.Env.get('appId')
+        }).then(function(files) {
+          data[name] = files;
+          return Promise.resolve();
+        });
+      }
       return;
     }
 
     data[name] = value;
   });
 
-  widgetData.formData.enterprise = data;
-  widgetData.formData.notificationSettings = pushData;
+  uploadFilePromise.then(function() {
+    widgetData.formData.appStore = data;
+    widgetData.formData.notificationSettings = pushData;
 
-  if (request) {
-    requestBuild('enterprise');
-  } else {
-    save('enterprise');
-  }
+    if (request) {
+      requestBuild('appStore');
+    } else {
+      save('appStore');
+    }
+  });
 }
 
-function saveUnsignedData(request) {
-  var data = widgetData.formData.unsigned;
+function saveEnterpriseData(request) {
+  var data = widgetData.formData.enterprise;
+  var pushData = widgetData.formData.notificationSettings;
+  var uploadFilePromise = Promise.resolve();
 
-  $('#unsignedConfiguration [name]').each(function(i, el) {
+  $('#enterpriseConfiguration [name]').each(function(idx, el) {
     var name = $(el).attr("name");
     var value = $(el).val();
+
+    if (name === 'fl-ent-bundleId') {
+      pushData.gcmPackageName = value;
+      data[name] = value;
+      return;
+    }
+
+    if ($(el).attr('type') === "file") {
+      var fileList = el.files;
+      var file = new FormData();
+
+      if (fileList.length > 0) {
+        for (var i = 0; i < fileList.length; i++) {
+          file.append(name, fileList[i]);
+        }
+
+        uploadFilePromise = Fliplet.Media.Files.upload({
+          data: file,
+          appId: Fliplet.Env.get('appId')
+        }).then(function(files) {
+          data[name] = files;
+          return Promise.resolve();
+        });
+      }
+      return;
+    }
 
     data[name] = value;
   });
 
-  widgetData.formData.unsigned = data;
+  uploadFilePromise.then(function() {
+    widgetData.formData.enterprise = data;
+    widgetData.formData.notificationSettings = pushData;
 
-  if (request) {
-    requestBuild('unsigned');
-  } else {
-    save('unsigned');
-  }
+    if (request) {
+      requestBuild('enterprise');
+    } else {
+      save('enterprise');
+    }
+  });
+}
+
+function saveUnsignedData(request) {
+  var data = widgetData.formData.unsigned;
+  var pushData = widgetData.formData.notificationSettings;
+  var uploadFilePromise = Promise.resolve();
+
+  $('#unsignedConfiguration [name]').each(function(idx, el) {
+    var name = $(el).attr("name");
+    var value = $(el).val();
+
+    if ($(el).attr('type') === "file") {
+      var fileList = el.files;
+      var file = new FormData();
+
+      if (fileList.length > 0) {
+        for (var i = 0; i < fileList.length; i++) {
+          file.append(name, fileList[i]);
+        }
+
+        uploadFilePromise = Fliplet.Media.Files.upload({
+          data: file,
+          appId: Fliplet.Env.get('appId')
+        }).then(function(files) {
+          data[name] = files;
+          return Promise.resolve();
+        });
+      }
+      return;
+    }
+
+    data[name] = value;
+  });
+
+  uploadFilePromise.then(function() {
+    widgetData.formData.unsigned = data;
+    widgetData.formData.notificationSettings = pushData;
+
+    if (request) {
+      requestBuild('unsigned');
+    } else {
+      save('unsigned');
+    }
+  });
 }
 
 function savePushData() {
@@ -368,7 +485,6 @@ function savePushData() {
 
   widgetData.formData.notificationSettings = data;
 
-  console.log(widgetData);
   Fliplet.Widget.save(widgetData).then(function() {
     $('.save-push-progress').addClass('saved');
 
@@ -477,6 +593,10 @@ $('[name="fl-store-keywords"]').on('tokenfield:createtoken', function(e) {
   }
 });
 
+$('input[type="file"]').on('change', function() {
+  $(this).parents('.fileUpload').next('.image-name').find('small').html($(this)[0].files[0].name);
+});
+
 $('.redirectToSettings').on('click', function() {
   Fliplet.Studio.emit('navigate', {
     name: 'appSettings',
@@ -560,6 +680,7 @@ $('[data-push-save]').on('click', function() {
 });
 
 /* INIT */
+$('#appStoreConfiguration, #enterpriseConfiguration, #unsignedConfiguration').validator().off('input.bs.validator change.bs.validator focusout.bs.validator');
 $('[name="submissionType"][value="appStore"]').prop('checked', true).trigger('change');
 
 Fliplet.API.request({
