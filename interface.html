@@ -73,8 +73,9 @@
     </div>
   </div>
 </div>
-<h3>Request App</h3>
-<p>Select how you want to distribute your app.</p>
+<h3>Android distribution settings</h3>
+<p>Before your app can be distributed, we need some additional information. Select the tab(s) that match how you want to distribute your app and add the data required. Once you submit your information and assets, we will process your request and distribute
+  your app in your prefered ways within 2 business days.</p>
 <hr>
 <div class="form-horizontal">
   <ul class="nav nav-tabs" role="tablist">
@@ -105,11 +106,11 @@
   </ul>
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane fl-sb-appStore active" id="appstore-tab">
-      <form data-toggle="validator" data-disable="false" role="form" id="appStoreConfiguration">
+      <form data-disable="false" role="form" id="appStoreConfiguration">
         <div class="panel-group" id="accordionAppStore" role="tablist" aria-multiselectable="true">
           <div class="panel panel-default app-details">
             <div class="panel-heading" role="tab" id="appStoreSettingsHeading">
-              <h4 class="panel-title" role="button" data-toggle="collapse" data-parent="#accordionAppStore" href="#appStoreSettings" aria-expanded="true" aria-controls="appStoreSettings">App details <small>(Required)</small></h4>
+              <h4 class="panel-title collapsed" role="button" data-toggle="collapse" data-parent="#accordionAppStore" href="#appStoreSettings" aria-expanded="true" aria-controls="appStoreSettings"><strong>1 -</strong> App details <small>(Required)</small> <i class="fa fa-angle-down" aria-hidden="true"></i></h4>
             </div>
             <div id="appStoreSettings" class="panel-collapse collapse" role="tabpanel" aria-labelledby="appStoreSettingsHeading">
               <div class="panel-body">
@@ -117,14 +118,17 @@
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
                     <label>App list name</label>
+                    <p class="help-block label-helper"><small>The name of your app seen on Google Play</small></p>
+                    <p><a href="#" data-change-settings>Change</a></p>
                   </div>
                   <div class="col-sm-8 form-static">
-                    <input type="text" name="fl-store-appName" class="form-control-static" id="fl-store-appName" placeholder="Please enter an app name" data-validate="true" disabled required/>
+                    <input type="text" name="fl-store-appName" class="form-control-static" id="fl-store-appName" data-validate="true" disabled required/>
                   </div>
                 </div>
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
                     <label>App icon</label>
+                    <p><a href="#" data-change-settings>Change</a></p>
                   </div>
                   <div class="col-sm-8">
                     <img class="setting-app-icon userUploaded hidden" src="#" />
@@ -134,6 +138,7 @@
                 <div class="form-group">
                   <div class="col-sm-4 control-label">
                     <label>Splash screen</label>
+                    <p><a href="#" data-change-assets>Change</a></p>
                   </div>
                   <div class="col-sm-8">
                     <div class="setting-splash-screen userUploaded hidden" style="background-image: url();"></div>
@@ -144,9 +149,10 @@
                   <div class="col-sm-4 control-label">
                     <label>Screenshots</label>
                     <p class="help-block label-helper"><small>Screenshots will be taken of the following screens</small></p>
+                    <p><a href="#" data-change-assets>Change</a></p>
                   </div>
                   <div class="col-sm-8 form-static">
-                    <input type="text" name="fl-store-screenshots" class="form-control-static" id="fl-store-screenshots" placeholder="Please select at least one screen to screenshot" data-validate="true" disabled required/>
+                    <input type="text" name="fl-store-screenshots" class="form-control-static" id="fl-store-screenshots" data-validate="true" disabled required/>
                   </div>
                 </div>
               </div>
@@ -154,11 +160,11 @@
           </div>
           <div class="panel panel-default">
             <div class="panel-heading" role="tab" id="appStoreGeneralHeading">
-              <h4 class="panel-title" role="button" data-toggle="collapse" data-parent="#accordionAppStore" href="#appStoreGeneral" aria-expanded="true" aria-controls="appStoreGeneral">Google Play listing details <small>(Required)</small></h4>
+              <h4 class="panel-title collapsed" role="button" data-toggle="collapse" data-parent="#accordionAppStore" href="#appStoreGeneral" aria-expanded="true" aria-controls="appStoreGeneral"><strong>2 -</strong> Google Play listing details <small>(Required)</small> <i class="fa fa-angle-down" aria-hidden="true"></i></h4>
             </div>
             <div id="appStoreGeneral" class="panel-collapse collapse" role="tabpanel" aria-labelledby="appStoreGeneralHeading">
               <div class="panel-body">
-                <p>Fill in the fields below for the information that will be displayed on the app's page in Google Play.</p>
+                <p>All information you put in below will be publicly visible on your app's listing on Google Play.</p>
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
                     <label>Featured graphic</label>
@@ -176,10 +182,10 @@
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
                     <label for="fl-store-iconName">App icon name</label>
-                    <p class="help-block label-helper"><small>This is the name that will appear below the icon of your app</small></p>
+                    <p class="help-block label-helper"><small>The name below the icon on the home screen.</small></p>
                   </div>
                   <div class="col-sm-8">
-                    <input type="text" name="fl-store-iconName" class="form-control" id="fl-store-iconName" placeholder="Enter the app icon name" maxlength="13" data-error="Please enter an app icon name" required/>
+                    <input type="text" name="fl-store-iconName" class="form-control" id="fl-store-iconName" maxlength="13" data-error="Please enter an app icon name" required/>
                     <div class="help-block with-errors"></div>
                     <p class="help-block"><small>The length of your app icon name is limited to 13 characters</small></p>
                   </div>
@@ -189,7 +195,7 @@
                     <label for="fl-store-short-description">App short description</label>
                   </div>
                   <div class="col-sm-8">
-                    <textarea name="fl-store-short-description" class="form-control" id="fl-store-short-description" placeholder="Enter an app short description" maxlength="80" data-error="Please enter an app short description" required></textarea>
+                    <input type="text" name="fl-store-short-description" class="form-control" id="fl-store-short-description" maxlength="80" data-error="Please enter an app short description" required />
                     <div class="help-block with-errors"></div>
                     <p class="help-block"><small>Short descriptions are limited to 80 characters.</small></p>
                   </div>
@@ -197,11 +203,12 @@
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
                     <label for="fl-store-description">App description</label>
+                    <p class="help-block label-helper"><small>Provide an engaging description that highlights the features and functionality of your app.</small></p>
                   </div>
                   <div class="col-sm-8">
-                    <textarea name="fl-store-description" class="form-control" id="fl-store-description" placeholder="Enter an app description" maxlength="4000" data-error="Please enter an app description" required></textarea>
+                    <textarea name="fl-store-description" class="form-control" id="fl-store-description" rows="8" maxlength="4000" data-error="Please enter an app description" required></textarea>
                     <div class="help-block with-errors"></div>
-                    <p class="help-block"><small>Provide an engaging description that highlights the features and functionality of your app.</small></p>
+                    <p class="help-block"><small>Descriptions are limited to 4000 characters.</small></p>
                   </div>
                 </div>
                 <div class="form-group clearfix">
@@ -228,14 +235,67 @@
                     <p class="help-block label-helper"><small>The category that best describes this app.</small></p>
                   </div>
                   <div class="col-sm-8">
-                    <label for="fl-store-category" class="select-proxy-display">
+                    <label for="fl-store-category-aplication" class="select-proxy-display">
                       <span class="icon fa fa-chevron-down"></span>
                       <span class="select-value-proxy">-- Select a category</span>
-                      <select id="fl-store-category" name="fl-store-category" data-label="select" class="hidden-select form-control" data-error="Please select a category" required>
+                      <select id="fl-store-category-aplication" name="fl-store-category-aplication" data-label="select" class="hidden-select form-control" data-error="Please select a category" required>
                         <option value="">-- Select a category</option>
-                        <option value="1">Option 1</option>
-                        <option value="2">Option 2</option>
-                        <option value="2">Option 3</option>
+                        <option value="Art &amp; Design">Art &amp; Design</option>
+                        <option value="Auto &amp; Vehicles">Auto &amp; Vehicles</option>
+                        <option value="Beauty">Beauty</option>
+                        <option value="Books &amp; Reference">Books &amp; Reference</option>
+                        <option value="Business">Business</option>
+                        <option value="Comics">Comics</option>
+                        <option value="Communication">Communication</option>
+                        <option value="Dating">Dating</option>
+                        <option value="Education">Education</option>
+                        <option value="Entertainment">Entertainment</option>
+                        <option value="Events">Events</option>
+                        <option value="Finance">Finance</option>
+                        <option value="Food &amp; Drink">Food &amp; Drink</option>
+                        <option value="Health &amp; Fitness">Health &amp; Fitness</option>
+                        <option value="House &amp; Home">House &amp; Home</option>
+                        <option value="Libraries &amp; Demo">Libraries &amp; Demo</option>
+                        <option value="Lifestyle">Lifestyle</option>
+                        <option value="Maps &amp; Navigation">Maps &amp; Navigation</option>
+                        <option value="Medical">Medical</option>
+                        <option value="Music &amp; Audio">Music &amp; Audio</option>
+                        <option value="News &amp; Magazines">News &amp; Magazines</option>
+                        <option value="Parenting">Parenting</option>
+                        <option value="Personalisation">Personalisation</option>
+                        <option value="Photography">Photography</option>
+                        <option value="Productivity">Productivity</option>
+                        <option value="Shopping">Shopping</option>
+                        <option value="Social">Social</option>
+                        <option value="Sports">Sports</option>
+                        <option value="Tools">Tools</option>
+                        <option value="Travel &amp; Local">Travel &amp; Local</option>
+                        <option value="Video Players &amp; Editors">Video Players &amp; Editors</option>
+                        <option value="Weather">Weather</option>
+                      </select>
+                    </label>
+                    <label for="fl-store-category-games" class="select-proxy-display hidden">
+                      <span class="icon fa fa-chevron-down"></span>
+                      <span class="select-value-proxy">-- Select a category</span>
+                      <select id="fl-store-category-games" name="fl-store-category-games" data-label="select" class="hidden-select form-control" data-error="Please select a category">
+                        <option value="">-- Select a category</option>
+                        <option value="Action">Action</option>
+                        <option value="Adventure">Adventure</option>
+                        <option value="Arcade">Arcade</option>
+                        <option value="Board">Board</option>
+                        <option value="Card">Card</option>
+                        <option value="Casino">Casino</option>
+                        <option value="Casual">Casual</option>
+                        <option value="Educational">Educational</option>
+                        <option value="Music">Music</option>
+                        <option value="Puzzle">Puzzle</option>
+                        <option value="Racing">Racing</option>
+                        <option value="Role Playing">Role Playing</option>
+                        <option value="Simulation">Simulation</option>
+                        <option value="Sports">Sports</option>
+                        <option value="Strategy">Strategy</option>
+                        <option value="Trivia">Trivia</option>
+                        <option value="Word">Word</option>
                       </select>
                     </label>
                     <div class="help-block with-errors"></div>
@@ -505,9 +565,11 @@
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
                     <label for="fl-store-keywords">Rating</label>
+                    <p class="help-block label-helper"><small>Your apps' recommended audience age</small></p>
                   </div>
                   <div class="col-sm-8">
-                    Your app rating is determined by Google based on your app type. The app rating will be displayed on Google Play across all your platforms. Fliplet apps will be rated <strong>17+</strong> by default.
+                    Your app rating is determined by Google based on your app type. The app rating will be displayed on Google Play across all your platforms. Fliplet apps will be rated <strong>17+</strong> by default as it means an app can load web pages
+                    and youtube videos.
                   </div>
                 </div>
                 <div class="form-group clearfix">
@@ -516,7 +578,7 @@
                     <p class="help-block label-helper"><small>A URL that links to your organization's privacy policy.</small></p>
                   </div>
                   <div class="col-sm-8">
-                    <input type="text" name="fl-store-privacy" class="form-control" id="fl-store-privacy" placeholder="Enter your Privacy Policy URL" data-error="Please enter your Privacy Policy URL" required/>
+                    <input type="text" name="fl-store-privacy" class="form-control" id="fl-store-privacy" data-error="Please enter your Privacy Policy URL" required/>
                     <div class="help-block with-errors"></div>
                   </div>
                 </div>
@@ -545,6 +607,7 @@
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
                     <label for="fl-store-marketing-optout">Marketing opt-out</label>
+                    <p class="help-block label-helper"><small>Opting-out will disallow your app to be promoted by third parties.</small></p>
                   </div>
                   <div class="col-sm-8">
                     <div class="checkbox checkbox-icon">
@@ -591,28 +654,30 @@
           </div>
           <div class="panel panel-default">
             <div class="panel-heading" role="tab" id="appStoreTechHeading">
-              <h4 class="panel-title" role="button" data-toggle="collapse" data-parent="#accordionAppStore" href="#appStoreTech" aria-expanded="true" aria-controls="appStoreTech">App technical details <small>(Required)</small></h4>
+              <h4 class="panel-title collapsed" role="button" data-toggle="collapse" data-parent="#accordionAppStore" href="#appStoreTech" aria-expanded="true" aria-controls="appStoreTech"><strong>3 -</strong> App technical details <small>(Required)</small> <i class="fa fa-angle-down" aria-hidden="true"></i></h4>
             </div>
             <div id="appStoreTech" class="panel-collapse collapse" role="tabpanel" aria-labelledby="appStoreTechHeading">
               <div class="panel-body">
-                <p>Now it's down to the technical inforamtion.</p>
+                <p>We will need some technical information now, such as your developer account login details. Don't worry, these details will be safe with us. We need them in order to publish your app for you.</p>
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
                     <label for="fl-store-appDevLogin">Google Play Developer account login</label>
                   </div>
                   <div class="col-sm-8">
-                    <input type="email" name="fl-store-appDevLogin" class="form-control" id="fl-store-appDevLogin" placeholder="Enter App Developer login email" data-error="Please enter a valid email address" required/>
+                    <input type="email" name="fl-store-appDevLogin" class="form-control" id="fl-store-appDevLogin" data-error="Please enter a valid email address" required/>
                     <div class="help-block with-errors"></div>
+                    <p class="help-block"><small>Enter your Google Developer account login email</small></p>
                   </div>
                 </div>
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
                     <label for="fl-store-appDevPass">Google Play Developer account password</label>
-                    <p class="help-block label-helper"><small>The password will be encrypted, safely stored and never shown.</small></p>
+                    <p class="help-block label-helper"><small>This password will be encrypted, safely stored and never shared or used for purposes other than publishing this app.</small></p>
                   </div>
                   <div class="col-sm-8">
-                    <input type="password" name="fl-store-appDevPass" class="form-control" id="fl-store-appDevPass" placeholder="Enter App Developer account pass" data-error="Please enter a password" required/>
+                    <input type="password" name="fl-store-appDevPass" class="form-control" id="fl-store-appDevPass" data-error="Please enter a password" required/>
                     <div class="help-block with-errors"></div>
+                    <p class="help-block"><small>Enter your Google Developer account password</small></p>
                   </div>
                 </div>
                 <div class="form-group clearfix">
@@ -626,7 +691,7 @@
                   </div>
                   <div class="fl-bundleId-field">
                     <div class="col-sm-8">
-                      <input type="text" name="fl-store-bundleId" class="form-control" id="fl-store-bundleId" placeholder="Enter your unique Bundle ID" data-error="Please enter the Bundle ID" required/>
+                      <input type="text" name="fl-store-bundleId" class="form-control" id="fl-store-bundleId" data-error="Please enter the Bundle ID" required/>
                       <div class="help-block with-errors"></div>
                       <p class="help-block"><small>This value needs to be unique and the structure must be <code>com.<i>organisationName</i>.<i>appName</i></code>.</small></p>
                     </div>
@@ -640,7 +705,7 @@
                     <p class="help-block label-helper"><small>A unique numerical value created when you configure your API project. The sender ID is used in the <a target="_blank" href="https://developers.google.com/cloud-messaging/registration">registration process</a> to identify an app server that is permitted to send messages to the client app.</small></p>
                   </div>
                   <div class="col-sm-8">
-                    <input type="text" name="fl-store-senderId" class="form-control" id="fl-store-senderId" placeholder="Enter your Sender ID" />
+                    <input type="text" name="fl-store-senderId" class="form-control" id="fl-store-senderId" />
                   </div>
                 </div>
               </div>
@@ -648,7 +713,7 @@
           </div>
           <div class="panel panel-default">
             <div class="panel-heading" role="tab" id="appStorePushHeading">
-              <h4 class="panel-title" role="button" data-toggle="collapse" data-parent="#accordionAppStore" href="#appStorePush" aria-expanded="true" aria-controls="appStorePush">Push notification assets <small>(Optional)</small></h4>
+              <h4 class="panel-title collapsed" role="button" data-toggle="collapse" data-parent="#accordionAppStore" href="#appStorePush" aria-expanded="true" aria-controls="appStorePush"><strong>4 -</strong> Push notification assets <small>(Optional)</small> <i class="fa fa-angle-down" aria-hidden="true"></i></h4>
             </div>
             <div id="appStorePush" class="panel-collapse collapse" role="tabpanel" aria-labelledby="appStorePushHeading">
               <div class="panel-body">
@@ -672,17 +737,17 @@
           </div>
           <div class="panel panel-default">
             <div class="panel-heading" role="tab" id="appStoreContactsHeading">
-              <h4 class="panel-title" role="button" data-toggle="collapse" data-parent="#accordionAppStore" href="#appStoreContacts" aria-expanded="true" aria-controls="appStoreContacts">App submission details <small>(Required)</small></h4>
+              <h4 class="panel-title collapsed" role="button" data-toggle="collapse" data-parent="#accordionAppStore" href="#appStoreContacts" aria-expanded="true" aria-controls="appStoreContacts"><strong>5 -</strong> App submission details <small>(Required)</small> <i class="fa fa-angle-down" aria-hidden="true"></i></h4>
             </div>
             <div id="appStoreContacts" class="panel-collapse collapse" role="tabpanel" aria-labelledby="appStoreContactsHeading">
               <div class="panel-body">
-                <p>These details will be used by Google Review team to get in touch with you if needed.</p>
+                <p>The contact you add in these fields needs to be responsive on email and must understand the app well, in case the review team has questions or have objections that need a response. Their details will not be made public or shared.</p>
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
                     <label for="fl-store-website">Website</label>
                   </div>
                   <div class="col-sm-8">
-                    <input type="text" name="fl-store-website" class="form-control" id="fl-store-website" placeholder="Enter your website url" />
+                    <input type="text" name="fl-store-website" class="form-control" id="fl-store-website" />
                   </div>
                 </div>
                 <div class="form-group clearfix">
@@ -690,9 +755,8 @@
                     <label for="fl-store-email">Email Address</label>
                   </div>
                   <div class="col-sm-8">
-                    <input type="email" name="fl-store-email" class="form-control" id="fl-store-email" placeholder="Enter your email address" data-error="Please enter a valid email address" required/>
+                    <input type="email" name="fl-store-email" class="form-control" id="fl-store-email" data-error="Please enter a valid email address" required/>
                     <div class="help-block with-errors"></div>
-                    <p class="help-block"><small>Google will use this email to get in touch if there are any issues with your app submission. Fliplet will not receive any correspondence from Google.</small></p>
                   </div>
                 </div>
               </div>
@@ -713,11 +777,11 @@
       </form>
     </div>
     <div role="tabpanel" class="tab-pane fl-sb-enterprise" id="enterprise-tab">
-      <form data-toggle="validator" data-disable="false" role="form" id="enterpriseConfiguration">
+      <form data-disable="false" role="form" id="enterpriseConfiguration">
         <div class="panel-group" id="accordionEnterprise" role="tablist" aria-multiselectable="true">
           <div class="panel panel-default app-details">
             <div class="panel-heading" role="tab" id="enterpriseSettingsHeading">
-              <h4 class="panel-title" role="button" data-toggle="collapse" data-parent="#accordionEnterprise" href="#enterpriseSettings" aria-expanded="true" aria-controls="enterpriseSettings">App details <small>(Required)</small></h4>
+              <h4 class="panel-title collapsed" role="button" data-toggle="collapse" data-parent="#accordionEnterprise" href="#enterpriseSettings" aria-expanded="true" aria-controls="enterpriseSettings"><strong>1 -</strong> App details <small>(Required)</small> <i class="fa fa-angle-down" aria-hidden="true"></i></h4>
             </div>
             <div id="enterpriseSettings" class="panel-collapse collapse" role="tabpanel" aria-labelledby="enterpriseSettingsHeading">
               <div class="panel-body">
@@ -725,6 +789,7 @@
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
                     <label>App icon</label>
+                    <p><a href="#" data-change-settings>Change</a></p>
                   </div>
                   <div class="col-sm-8">
                     <img class="setting-app-icon userUploaded hidden" src="#" />
@@ -734,6 +799,7 @@
                 <div class="form-group">
                   <div class="col-sm-4 control-label">
                     <label>Splash screen</label>
+                    <p><a href="#" data-change-assets>Change</a></p>
                   </div>
                   <div class="col-sm-8">
                     <div class="setting-splash-screen userUploaded hidden" style="background-image: url();"></div>
@@ -745,17 +811,17 @@
           </div>
           <div class="panel panel-default">
             <div class="panel-heading" role="tab" id="enterpriseGeneralHeading">
-              <h4 class="panel-title" role="button" data-toggle="collapse" data-parent="#accordionEnterprise" href="#appStoreGeneral" aria-expanded="true" aria-controls="appStoreGeneral">App listing details <small>(Required)</small></h4>
+              <h4 class="panel-title collapsed" role="button" data-toggle="collapse" data-parent="#accordionEnterprise" href="#enterpriseGeneral" aria-expanded="true" aria-controls="enterpriseGeneral"><strong>2 -</strong> App listing details <small>(Required)</small> <i class="fa fa-angle-down" aria-hidden="true"></i></h4>
             </div>
             <div id="enterpriseGeneral" class="panel-collapse collapse" role="tabpanel" aria-labelledby="enterpriseGeneralHeading">
               <div class="panel-body">
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
                     <label for="fl-ent-iconName">App icon name</label>
-                    <p class="help-block label-helper"><small>This is the name that will appear below the icon of your app</small></p>
+                    <p class="help-block label-helper"><small>The name below the icon on the home screen.</small></p>
                   </div>
                   <div class="col-sm-8">
-                    <input type="text" name="fl-ent-iconName" class="form-control" id="fl-ent-iconName" placeholder="Enter the app icon name" maxlength="13" data-error="Please enter an app icon name" required/>
+                    <input type="text" name="fl-ent-iconName" class="form-control" id="fl-ent-iconName" maxlength="13" data-error="Please enter an app icon name" required/>
                     <div class="help-block with-errors"></div>
                     <p class="help-block"><small>The length of your app icon name is limited to 13 characters</small></p>
                   </div>
@@ -765,7 +831,7 @@
           </div>
           <div class="panel panel-default">
             <div class="panel-heading" role="tab" id="enterprisePushHeading">
-              <h4 class="panel-title" role="button" data-toggle="collapse" data-parent="#accordionEnterprise" href="#enterprisePush" aria-expanded="true" aria-controls="enterprisePush">Push notification assets <small>(Optional)</small></h4>
+              <h4 class="panel-title collapsed" role="button" data-toggle="collapse" data-parent="#accordionEnterprise" href="#enterprisePush" aria-expanded="true" aria-controls="enterprisePush"><strong>3 -</strong> Push notification assets <small>(Optional)</small> <i class="fa fa-angle-down" aria-hidden="true"></i></h4>
             </div>
             <div id="enterprisePush" class="panel-collapse collapse" role="tabpanel" aria-labelledby="enterprisePushHeading">
               <div class="panel-body">
@@ -789,28 +855,30 @@
           </div>
           <div class="panel panel-default">
             <div class="panel-heading" role="tab" id="enterpriseTechHeading">
-              <h4 class="panel-title" role="button" data-toggle="collapse" data-parent="#accordionEnterprise" href="#enterpriseTech" aria-expanded="true" aria-controls="enterpriseTech">App technical details <small>(Required)</small></h4>
+              <h4 class="panel-title collapsed" role="button" data-toggle="collapse" data-parent="#accordionEnterprise" href="#enterpriseTech" aria-expanded="true" aria-controls="enterpriseTech"><strong>4 -</strong> App technical details <small>(Required)</small> <i class="fa fa-angle-down" aria-hidden="true"></i></h4>
             </div>
             <div id="enterpriseTech" class="panel-collapse collapse" role="tabpanel" aria-labelledby="enterpriseTechHeading">
               <div class="panel-body">
-                <p>Now it's down to the technical inforamtion.</p>
+                <p>We will need some technical information now, such as your developer account login details. Don't worry, these details will be safe with us. We need them in order to publish your app for you.</p>
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
                     <label for="fl-ent-appDevLogin">Google Play Developer account login</label>
                   </div>
                   <div class="col-sm-8">
-                    <input type="email" name="fl-ent-appDevLogin" class="form-control" id="fl-ent-appDevLogin" placeholder="Enter App Developer login email" data-error="Please enter a valid email address" required/>
+                    <input type="email" name="fl-ent-appDevLogin" class="form-control" id="fl-ent-appDevLogin" data-error="Please enter a valid email address" required/>
                     <div class="help-block with-errors"></div>
+                    <p class="help-block"><small>Enter your Google Developer account login email</small></p>
                   </div>
                 </div>
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
                     <label for="fl-ent-appDevPass">Google Play Developer account password</label>
-                    <p class="help-block label-helper"><small>The password will be encrypted, safely stored and never shown.</small></p>
+                    <p class="help-block label-helper"><small>This password will be encrypted, safely stored and never shared or used for purposes other than publishing this app.</small></p>
                   </div>
                   <div class="col-sm-8">
-                    <input type="password" name="fl-ent-appDevPass" class="form-control" id="fl-ent-appDevPass" placeholder="Enter App Developer account pass" data-error="Please enter a password" required/>
+                    <input type="password" name="fl-ent-appDevPass" class="form-control" id="fl-ent-appDevPass" data-error="Please enter a password" required/>
                     <div class="help-block with-errors"></div>
+                    <p class="help-block"><small>Enter your Google Developer account password</small></p>
                   </div>
                 </div>
                 <div class="form-group clearfix">
@@ -824,7 +892,7 @@
                   </div>
                   <div class="fl-bundleId-field">
                     <div class="col-sm-8">
-                      <input type="text" name="fl-ent-bundleId" class="form-control" id="fl-ent-bundleId" placeholder="Enter your unique Bundle ID" data-error="Please enter your Bundle ID" required/>
+                      <input type="text" name="fl-ent-bundleId" class="form-control" id="fl-ent-bundleId" data-error="Please enter your Bundle ID" required/>
                       <div class="help-block with-errors"></div>
                       <p class="help-block"><small>This value needs to be unique and the structure must be <code>com.<i>organisationName</i>.<i>appName</i></code>.</small></p>
                     </div>
@@ -838,7 +906,7 @@
                     <p class="help-block label-helper"><small>A unique numerical value created when you configure your API project. The sender ID is used in the <a target="_blank" href="https://developers.google.com/cloud-messaging/registration">registration process</a> to identify an app server that is permitted to send messages to the client app.</small></p>
                   </div>
                   <div class="col-sm-8">
-                    <input type="text" name="fl-ent-senderId" class="form-control" id="fl-ent-senderId" placeholder="Enter your Sender ID" />
+                    <input type="text" name="fl-ent-senderId" class="form-control" id="fl-ent-senderId" />
                   </div>
                 </div>
               </div>
@@ -859,11 +927,11 @@
       </form>
     </div>
     <div role="tabpanel" class="tab-pane fl-sb-unsigned" id="unsigned-tab">
-      <form data-toggle="validator" data-disable="false" role="form" id="unsignedConfiguration">
+      <form data-disable="false" role="form" id="unsignedConfiguration">
         <div class="panel-group" id="accordionUnsigned" role="tablist" aria-multiselectable="true">
           <div class="panel panel-default app-details">
             <div class="panel-heading" role="tab" id="unsignedSettingsHeading">
-              <h4 class="panel-title" role="button" data-toggle="collapse" data-parent="#accordionUnsigned" href="#unsignedSettings" aria-expanded="true" aria-controls="unsignedSettings">App details <small>(Required)</small></h4>
+              <h4 class="panel-title collapsed" role="button" data-toggle="collapse" data-parent="#accordionUnsigned" href="#unsignedSettings" aria-expanded="true" aria-controls="unsignedSettings"><strong>1 -</strong> App details <small>(Required)</small> <i class="fa fa-angle-down" aria-hidden="true"></i></h4>
             </div>
             <div id="unsignedSettings" class="panel-collapse collapse" role="tabpanel" aria-labelledby="unsignedSettingsHeading">
               <div class="panel-body">
@@ -871,6 +939,7 @@
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
                     <label>App icon</label>
+                    <p><a href="#" data-change-settings>Change</a></p>
                   </div>
                   <div class="col-sm-8">
                     <img class="setting-app-icon userUploaded hidden" src="#" />
@@ -880,6 +949,7 @@
                 <div class="form-group">
                   <div class="col-sm-4 control-label">
                     <label>Splash screen</label>
+                    <p><a href="#" data-change-assets>Change</a></p>
                   </div>
                   <div class="col-sm-8">
                     <div class="setting-splash-screen userUploaded hidden" style="background-image: url();"></div>
@@ -891,17 +961,17 @@
           </div>
           <div class="panel panel-default">
             <div class="panel-heading" role="tab" id="unsignedGeneralHeading">
-              <h4 class="panel-title" role="button" data-toggle="collapse" data-parent="#accordionUnsigned" href="#unsignedGeneral" aria-expanded="true" aria-controls="unsignedGeneral">App listing details <small>(Required)</small></h4>
+              <h4 class="panel-title collapsed" role="button" data-toggle="collapse" data-parent="#accordionUnsigned" href="#unsignedGeneral" aria-expanded="true" aria-controls="unsignedGeneral"><strong>2 -</strong> App listing details <small>(Required)</small> <i class="fa fa-angle-down" aria-hidden="true"></i></h4>
             </div>
             <div id="unsignedGeneral" class="panel-collapse collapse" role="tabpanel" aria-labelledby="unsignedGeneralHeading">
               <div class="panel-body">
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
                     <label for="fl-uns-iconName">App icon name</label>
-                    <p class="help-block label-helper"><small>This is the name that will appear below the icon of your app</small></p>
+                    <p class="help-block label-helper"><small>The name below the icon on the home screen.</small></p>
                   </div>
                   <div class="col-sm-8">
-                    <input type="text" name="fl-uns-iconName" class="form-control" id="fl-uns-iconName" placeholder="Enter the app icon name" maxlength="13" data-error="Please enter an app icon name" required/>
+                    <input type="text" name="fl-uns-iconName" class="form-control" id="fl-uns-iconName" maxlength="13" data-error="Please enter an app icon name" required/>
                     <div class="help-block with-errors"></div>
                     <p class="help-block"><small>The length of your app icon name is limited to 13 characters</small></p>
                   </div>
@@ -911,7 +981,7 @@
           </div>
           <div class="panel panel-default">
             <div class="panel-heading" role="tab" id="unsignedPushHeading">
-              <h4 class="panel-title" role="button" data-toggle="collapse" data-parent="#accordionUnsigned" href="#unsignedPush" aria-expanded="true" aria-controls="unsignedPush">Push notification assets <small>(Optional)</small></h4>
+              <h4 class="panel-title collapsed" role="button" data-toggle="collapse" data-parent="#accordionUnsigned" href="#unsignedPush" aria-expanded="true" aria-controls="unsignedPush"><strong>3 -</strong> Push notification assets <small>(Optional)</small> <i class="fa fa-angle-down" aria-hidden="true"></i></h4>
             </div>
             <div id="unsignedPush" class="panel-collapse collapse" role="tabpanel" aria-labelledby="unsignedPushHeading">
               <div class="panel-body">
@@ -935,11 +1005,11 @@
           </div>
           <div class="panel panel-default">
             <div class="panel-heading" role="tab" id="unsignedTechHeading">
-              <h4 class="panel-title" role="button" data-toggle="collapse" data-parent="#accordionUnsigned" href="#unsignedTech" aria-expanded="true" aria-controls="unsignedTech">App technical details <small>(Required)</small></h4>
+              <h4 class="panel-title collapsed" role="button" data-toggle="collapse" data-parent="#accordionUnsigned" href="#unsignedTech" aria-expanded="true" aria-controls="unsignedTech"><strong>4 -</strong> App technical details <small>(Required)</small> <i class="fa fa-angle-down" aria-hidden="true"></i></h4>
             </div>
             <div id="unsignedTech" class="panel-collapse collapse" role="tabpanel" aria-labelledby="unsignedTechHeading">
               <div class="panel-body">
-                <p>Now it's down to the technical inforamtion.</p>
+                <p>We will need some technical information now. Don't worry, these details will be safe with us. We need them in order to publish your app for you.</p>
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
                     <label for="fl-uns-bundleId">Bundle ID</label>
@@ -951,7 +1021,7 @@
                   </div>
                   <div class="fl-bundleId-field">
                     <div class="col-sm-8">
-                      <input type="text" name="fl-uns-bundleId" class="form-control" id="fl-uns-bundleId" placeholder="Enter your unique Bundle ID" data-error="Please enter your Bundle ID" required/>
+                      <input type="text" name="fl-uns-bundleId" class="form-control" id="fl-uns-bundleId" data-error="Please enter your Bundle ID" required/>
                       <div class="help-block with-errors"></div>
                       <p class="help-block"><small>This value needs to be unique and the structure must be <code>com.<i>organisationName</i>.<i>appName</i></code>.</small></p>
                     </div>
@@ -965,7 +1035,7 @@
                     <p class="help-block label-helper"><small>A unique numerical value created when you configure your API project. The sender ID is used in the <a target="_blank" href="https://developers.google.com/cloud-messaging/registration">registration process</a> to identify an app server that is permitted to send messages to the client app.</small></p>
                   </div>
                   <div class="col-sm-8">
-                    <input type="text" name="fl-uns-senderId" class="form-control" id="fl-uns-senderId" placeholder="Enter your Sender ID" />
+                    <input type="text" name="fl-uns-senderId" class="form-control" id="fl-uns-senderId" />
                   </div>
                 </div>
               </div>
@@ -986,11 +1056,11 @@
       </form>
     </div>
     <div role="tabpanel" class="tab-pane fl-sb-push" id="push-tab">
-      <form data-toggle="validator" data-disable="false" role="form" id="pushConfiguration">
+      <form data-disable="false" role="form" id="pushConfiguration">
         <div class="panel-group" id="accordionPush" role="tablist" aria-multiselectable="true">
           <div class="panel panel-default">
             <div class="panel-heading" role="tab" id="notificationsHeading">
-              <h4 class="panel-title" role="button" data-toggle="collapse" data-parent="#accordionPush" href="#notifications" aria-expanded="true" aria-controls="notifications">Push notifications technical details <small>(Optional)</small></h4>
+              <h4 class="panel-title collapsed" role="button" data-toggle="collapse" data-parent="#accordionPush" href="#notifications" aria-expanded="true" aria-controls="notifications">Push notifications technical details <small>(Optional)</small> <i class="fa fa-angle-down" aria-hidden="true"></i></h4>
             </div>
             <div id="notifications" class="panel-collapse collapse" role="tabpanel" aria-labelledby="notificationsHeading">
               <div class="panel-body">
@@ -1008,7 +1078,7 @@
                     <p class="help-block label-helper"><small>A unique numerical value created when you configure your API project. The sender ID is used in the <a target="_blank" href="https://developers.google.com/cloud-messaging/registration">registration process</a> to identify an app server that is permitted to send messages to the client app.</small></p>
                   </div>
                   <div class="col-sm-8">
-                    <input type="text" name="fl-push-senderId" class="form-control" id="fl-push-senderId" placeholder="Enter your Sender ID" />
+                    <input type="text" name="fl-push-senderId" class="form-control" id="fl-push-senderId" />
                   </div>
                 </div>
                 <div class="form-group clearfix">
@@ -1017,7 +1087,7 @@
                     <p class="help-block label-helper"><small>The server key can be created in the Firebase Console using the Cloud Messaging tab of the Settings panel.</small></p>
                   </div>
                   <div class="col-sm-8">
-                    <input type="text" name="fl-push-serverKey" class="form-control" id="fl-push-serverKey" placeholder="Enter your Server Key" />
+                    <input type="text" name="fl-push-serverKey" class="form-control" id="fl-push-serverKey" />
                   </div>
                 </div>
               </div>

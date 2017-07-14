@@ -217,7 +217,7 @@ function requestBuild(origin, submission) {
     setTimeout(function() {
       $('.save-' + origin + '-request').removeClass('saved');
     }, 4000);
-  }).then(function() {
+
     Fliplet.App.Submissions.build(submission.id).then(function(response) {
       console.log(response);
     });
@@ -504,13 +504,41 @@ $('input[type="file"]').on('change', function() {
   $(this).parents('.fileUpload').next('.image-name').find('small').html($(this)[0].files[0].name);
 });
 
-$('.redirectToSettings').on('click', function() {
+$('.redirectToSettings, [data-change-settings]').on('click', function(event) {
+  event.preventDefault();
+
   Fliplet.Studio.emit('navigate', {
     name: 'appSettings',
     params: {
       appId: Fliplet.Env.get('appId')
     }
   });
+});
+
+$('[data-change-assets]').on('click', function(event) {
+  event.preventDefault();
+
+  Fliplet.Studio.emit('navigate', {
+    name: 'launchAssets',
+    params: {
+      appId: Fliplet.Env.get('appId')
+    }
+  });
+});
+
+$('[name="fl-store-type"]').on('change', function() {
+  if ($(this).val() === "Games") {
+    $('[for="fl-store-category-aplication"]').addClass('hidden');
+    $('[for="fl-store-category-aplication"]').find('select').prop('required', false);
+    $('[for="fl-store-category-games"]').removeClass('hidden');
+    $('[for="fl-store-category-games"]').find('select').prop('required', true);
+  } else {
+    $('[for="fl-store-category-games"]').addClass('hidden');
+    $('[for="fl-store-category-games"]').find('select').prop('required', false);
+    $('[for="fl-store-category-aplication"]').removeClass('hidden');
+    $('[for="fl-store-category-aplication"]').find('select').prop('required', true);
+  }
+
 });
 
 $('#appStoreConfiguration, #enterpriseConfiguration, #unsignedConfiguration').on('validated.bs.validator', function() {
@@ -523,17 +551,18 @@ $('#appStoreConfiguration').validator().on('submit', function(event) {
     // Gives time to Validator to apply classes
     setTimeout(checkGroupErrors, 0);
     alert('Please fill in all the required information.');
-  } else {
-    event.preventDefault();
-
-    if (allAppData) {
-      saveAppStoreData(true);
-    } else {
-      alert('Please configure your App Settings to contain the required information.');
-    }
-    // Gives time to Validator to apply classes
-    setTimeout(checkGroupErrors, 0);
+    return;
   }
+
+  event.preventDefault();
+
+  if (allAppData) {
+    saveAppStoreData(true);
+  } else {
+    alert('Please configure your App Settings to contain the required information.');
+  }
+  // Gives time to Validator to apply classes
+  setTimeout(checkGroupErrors, 0);
 });
 
 $('#enterpriseConfiguration').validator().on('submit', function(event) {
@@ -541,17 +570,18 @@ $('#enterpriseConfiguration').validator().on('submit', function(event) {
     // Gives time to Validator to apply classes
     setTimeout(checkGroupErrors, 0);
     alert('Please fill in all the required information.');
-  } else {
-    event.preventDefault();
-
-    if (allAppData) {
-      saveEnterpriseData(true);
-    } else {
-      alert('Please configure your App Settings to contain the required information.');
-    }
-    // Gives time to Validator to apply classes
-    setTimeout(checkGroupErrors, 0);
+    return;
   }
+
+  event.preventDefault();
+
+  if (allAppData) {
+    saveEnterpriseData(true);
+  } else {
+    alert('Please configure your App Settings to contain the required information.');
+  }
+  // Gives time to Validator to apply classes
+  setTimeout(checkGroupErrors, 0);
 });
 
 $('#unsignedConfiguration').validator().on('submit', function(event) {
@@ -559,17 +589,18 @@ $('#unsignedConfiguration').validator().on('submit', function(event) {
     // Gives time to Validator to apply classes
     setTimeout(checkGroupErrors, 0);
     alert('Please fill in all the required information.');
-  } else {
-    event.preventDefault();
-
-    if (allAppData) {
-      saveUnsignedData(true);
-    } else {
-      alert('Please configure your App Settings to contain the required information.');
-    }
-    // Gives time to Validator to apply classes
-    setTimeout(checkGroupErrors, 0);
+    return;
   }
+
+  event.preventDefault();
+
+  if (allAppData) {
+    saveUnsignedData(true);
+  } else {
+    alert('Please configure your App Settings to contain the required information.');
+  }
+  // Gives time to Validator to apply classes
+  setTimeout(checkGroupErrors, 0);
 });
 
 /* SAVE PROGRESS CLICK */
