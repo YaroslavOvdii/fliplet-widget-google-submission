@@ -52,14 +52,14 @@ function loadAppStoreData() {
 
     /* FEATURED GRAPHIC */
     if (name === "fl-store-featuredGraphic") {
-      $(el).parents('.fileUpload').next('.image-name').find('small').html(appStoreSubmission.data[name][0].name);
+      $(el).parents('.fileUpload').next('.image-name').find('small').html((typeof appStoreSubmission.data[name] !== "undefined") ? appStoreSubmission.data[name][0].name : '');
       return;
     }
 
     /* NOTIFICATION ICON */
     if (name === "fl-store-notificationIcon") {
       if (appStoreSubmission.data[name]) {
-        $(el).parents('.fileUpload').next('.image-name').find('small').html(appStoreSubmission.data[name][0].name);
+        $(el).parents('.fileUpload').next('.image-name').find('small').html((typeof appStoreSubmission.data[name] !== "undefined") ? appStoreSubmission.data[name][0].name : '');
       }
       return;
     }
@@ -70,12 +70,8 @@ function loadAppStoreData() {
       return;
     }
     if (name === "fl-store-userCountry" || name === "fl-store-category1" || name === "fl-store-category2" || name === "fl-store-language") {
-      $('[name="' + name + '"]').val(appStoreSubmission.data[name]).trigger('change');
+      $('[name="' + name + '"]').val((typeof appStoreSubmission.data[name] !== "undefined") ? appStoreSubmission.data[name] : '').trigger('change');
       return;
-    }
-
-    if (name === "fl-store-pricing") {
-      $('[name="' + name + '"]').val((typeof appStoreSubmission.data[name] !== "undefined") ? appStoreSubmission.data[name] : 'free').trigger('change');
     }
 
     /* ADD KEYWORDS */
@@ -102,7 +98,7 @@ function loadAppStoreData() {
       return;
     }
 
-    $('[name="' + name + '"]').val(appStoreSubmission.data[name]);
+    $('[name="' + name + '"]').val((typeof appStoreSubmission.data[name] !== "undefined") ? appStoreSubmission.data[name] : '');
   });
 }
 
@@ -133,12 +129,12 @@ function loadEnterpriseData() {
     /* NOTIFICATION ICON */
     if (name === "fl-ent-notificationIcon") {
       if (enterpriseSubmission.data[name]) {
-        $(el).parents('.fileUpload').next('.image-name').find('small').html(enterpriseSubmission.data[name][0].name);
+        $(el).parents('.fileUpload').next('.image-name').find('small').html((typeof enterpriseSubmission.data[name] !== "undefined") ? enterpriseSubmission.data[name][0].name : '');
       }
       return;
     }
 
-    $('[name="' + name + '"]').val(enterpriseSubmission.data[name]);
+    $('[name="' + name + '"]').val((typeof enterpriseSubmission.data[name] !== "undefined") ? enterpriseSubmission.data[name] : '');
   });
 }
 
@@ -168,12 +164,12 @@ function loadUnsignedData() {
     /* NOTIFICATION ICON */
     if (name === "fl-uns-notificationIcon") {
       if (unsignedSubmission.data[name]) {
-        $(el).parents('.fileUpload').next('.image-name').find('small').html(unsignedSubmission.data[name][0].name);
+        $(el).parents('.fileUpload').next('.image-name').find('small').html((typeof unsignedSubmission.data[name] !== "undefined") ? unsignedSubmission.data[name][0].name : '');
       }
       return;
     }
 
-    $('[name="' + name + '"]').val(unsignedSubmission.data[name]);
+    $('[name="' + name + '"]').val((typeof unsignedSubmission.data[name] !== "undefined") ? unsignedSubmission.data[name] : '');
   });
 }
 
@@ -621,83 +617,87 @@ $('[data-push-save]').on('click', function() {
 $('#appStoreConfiguration, #enterpriseConfiguration, #unsignedConfiguration').validator().off('input.bs.validator change.bs.validator focusout.bs.validator');
 $('[name="submissionType"][value="appStore"]').prop('checked', true).trigger('change');
 
-Fliplet.App.Submissions.get().then(function(submissions) {
-  if (!submissions.length) {
-    Fliplet.App.Submissions.create({
-      platform: 'android',
-      data: {
-        submissionType: "appStore"
-      }
-    }).then(function(submission) {
-      appStoreSubmission.id = submission.id;
-    }).catch(function(err) {
-      alert(err.responseJSON.message);
-    });
-
-    Fliplet.App.Submissions.create({
-      platform: 'android',
-      data: {
-        submissionType: "enterprise"
-      }
-    }).then(function(submission) {
-      enterpriseSubmission.id = submission.id;
-    }).catch(function(err) {
-      alert(err.responseJSON.message);
-    });
-
-    Fliplet.App.Submissions.create({
-      platform: 'android',
-      data: {
-        submissionType: "unsigned"
-      }
-    }).then(function(submission) {
-      unsignedSubmission.id = submission.id;
-    }).catch(function(err) {
-      alert(err.responseJSON.message);
-    });
-  } else {
-    appStoreSubmission = _.find(submissions, function(submission) {
-      return submission.data.submissionType === "appStore";
-    });
-
-    enterpriseSubmission = _.find(submissions, function(submission) {
-      return submission.data.submissionType === "enterprise";
-    });
-
-    unsignedSubmission = _.find(submissions, function(submission) {
-      return submission.data.submissionType === "unsigned";
-    });
-  }
-}).then(function() {
-  Fliplet.API.request({
-      cache: true,
-      url: 'v1/apps/' + Fliplet.Env.get('appId')
-    })
-    .then(function(result) {
-      appName = result.app.name;
-      appIcon = result.app.icon;
-      appSettings = result.app.settings;
-    })
-    .then(function() {
-      Fliplet.API.request({
-          cache: true,
-          url: 'v1/organizations/' + Fliplet.Env.get('organizationId')
-        })
-        .then(function(org) {
-          organisationName = org.name;
-        });
-    }).then(function() {
-      Fliplet.API.request({
-        method: 'GET',
-        url: 'v1/widget-instances/com.fliplet.push-notifications?appId=' + Fliplet.Env.get('appId')
-      }).then(function(response) {
-        if (response.widgetInstance.settings && response.widgetInstance.settings) {
-          notificationSettings = response.widgetInstance.settings;
-        } else {
-          notificationSettings = {};
-        }
-
-        init();
+Fliplet.App.Submissions.get()
+  .then(function(submissions) {
+    if (submissions.length) {
+      appStoreSubmission = _.find(submissions, function(submission) {
+        return submission.data.submissionType === "appStore";
       });
+
+      enterpriseSubmission = _.find(submissions, function(submission) {
+        return submission.data.submissionType === "enterprise";
+      });
+
+      unsignedSubmission = _.find(submissions, function(submission) {
+        return submission.data.submissionType === "unsigned";
+      });
+    }
+
+    return Promise.all([
+      Fliplet.App.Submissions.create({
+        platform: 'ios',
+        data: {
+          submissionType: "appStore"
+        }
+      })
+      .then(function(submission) {
+        appStoreSubmission = submission;
+      }),
+      Fliplet.App.Submissions.create({
+        platform: 'ios',
+        data: {
+          submissionType: "unsigned"
+        }
+      })
+      .then(function(submission) {
+        unsignedSubmission = submission;
+      }),
+      Fliplet.App.Submissions.create({
+        platform: 'ios',
+        data: {
+          submissionType: "enterprise"
+        }
+      })
+      .then(function(submission) {
+        enterpriseSubmission = submission;
+      })
+    ]);
+  })
+  .then(function() {
+    // Fliplet.Env.get('appId')
+    // Fliplet.Env.get('appName')
+    // Fliplet.Env.get('appSettings')
+
+    return Promise.all([
+      Fliplet.API.request({
+        cache: true,
+        url: 'v1/apps/' + Fliplet.Env.get('appId')
+      })
+      .then(function(result) {
+        appName = result.app.name;
+        appIcon = result.app.icon;
+        appSettings = result.app.settings;
+      }),
+      Fliplet.API.request({
+        cache: true,
+        url: 'v1/organizations/' + Fliplet.Env.get('organizationId')
+      })
+      .then(function(org) {
+        organisationName = org.name;
+      })
+    ]);
+  })
+  .then(function() {
+    return Fliplet.API.request({
+      method: 'GET',
+      url: 'v1/widget-instances/com.fliplet.push-notifications?appId=' + Fliplet.Env.get('appId')
     });
-});
+  }).then(function(response) {
+    if (response.widgetInstance.settings && response.widgetInstance.settings) {
+      notificationSettings = response.widgetInstance.settings;
+    } else {
+      notificationSettings = {};
+    }
+
+    init();
+  });
