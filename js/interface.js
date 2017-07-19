@@ -277,7 +277,7 @@ function requestBuild(origin, submission) {
 
       setTimeout(function() {
         $('.save-' + origin + '-request').removeClass('saved');
-      }, 4000);
+      }, 10000);
     }, function(err) {
       alert(err.responseJSON.message);
     });
