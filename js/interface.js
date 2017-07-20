@@ -97,6 +97,9 @@ function loadAppStoreData() {
       $('[name="' + name + '"]').val(appStoreSubmission.data[name]);
       return;
     }
+    if (name === "_fl-store-appDevPass" || name === "fl-store-appDevLogin") {
+      return;
+    }
 
     $('[name="' + name + '"]').val((typeof appStoreSubmission.data[name] !== "undefined") ? appStoreSubmission.data[name] : '');
   });
@@ -156,6 +159,10 @@ function loadEnterpriseData() {
       if (enterpriseSubmission.data[name]) {
         $(el).parents('.fileUpload').next('.image-name').find('small').html((typeof enterpriseSubmission.data[name] !== "undefined") ? enterpriseSubmission.data[name][0].name : '');
       }
+      return;
+    }
+
+    if (name === "_fl-ent-appDevPass" || name === "fl-ent-appDevLogin") {
       return;
     }
 
