@@ -104,7 +104,7 @@ function loadAppStoreData() {
     $('[name="' + name + '"]').val((typeof appStoreSubmission.data[name] !== "undefined") ? appStoreSubmission.data[name] : '');
   });
 
-  if (appName !== '' && appIcon && appSettings.splashScreen && (appSettings.screensToScreenshot && appSettings.screensToScreenshot.lenght)) {
+  if (appName !== '' && appIcon && appSettings.splashScreen && (appSettings.screensToScreenshot && appSettings.screensToScreenshot.length)) {
     if (appSettings.splashScreen.size && (appSettings.splashScreen.size[0] && appSettings.splashScreen.size[1]) < 2732) {
       $('.app-details-appStore .app-splash-screen').addClass('has-warning');
     }
@@ -124,7 +124,7 @@ function loadAppStoreData() {
     if (!appSettings.splashScreen) {
       $('.app-details-appStore .app-splash-screen').addClass('has-error');
     }
-    if (!appSettings.screensToScreenshot || !appSettings.screensToScreenshot.lenght) {
+    if (!appSettings.screensToScreenshot || !appSettings.screensToScreenshot.length) {
       $('.app-details-appStore .app-screenshots').addClass('has-error');
     }
   }
