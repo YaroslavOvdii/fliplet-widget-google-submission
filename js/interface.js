@@ -50,6 +50,13 @@ function loadAppStoreData() {
       return;
     }
 
+    if (name === "fl-store-privateKey") {
+      if (appStoreSubmission.data[name]) {
+        $(el).parents('.fileUpload').next('.image-name').find('small').html((typeof appStoreSubmission.data[name] !== "undefined") ? appStoreSubmission.data[name][0].name : '');
+      }
+      return;
+    }
+
     /* FEATURED GRAPHIC */
     if (name === "fl-store-featuredGraphic") {
       $(el).parents('.fileUpload').next('.image-name').find('small').html((typeof appStoreSubmission.data[name] !== "undefined") ? appStoreSubmission.data[name][0].name : '');
