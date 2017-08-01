@@ -566,16 +566,20 @@ function savePushData() {
 
   notificationSettings = data;
 
-  Fliplet.API.request({
-    method: 'PUT',
-    url: 'v1/widget-instances/com.fliplet.push-notifications?appId=' + Fliplet.Env.get('appId'),
-    data: notificationSettings
-  }).then(function() {
-    $('.save-push-progress').addClass('saved');
+  if (notificationSettings.gcn) {
+    Fliplet.API.request({
+      method: 'PUT',
+      url: 'v1/widget-instances/com.fliplet.push-notifications?appId=' + Fliplet.Env.get('appId'),
+      data: notificationSettings
+    }).then(function() {
+      $('.save-push-progress').addClass('saved');
 
-    setTimeout(function() {
-      $('.save-push-progress').removeClass('saved');
-    }, 4000);
+      setTimeout(function() {
+        $('.save-push-progress').removeClass('saved');
+      }, 4000);
+    });
+  } else {
+    alert('Changes weren\'t saved.\nPlease fill in the Bundle ID in the Google Play tab first. We also recommend filling in all other fields related to Push Notifications.');
   }
 }
 
