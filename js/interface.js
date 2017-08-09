@@ -562,11 +562,11 @@ function savePushData() {
     }
   });
 
-  data.gcn = !!((data.gcmSenderId && data.gcmSenderId !== '') && (data.gcmServerKey && data.gcmServerKey !== '') && (data.gcmPackageName && data.gcmPackageName !== ''));
+  data.gcm = !!((data.gcmSenderId && data.gcmSenderId !== '') && (data.gcmServerKey && data.gcmServerKey !== '') && (data.gcmPackageName && data.gcmPackageName !== ''));
 
   notificationSettings = data;
 
-  if (notificationSettings.gcn) {
+  if (notificationSettings.gcm) {
     Fliplet.API.request({
       method: 'PUT',
       url: 'v1/widget-instances/com.fliplet.push-notifications?appId=' + Fliplet.Env.get('appId'),
