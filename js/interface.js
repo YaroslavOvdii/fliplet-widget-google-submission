@@ -712,15 +712,15 @@ $('[data-change-assets]').on('click', function(event) {
 
 $('[name="fl-store-type"]').on('change', function() {
   if ($(this).val() === "Games") {
-    $('[for="fl-store-category-aplication"]').addClass('hidden');
-    $('[for="fl-store-category-aplication"]').find('select').prop('required', false);
+    $('[for="fl-store-category-application"]').addClass('hidden');
+    $('[for="fl-store-category-application"]').find('select').prop('required', false);
     $('[for="fl-store-category-games"]').removeClass('hidden');
     $('[for="fl-store-category-games"]').find('select').prop('required', true);
   } else {
     $('[for="fl-store-category-games"]').addClass('hidden');
     $('[for="fl-store-category-games"]').find('select').prop('required', false);
-    $('[for="fl-store-category-aplication"]').removeClass('hidden');
-    $('[for="fl-store-category-aplication"]').find('select').prop('required', true);
+    $('[for="fl-store-category-application"]').removeClass('hidden');
+    $('[for="fl-store-category-application"]').find('select').prop('required', true);
   }
 
 });
