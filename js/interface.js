@@ -649,7 +649,7 @@ $('[name="submissionType"]').on('change', function() {
   Fliplet.Widget.autosize();
 });
 
-$('.fl-sb-appStore [change-bundleid], .fl-sb-enterprise [change-bundleid], .fl-sb-unsigned [change-bundleid]').on('click', function() {
+$('.fl-sb-appStore [change-bundleid], .fl-sb-enterprise [change-bundleid], .fl-sb-fliplet-signed [change-bundleid]').on('click', function() {
   var changeBundleId = confirm("Are you sure you want to change the unique Bundle ID?");
 
   if (changeBundleId) {
