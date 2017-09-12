@@ -10,6 +10,8 @@ var enterpriseSubmission = {};
 var unsignedSubmission = {};
 var notificationSettings = {};
 var appInfo;
+var statusTableTemplate = $('#status-table-template').html();
+var $statusTableElement = $('.app-build-status-holder');
 
 /* FUNCTIONS */
 String.prototype.toCamelCase = function() {
@@ -817,10 +819,72 @@ $('[data-push-save]').on('click', function() {
 $('#appStoreConfiguration, #enterpriseConfiguration, #unsignedConfiguration').validator().off('change.bs.validator input.bs.validator change.bs.validator focusout.bs.validator');
 $('[name="submissionType"][value="appStore"]').prop('checked', true).trigger('change');
 
+function compileStatusTable(buildsData) {
+  var template = Handlebars.compile(statusTableTemplate);
+  var html = template(buildsData);
+
+  $statusTableElement.html(html);
+  Fliplet.Widget.autosize();
+}
+
+function checkSubmissionStatus(googleSubmissions) {
+  var submissionsToShow = _.filter(googleSubmissions, function(submission) {
+    return submission.status === "submitted" || submission.status === "processing" || submission.status === "completed" || submission.status === "failed";
+  });
+
+  var buildsData = [];
+  if (submissionsToShow.length) {
+    submissionsToShow.forEach(function(submission) {
+      var build = {};
+      var appBuildUrl = '';
+
+      if (submission.result.appBuild && submission.result.appBuild.files) {
+        appBuildUrl = _.find(submission.result.appBuild.files, function(file) {
+          var dotIndex = file.url.lastIndexOf('.');
+          var ext = file.url.substring(dotIndex);
+          if (ext === '.apk') {
+            return file.url;
+          }
+        });
+      }
+
+      switch (submission.status) {
+        case "submitted":
+          build.submitted = true;
+          break;
+        case "processing":
+          build.processing = true;
+          break;
+        case "completed":
+          build.completed = true;
+          break;
+        case "failed":
+          build.failed = true;
+          break;
+        default:
+          build.submitted = true;
+      }
+
+      build.id = submission.id;
+      build.updatedAt = submission.updatedAt;
+      build.result = {
+        buildJsonUrl: 'https://github.com/Fliplet/fliplet-ios-version-2/blob/' + submission.result.branchName,
+        fileUrl: appBuildUrl
+      };
+
+      buildsData.push(build);
+    });
+
+    compileStatusTable(buildsData);
+  }
+}
+
 function submissionChecker(submissions) {
   var asub = _.filter(submissions, function(submission) {
     return submission.data.submissionType === "appStore" && submission.platform === "android";
   });
+
+  checkSubmissionStatus(asub);
 
   asub = _.maxBy(asub, function(el) {
     return new Date(el.updatedAt).getTime();

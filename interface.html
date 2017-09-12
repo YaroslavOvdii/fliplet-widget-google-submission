@@ -70,6 +70,7 @@
                     <div class="help-block text-warning app-details-warning">This image is not the recommended size and may result in a low quality image.</div>
                   </div>
                 </div>
+                <!-- HIDDEN FOR NOW
                 <div class="form-group clearfix app-screenshots">
                   <div class="col-sm-4 control-label">
                     <label>Screenshots</label>
@@ -81,6 +82,7 @@
                     <div class="help-block text-danger app-details-error">Click the change button to select the screens</div>
                   </div>
                 </div>
+                -->
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
                     <label for="fl-store-bundleId">Bundle ID</label>
@@ -135,68 +137,7 @@
             </div>
           </div>
         </div>
-        <div class="app-build-status-holder">
-          <h4><small>App build status</small></h4>
-          <div class="app-build-status">
-            <table>
-              <tbody>
-                <tr>
-                  <td class="app-build-progress">
-                    <div class="app-build-progress-holder"><i class="fa fa-minus-circle"></i> Queued</div>
-                  </td>
-                  <td class="app-build-details">
-                    <div class="app-build-name">Preparing to build your app</div>
-                    <span><i class="fa fa-clock-o"></i> 11th Sep 2017, 10:23 am</span>
-                  </td>
-                  <td class="app-build-download">
-                    <div><i class="fa fa-code-fork"></i> build #246</div>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="app-build-progress info">
-                    <div class="app-build-progress-holder"><i class="fa fa-spinner fa-pulse fa-fw"></i> In progress</div>
-                  </td>
-                  <td class="app-build-details">
-                    <div class="app-build-name">Building your app</div>
-                    <span><i class="fa fa-clock-o"></i> 11th Sep 2017, 10:20 am</span>
-                  </td>
-                  <td class="app-build-download">
-                    <div><i class="fa fa-code-fork"></i> build #245</div>
-                    <div><a href="#"><i class="fa fa-info-circle"></i> More info</a></div>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="app-build-progress success">
-                    <div class="app-build-progress-holder"><i class="fa fa-check-circle"></i> Completed</div>
-                    <span>5 hours ago</span>
-                  </td>
-                  <td class="app-build-details">
-                    <div class="app-build-name">App successfully built <span class="btn btn-sm btn-default">Download app file</span></div>
-                    <span><i class="fa fa-clock-o"></i> 11th Sep 2017, 05:00 am</span>
-                  </td>
-                  <td class="app-build-download">
-                    <div><i class="fa fa-code-fork"></i> build #244</div>
-                    <div><a href="#"><i class="fa fa-info-circle"></i> More info</a></div>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="app-build-progress danger">
-                    <div class="app-build-progress-holder"><i class="fa fa-exclamation-circle"></i> Failed</div>
-                    <span><a href="#"><i class="fa fa-repeat"></i> Try again</a></span>
-                  </td>
-                  <td class="app-build-details">
-                    <div class="app-build-name">Building your app</div>
-                    <span><i class="fa fa-clock-o"></i> 11th Sep 2017, 02:01 am</span>
-                  </td>
-                  <td class="app-build-download">
-                    <div><i class="fa fa-code-fork"></i> build #243</div>
-                    <div><a href="#"><i class="fa fa-info-circle"></i> More info</a></div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+        <div class="app-build-status-holder"></div>
         <hr>
         <div class="clearfix">
           <div class="col-xs-5 save-btn-holder">
@@ -407,4 +348,52 @@
   </div>
 </div>
 
-</div>
+<script id="status-table-template" type="text/x-handlebars-template">
+  <h4><small>App build status</small></h4>
+  <div class="app-build-status">
+    <table>
+      <tbody>
+        \{{#each this}}
+        <tr>
+          \{{#if submitted}}
+          <td class="app-build-progress info">
+            <div class="app-build-progress-holder"><i class="fa fa-spinner fa-pulse fa-fw"></i> In progress</div>
+          </td>
+          <td class="app-build-details">
+            <div class="app-build-name">Building your app</div>
+          </td>
+          \{{/if}}
+          \{{#if processing}}
+          <td class="app-build-progress info">
+            <div class="app-build-progress-holder"><i class="fa fa-spinner fa-pulse fa-fw"></i> In progress</div>
+          </td>
+          <td class="app-build-details">
+            <div class="app-build-name">Building your app</div>
+          </td>
+          \{{/if}}
+          \{{#if completed}}
+          <td class="app-build-progress success">
+            <div class="app-build-progress-holder"><i class="fa fa-check-circle"></i> Completed</div>
+          </td>
+          <td class="app-build-details">
+            <div class="app-build-name">App successfully built <a href="\{{result.fileUrl}}" target="_blank" class="btn btn-sm btn-default">Download app file</a></div>
+          </td>
+          \{{/if}}
+          \{{#if failed}}
+          <td class="app-build-progress danger">
+            <div class="app-build-progress-holder"><i class="fa fa-exclamation-circle"></i> Failed</div>
+          </td>
+          <td class="app-build-details">
+            <div class="app-build-name">There was an error building your app</div>
+          </td>
+          \{{/if}}
+          <td class="app-build-download">
+            <div><i class="fa fa-code-fork"></i> build #\{{id}}</div>
+            <div><a href="\{{result.buildJsonUrl}}"><i class="fa fa-info-circle"></i> More info</a></div>
+          </td>
+        </tr>
+        \{{/each}}
+      </tbody>
+    </table>
+  </div>
+</script>
