@@ -321,19 +321,66 @@ h3 small {
   display: none;
 }
 
-.app-build-status h4 {
-  padding-bottom: 10px;
+.app-build-status {
+  border-radius: 6px;
+  border: 1px solid #efefef;
+  padding: 15px;
+  box-shadow: inset 0px 0px 6px rgba(51, 51, 51, 0.1);
+}
+
+.app-build-status .btn-sm {
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.app-build-status table {
+  width: 100%;
+  max-width: 100%;
+}
+
+.app-build-status table thead {
+  border-bottom: 2px solid #eeeeee;
+}
+
+.app-build-status table th {
+  padding: 10px;
+}
+
+.app-build-status table tr {
   border-bottom: 1px solid #eeeeee;
 }
 
-.app-build-status .app-build-progress {
-  float: left;
+.app-build-status table tr:last-child {
+  border-bottom: none;
+}
+
+.app-build-status table tbody td {
+  height: 60px;
+}
+
+.app-build-status .app-build-holder {
+  border-bottom: 1px solid #eeeeee;
+}
+
+.app-build-status .app-build-holder:last-child {
+  border-bottom: none;
+}
+
+.app-build-status table td.app-build-progress {
   text-align: right;
   width: 100px;
+  vertical-align: top;
   padding: 10px 0;
 }
 
-.app-build-status .app-build-progress span {
+.app-build-status table td.app-build-progress span {
+  font-size: 12px;
+  color: #b5b5b5;
+  margin-right: 5px;
+}
+
+.app-build-status table .app-build-progress .app-build-progress-holder {
   width: 100%;
   display: block;
   text-align: left;
@@ -341,42 +388,55 @@ h3 small {
   padding: 4px 8px;
   border-top-left-radius: 20px;
   border-bottom-left-radius: 20px;
+  background-color: #eeeeee;
+  color: #333333;
 }
 
-.app-build-progress.info span {
+.app-build-status table .app-build-progress.info .app-build-progress-holder {
   background-color: #00abd1;
   color: #fff;
 }
 
-.app-build-progress.success span {
+.app-build-status table .app-build-progress.success .app-build-progress-holder {
   background-color: #1db188;
   color: #fff;
 }
 
-.app-build-status .app-build-details {
-  float: left;
-  line-height: 4.2rem;
+.app-build-status table .app-build-progress.danger .app-build-progress-holder {
+  background-color: #E03629;
+  color: #fff;
+}
+
+.app-build-status table td.app-build-details {
+  vertical-align: top;
   padding: 10px;
   border-left: 1px solid #eeeeee;
+  font-weight: bold;
 }
 
-.app-build-status .app-build-details img {
-  width: 4.2rem;
-  height: 4.2rem;
-  border-radius: 21%;
-  float: left;
-  border: 1px solid #F0F0F0;
-  margin-right: 0.7rem;
+.app-build-status table td.app-build-details span:not(.btn) {
+  font-size: 12px;
+  font-weight: normal;
+  color: #636363;
+  margin-right: 5px;
 }
 
-.app-build-status .app-build-download {
-  float: right;
-  line-height: 4.2rem;
-  padding: 10px;
+.app-build-status table td.app-build-details span .fa {
+  color: #b5b5b5;
+}
+
+.app-build-status table .app-build-download {
+  width: 140px;
+}
+
+.app-build-status table td.app-build-download {
+  font-size: 12px;
+  font-weight: normal;
+  color: #636363;
   border-left: 1px solid #eeeeee;
+  padding-left: 10px;
 }
 
-.app-build-status .app-build-download .btn-sm {
-  padding: 5px 10px;
-  line-height: initial;
+.app-build-status table td.app-build-download .fa {
+  color: #b5b5b5;
 }
