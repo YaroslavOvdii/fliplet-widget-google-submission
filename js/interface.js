@@ -98,9 +98,6 @@ function loadAppStoreData() {
     if (appSettings.splashScreen && appSettings.splashScreen.size && (appSettings.splashScreen.size[0] && appSettings.splashScreen.size[1]) < 2732) {
       $('.app-details-appStore .app-splash-screen').addClass('has-warning');
     }
-    if (!appSettings.splashScreen) {
-      $('.app-details-appStore .app-splash-screen').addClass('has-error');
-    }
     if (!appSettings.screensToScreenshot || !appSettings.screensToScreenshot.length) {
       $('.app-details-appStore .app-screenshots').addClass('has-error');
     }
@@ -164,9 +161,6 @@ function loadEnterpriseData() {
     if (appSettings.splashScreen && appSettings.splashScreen.size && (appSettings.splashScreen.size[0] && appSettings.splashScreen.size[1]) < 2732) {
       $('.app-details-ent .app-splash-screen').addClass('has-warning');
     }
-    if (!appSettings.splashScreen) {
-      $('.app-details-ent .app-splash-screen').addClass('has-error');
-    }
   }
 }
 
@@ -217,9 +211,6 @@ function loadUnsignedData() {
     }
     if (appSettings.splashScreen && appSettings.splashScreen.size && (appSettings.splashScreen.size[0] && appSettings.splashScreen.size[1]) < 2732) {
       $('.app-details-uns .app-splash-screen').addClass('has-warning');
-    }
-    if (!appSettings.splashScreen) {
-      $('.app-details-uns .app-splash-screen').addClass('has-error');
     }
   }
 }
@@ -338,7 +329,11 @@ function requestBuild(origin, submission) {
     submission.data.screensToScreenshot = appSettings.screensToScreenshot;
   }
 
-  submission.data.splashScreen = appSettings.splashScreen;
+  var defaultSplashScreenData = {
+    "url": $('[data-' + origin.toLowerCase() + '-default-splash-url]').data(origin.toLowerCase() + '-default-splash-url')
+  };
+
+  submission.data.splashScreen = appSettings.splashScreen ? appSettings.splashScreen : defaultSplashScreenData;
   submission.data.appIcon = appIcon;
 
   Fliplet.App.Submissions.get()
