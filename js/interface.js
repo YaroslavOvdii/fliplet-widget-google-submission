@@ -821,8 +821,6 @@ $('#appStoreConfiguration, #enterpriseConfiguration, #unsignedConfiguration').va
 $('[name="submissionType"][value="appStore"]').prop('checked', true).trigger('change');
 
 function compileStatusTable(withData, buildsData) {
-  console.log(withData);
-  console.log(buildsData);
   if (withData) {
     var template = Handlebars.compile(statusTableTemplate);
     var html = template(buildsData);
