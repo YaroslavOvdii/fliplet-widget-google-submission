@@ -137,7 +137,9 @@
             </div>
           </div>
         </div>
-        <div class="app-build-status-holder"></div>
+        <div class="app-build-status-holder">
+          <!-- App Status Area -->
+        </div>
         <hr>
         <div class="clearfix">
           <div class="col-xs-5 save-btn-holder">
@@ -355,11 +357,21 @@
       <tbody>
         \{{#each this}}
         <tr>
+          \{{#if queued}}
+          <td class="app-build-progress">
+            <div class="app-build-progress-holder"><i class="fa fa-minus-circle"></i> Queued</div>
+          </td>
+          <td class="app-build-details">
+            \{{#if submittedAt}}<span><span class="icon"><i class="fa fa-clock-o"></i> Started on:</span> \{{submittedAt}}</span>\{{/if}}
+            <div class="app-build-name">Preparing to build your app</div>
+          </td>
+          \{{/if}}
           \{{#if submitted}}
           <td class="app-build-progress info">
             <div class="app-build-progress-holder"><i class="fa fa-spinner fa-pulse fa-fw"></i> In progress</div>
           </td>
           <td class="app-build-details">
+            \{{#if submittedAt}}<span><span class="icon"><i class="fa fa-clock-o"></i> Started on:</span> \{{submittedAt}}</span>\{{/if}}
             <div class="app-build-name">Building your app</div>
           </td>
           \{{/if}}
@@ -368,28 +380,32 @@
             <div class="app-build-progress-holder"><i class="fa fa-spinner fa-pulse fa-fw"></i> In progress</div>
           </td>
           <td class="app-build-details">
+            \{{#if submittedAt}}<span><span class="icon"><i class="fa fa-clock-o"></i> Started on:</span> \{{submittedAt}}</span>\{{/if}}
             <div class="app-build-name">Building your app</div>
           </td>
           \{{/if}}
           \{{#if completed}}
           <td class="app-build-progress success">
             <div class="app-build-progress-holder"><i class="fa fa-check-circle"></i> Completed</div>
+            \{{#if fileUrl}}<div class="download-build"><a href="\{{fileUrl}}"><i class="fa fa-download"></i> Download file</a></div>\{{/if}}
           </td>
           <td class="app-build-details">
-            <div class="app-build-name">App successfully built <a href="\{{result.fileUrl}}" target="_blank" class="btn btn-sm btn-default">Download app file</a></div>
+            \{{#if updatedAt}}<span><span class="icon"><i class="fa fa-flag-checkered"></i> Finished on:</span> \{{updatedAt}}</span>\{{/if}}
+            <div class="app-build-name">App successfully built</div>
           </td>
           \{{/if}}
           \{{#if failed}}
           <td class="app-build-progress danger">
             <div class="app-build-progress-holder"><i class="fa fa-exclamation-circle"></i> Failed</div>
+            <div class="retry-build"><a href="#" data-retry-id="\{{id}}"><i class="fa fa-repeat"></i> Try again</a></div>
           </td>
           <td class="app-build-details">
+            \{{#if updatedAt}}<span><span class="icon"><i class="fa fa-flag-checkered"></i> Finished on:</span> \{{updatedAt}}</span>\{{/if}}
             <div class="app-build-name">There was an error building your app</div>
           </td>
           \{{/if}}
           <td class="app-build-download">
-            <div><i class="fa fa-code-fork"></i> build #\{{id}}</div>
-            <div><a href="\{{result.buildJsonUrl}}"><i class="fa fa-info-circle"></i> More info</a></div>
+            <div><i class="fa fa-cog"></i> build #\{{id}}</div>
           </td>
         </tr>
         \{{/each}}
