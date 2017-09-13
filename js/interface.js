@@ -12,6 +12,7 @@ var notificationSettings = {};
 var appInfo;
 var statusTableTemplate = $('#status-table-template').html();
 var $statusTableElement = $('.app-build-status-holder');
+var initLoad;
 
 /* FUNCTIONS */
 String.prototype.toCamelCase = function() {
@@ -819,63 +820,55 @@ $('[data-push-save]').on('click', function() {
 $('#appStoreConfiguration, #enterpriseConfiguration, #unsignedConfiguration').validator().off('change.bs.validator input.bs.validator change.bs.validator focusout.bs.validator');
 $('[name="submissionType"][value="appStore"]').prop('checked', true).trigger('change');
 
-function compileStatusTable(buildsData) {
-  var template = Handlebars.compile(statusTableTemplate);
-  var html = template(buildsData);
+function compileStatusTable(withData, buildsData) {
+  console.log(withData);
+  console.log(buildsData);
+  if (withData) {
+    var template = Handlebars.compile(statusTableTemplate);
+    var html = template(buildsData);
 
-  $statusTableElement.html(html);
+    $statusTableElement.html(html);
+  } else {
+    $statusTableElement.html('');
+  }
+
   Fliplet.Widget.autosize();
 }
 
 function checkSubmissionStatus(googleSubmissions) {
   var submissionsToShow = _.filter(googleSubmissions, function(submission) {
-    return submission.status === "submitted" || submission.status === "processing" || submission.status === "completed" || submission.status === "failed";
+    return submission.status === "queued" || submission.status === "submitted" || submission.status === "processing" || submission.status === "completed" || submission.status === "failed";
   });
 
   var buildsData = [];
   if (submissionsToShow.length) {
     submissionsToShow.forEach(function(submission) {
       var build = {};
-      var appBuildUrl = '';
+      var appBuild;
 
       if (submission.result.appBuild && submission.result.appBuild.files) {
-        appBuildUrl = _.find(submission.result.appBuild.files, function(file) {
+        appBuild = _.find(submission.result.appBuild.files, function(file) {
           var dotIndex = file.url.lastIndexOf('.');
           var ext = file.url.substring(dotIndex);
           if (ext === '.apk') {
-            return file.url;
+            return true;
           }
         });
       }
 
-      switch (submission.status) {
-        case "submitted":
-          build.submitted = true;
-          break;
-        case "processing":
-          build.processing = true;
-          break;
-        case "completed":
-          build.completed = true;
-          break;
-        case "failed":
-          build.failed = true;
-          break;
-        default:
-          build.submitted = true;
-      }
-
       build.id = submission.id;
-      build.updatedAt = submission.updatedAt;
-      build.result = {
-        buildJsonUrl: 'https://github.com/Fliplet/fliplet-ios-version-2/blob/' + submission.result.branchName,
-        fileUrl: appBuildUrl
-      };
+      build.updatedAt = (submission.status === 'completed' || submission.status === 'failed') ?
+        moment(submission.updatedAt).format('MMM Do YYYY, h:mm:ss a') :
+        '';
+      build[submission.status] = true;
+      build.fileUrl = appBuild ? appBuild.url : '';
 
       buildsData.push(build);
     });
 
-    compileStatusTable(buildsData);
+    compileStatusTable(true, buildsData);
+  } else {
+    compileStatusTable(false);
   }
 }
 
@@ -944,78 +937,105 @@ function submissionChecker(submissions) {
   }
 }
 
-Fliplet.App.Submissions.get()
-  .then(function(submissions) {
-    if (!submissions.length) {
-      return Promise.all([
-        Fliplet.App.Submissions.create({
-          platform: 'android',
-          data: {
-            submissionType: "appStore"
-          }
-        })
-        .then(function(submission) {
-          appStoreSubmission = submission;
-        }),
-        Fliplet.App.Submissions.create({
-          platform: 'android',
-          data: {
-            submissionType: "unsigned"
-          }
-        })
-        .then(function(submission) {
-          unsignedSubmission = submission;
-        }),
-        Fliplet.App.Submissions.create({
-          platform: 'android',
-          data: {
-            submissionType: "enterprise"
-          }
-        })
-        .then(function(submission) {
-          enterpriseSubmission = submission;
-        })
-      ]);
-    }
-
-    submissionChecker(submissions);
-    return Promise.resolve();
-  })
-  .then(function() {
-    // Fliplet.Env.get('appId')
-    // Fliplet.Env.get('appName')
-    // Fliplet.Env.get('appSettings')
-
-    return Promise.all([
-      Fliplet.API.request({
-        cache: true,
-        url: 'v1/apps/' + Fliplet.Env.get('appId')
-      })
-      .then(function(result) {
-        appName = result.app.name;
-        appIcon = result.app.icon;
-        appSettings = result.app.settings;
-      }),
-      Fliplet.API.request({
-        cache: true,
-        url: 'v1/organizations/' + Fliplet.Env.get('organizationId')
-      })
-      .then(function(org) {
-        organizationName = org.name;
-      })
-    ]);
-  })
-  .then(function() {
-    return Fliplet.API.request({
-      method: 'GET',
-      url: 'v1/widget-instances/com.fliplet.push-notifications?appId=' + Fliplet.Env.get('appId')
-    });
-  }).then(function(response) {
-    if (response.widgetInstance.settings && response.widgetInstance.settings) {
-      notificationSettings = response.widgetInstance.settings;
-    } else {
-      notificationSettings = {};
-    }
-
-    init();
+function googleSubmissionChecker(submissions) {
+  var asub = _.filter(submissions, function(submission) {
+    return submission.data.submissionType === "appStore" && submission.platform === "android";
   });
+
+  checkSubmissionStatus(asub);
+}
+
+function getSubmissions() {
+  return Fliplet.App.Submissions.get();
+}
+
+function initialLoad(initial, timeout) {
+  if (!initial) {
+    initLoad = setTimeout(function() {
+      getSubmissions()
+        .then(function(submissions) {
+          googleSubmissionChecker(submissions);
+          initialLoad(false, 15000);
+        });
+    }, timeout);
+  } else {
+    getSubmissions()
+      .then(function(submissions) {
+        if (!submissions.length) {
+          return Promise.all([
+            Fliplet.App.Submissions.create({
+              platform: 'android',
+              data: {
+                submissionType: "appStore"
+              }
+            })
+            .then(function(submission) {
+              appStoreSubmission = submission;
+            }),
+            Fliplet.App.Submissions.create({
+              platform: 'android',
+              data: {
+                submissionType: "unsigned"
+              }
+            })
+            .then(function(submission) {
+              unsignedSubmission = submission;
+            }),
+            Fliplet.App.Submissions.create({
+              platform: 'android',
+              data: {
+                submissionType: "enterprise"
+              }
+            })
+            .then(function(submission) {
+              enterpriseSubmission = submission;
+            })
+          ]);
+        }
+        submissionChecker(submissions);
+        return Promise.resolve();
+      })
+      .then(function() {
+        // Fliplet.Env.get('appId')
+        // Fliplet.Env.get('appName')
+        // Fliplet.Env.get('appSettings')
+
+        return Promise.all([
+          Fliplet.API.request({
+            cache: true,
+            url: 'v1/apps/' + Fliplet.Env.get('appId')
+          })
+          .then(function(result) {
+            appName = result.app.name;
+            appIcon = result.app.icon;
+            appSettings = result.app.settings;
+          }),
+          Fliplet.API.request({
+            cache: true,
+            url: 'v1/organizations/' + Fliplet.Env.get('organizationId')
+          })
+          .then(function(org) {
+            organizationName = org.name;
+          })
+        ]);
+      })
+      .then(function() {
+        return Fliplet.API.request({
+          method: 'GET',
+          url: 'v1/widget-instances/com.fliplet.push-notifications?appId=' + Fliplet.Env.get('appId')
+        });
+      }).then(function(response) {
+        if (response.widgetInstance.settings && response.widgetInstance.settings) {
+          notificationSettings = response.widgetInstance.settings;
+        } else {
+          notificationSettings = {};
+        }
+
+        init();
+        initialLoad(false, 5000);
+      });
+  }
+}
+
+// Start
+initLoad = initialLoad(true, 0);
