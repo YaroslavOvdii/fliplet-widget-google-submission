@@ -25,6 +25,9 @@
   </ul>
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane fl-sb-appStore active" id="appstore-tab">
+      <div class="app-build-appstore-status-holder app-build-status-holder">
+        <!-- App Status Area -->
+      </div>
       <h3><small>Step 1 - Let us build your app</small></h3>
       <p>Complete this section to let us build your app.</p>
       <form data-disable="false" role="form" id="appStoreConfiguration">
@@ -135,9 +138,6 @@
             </div>
           </div>
         </div>
-        <div class="app-build-appstore-status-holder">
-          <!-- App Status Area -->
-        </div>
         <hr>
         <div class="clearfix">
           <div class="col-xs-5 save-btn-holder">
@@ -153,8 +153,8 @@
         </div>
       </form>
       <h3><small>Step 2 - Submit your app</small></h3>
-      <p>To submit (or update) your app to the Google Play you will need to login at <a href="https://play.google.com/apps/publish/" target="_blank">Google Play Console</a> with your account details.</p>
-      <p>Once logged in, if you are starting a new submission you need to click <strong>Create Application</strong>, or the <strong>app’s name</strong> if you are updating an existing submission.</p>
+      <p>To submit your app to the Google Play you will need to login at <a href="https://play.google.com/apps/publish/" target="_blank">Google Play Console</a> with your account details.</p>
+      <p>Once logged in, if you are starting a new submission you need to click <strong>Create Application</strong>.</p>
       <p>Next you should follow the following steps to create a release and access the app list forms:</p>
       <ol>
         <li>Click <strong>App release</strong> under <em>Release management</em> on the left side menu.</li>
@@ -164,6 +164,9 @@
       <p>Now you just need to follow the steps on by one in the Google Play Console website. If you get lost at any point, Google provides extensive documentation along the way and check our <a href="#" target="_blank">recommendations in our help articles</a>.</p>
     </div>
     <div role="tabpanel" class="tab-pane fl-sb-fliplet-signed" id="fliplet-signed-tab">
+      <div class="app-build-unsigned-status-holder app-build-status-holder">
+        <!-- App Status Area -->
+      </div>
       <p class="text-info">Signed apps can be installed onto devices by <a href="https://support.google.com/nexus/answer/7391672?hl=en-GB#download_from_other" target="_blank">following these instructions</a>. If you would like to resign this app with your own certificate,
         please review <a href="https://developer.android.com/studio/publish/app-signing.html" target="_blank">this Google Developer article</a>.</p>
       <form data-disable="false" role="form" id="unsignedConfiguration">
@@ -285,9 +288,6 @@
             </div>
           </div>
         </div>
-        <div class="app-build-unsigned-status-holder">
-          <!-- App Status Area -->
-        </div>
         <hr>
         <div class="col-xs-5 save-btn-holder">
           <p class="help-block"><small>Save your progress at any point.<br>You can come back and finish it.</small></p>
@@ -366,8 +366,7 @@
             \{{#if submittedAt}}<span><span class="icon"><i class="fa fa-clock-o"></i> Started on:</span> \{{submittedAt}}</span>\{{/if}}
             <div class="app-build-name">Preparing to build your app</div>
           </td>
-          \{{/if}}
-          \{{#if submitted}}
+          \{{/if}} \{{#if submitted}}
           <td class="app-build-progress info">
             <div class="app-build-progress-holder"><i class="fa fa-spinner fa-pulse fa-fw"></i> In progress</div>
           </td>
@@ -375,8 +374,7 @@
             \{{#if submittedAt}}<span><span class="icon"><i class="fa fa-clock-o"></i> Started on:</span> \{{submittedAt}}</span>\{{/if}}
             <div class="app-build-name">Building your app</div>
           </td>
-          \{{/if}}
-          \{{#if processing}}
+          \{{/if}} \{{#if processing}}
           <td class="app-build-progress info">
             <div class="app-build-progress-holder"><i class="fa fa-spinner fa-pulse fa-fw"></i> In progress</div>
           </td>
@@ -384,18 +382,17 @@
             \{{#if submittedAt}}<span><span class="icon"><i class="fa fa-clock-o"></i> Started on:</span> \{{submittedAt}}</span>\{{/if}}
             <div class="app-build-name">Building your app</div>
           </td>
-          \{{/if}}
-          \{{#if completed}}
+          \{{/if}} \{{#if completed}}
           <td class="app-build-progress success">
             <div class="app-build-progress-holder"><i class="fa fa-check-circle"></i> Completed</div>
-            \{{#if fileUrl}}<div class="download-build"><a href="\{{fileUrl}}"><i class="fa fa-download"></i> Download file</a></div>\{{/if}}
+            \{{#if fileUrl}}
+            <div class="download-build"><a href="\{{fileUrl}}"><i class="fa fa-download"></i> Download file</a></div>\{{/if}}
           </td>
           <td class="app-build-details">
             \{{#if updatedAt}}<span><span class="icon"><i class="fa fa-flag-checkered"></i> Finished on:</span> \{{updatedAt}}</span>\{{/if}}
             <div class="app-build-name">App successfully built</div>
           </td>
-          \{{/if}}
-          \{{#if failed}}
+          \{{/if}} \{{#if failed}}
           <td class="app-build-progress danger">
             <div class="app-build-progress-holder"><i class="fa fa-exclamation-circle"></i> Failed</div>
             <div class="retry-build"><a href="#" data-retry-id="\{{id}}"><i class="fa fa-repeat"></i> Try again</a></div>
