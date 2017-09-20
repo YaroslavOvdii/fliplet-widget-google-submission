@@ -186,6 +186,10 @@ function submissionBuild(appSubmission, origin) {
 
     $('.button-' + origin + '-request').html('Request App <i class="fa fa-paper-plane"></i>');
     $('.save-' + origin + '-request').addClass('saved').hide().fadeIn(250);
+
+    clearTimeout(initLoad);
+    initialLoad(false, 0);
+    
     Fliplet.Widget.autosize();
 
     setTimeout(function() {
