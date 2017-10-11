@@ -29,6 +29,28 @@ var createBundleID = function(orgName, appName) {
   });
 };
 
+function incrementVersionNumber(versionNumber) {
+  var splitNumber = versionNumber.split('.');
+  var arrLength = splitNumber.length;
+
+  while (arrLength--) {
+    if (splitNumber[arrLength] < 99) {
+      splitNumber[arrLength] = parseInt(splitNumber[arrLength], 10) + 1;
+      break;
+    }
+  }
+
+  return splitNumber.join('.');
+}
+
+function incrementVersionCode(versionNumber) {
+  var newVersionNumber = incrementVersionNumber(versionNumber);
+  var splitNumber = newVersionNumber.split('.');
+  var newVersionCode = splitNumber.join('') + '0';
+
+  return newVersionCode;
+}
+
 function loadAppStoreData() {
 
   $('#appStoreConfiguration [name]').each(function(i, el) {
@@ -78,6 +100,24 @@ function loadAppStoreData() {
     if (name === "fl-store-bundleId" && typeof appStoreSubmission.data[name] !== "undefined") {
       $('.bundleId-ast-text').html(appStoreSubmission.data[name]);
       $('[name="' + name + '"]').val(appStoreSubmission.data[name]);
+      return;
+    }
+    if (name === "fl-store-versionNumber") {
+      if (typeof appStoreSubmission.result !== 'undefined' && typeof appStoreSubmission.result.versionNumber !== 'undefined' && appStoreSubmission.result.versionNumber !== '') {
+        var newVersionNumber = incrementVersionNumber(appStoreSubmission.result.versionNumber);
+        $('[name="' + name + '"]').val(newVersionNumber);
+      } else {
+        $('[name="' + name + '"]').val('1.0.0');
+      }
+      return;
+    }
+    if (name === "fl-store-versionCode") {
+      if (typeof appStoreSubmission.result !== 'undefined' && typeof appStoreSubmission.result.versionCode !== 'undefined' && appStoreSubmission.result.versionCode !== '') {
+        var newVersionCode = incrementVersionCode(appStoreSubmission.result.versionNumber);
+        $('[name="' + name + '"]').val(newVersionCode);
+      } else {
+        $('[name="' + name + '"]').val('1000');
+      }
       return;
     }
 
@@ -131,6 +171,24 @@ function loadUnsignedData() {
     if (name === "fl-uns-notificationIcon") {
       if (unsignedSubmission.data[name]) {
         $(el).parents('.fileUpload').next('.image-name').find('small').html((typeof unsignedSubmission.data[name] !== "undefined") ? unsignedSubmission.data[name][0].name : '');
+      }
+      return;
+    }
+    if (name === "fl-uns-versionNumber") {
+      if (typeof unsignedSubmission.result !== 'undefined' && typeof unsignedSubmission.result.versionNumber !== 'undefined' && unsignedSubmission.result.versionNumber !== '') {
+        var newVersionNumber = incrementVersionNumber(unsignedSubmission.result.versionNumber);
+        $('[name="' + name + '"]').val(newVersionNumber);
+      } else {
+        $('[name="' + name + '"]').val('1.0.0');
+      }
+      return;
+    }
+    if (name === "fl-uns-versionCode") {
+      if (typeof unsignedSubmission.result !== 'undefined' && typeof unsignedSubmission.result.versionCode !== 'undefined' && unsignedSubmission.result.versionCode !== '') {
+        var newVersionCode = incrementVersionCode(unsignedSubmission.result.versionNumber);
+        $('[name="' + name + '"]').val(newVersionCode);
+      } else {
+        $('[name="' + name + '"]').val('1000');
       }
       return;
     }
