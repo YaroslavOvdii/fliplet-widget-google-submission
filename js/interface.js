@@ -29,6 +29,28 @@ var createBundleID = function(orgName, appName) {
   });
 };
 
+function incrementVersionNumber(versionNumber) {
+  var splitNumber = versionNumber.split('.');
+  var arrLength = splitNumber.length;
+
+  while (arrLength--) {
+    if (splitNumber[arrLength] < 99) {
+      splitNumber[arrLength] = parseInt(splitNumber[arrLength], 10) + 1;
+      break;
+    }
+  }
+
+  return splitNumber.join('.');
+}
+
+function incrementVersionCode(versionNumber) {
+  var newVersionNumber = incrementVersionNumber(versionNumber);
+  var splitNumber = newVersionNumber.split('.');
+  var newVersionCode = splitNumber.join('') + '0';
+
+  return newVersionCode;
+}
+
 function loadAppStoreData() {
 
   $('#appStoreConfiguration [name]').each(function(i, el) {
@@ -80,6 +102,24 @@ function loadAppStoreData() {
       $('[name="' + name + '"]').val(appStoreSubmission.data[name]);
       return;
     }
+    if (name === "fl-store-versionNumber") {
+      if (typeof appStoreSubmission.result !== 'undefined' && typeof appStoreSubmission.result.versionNumber !== 'undefined' && appStoreSubmission.result.versionNumber !== '') {
+        var newVersionNumber = incrementVersionNumber(appStoreSubmission.result.versionNumber);
+        $('[name="' + name + '"]').val(newVersionNumber);
+      } else {
+        $('[name="' + name + '"]').val('1.0.0');
+      }
+      return;
+    }
+    if (name === "fl-store-versionCode") {
+      if (typeof appStoreSubmission.result !== 'undefined' && typeof appStoreSubmission.result.versionCode !== 'undefined' && appStoreSubmission.result.versionCode !== '') {
+        var newVersionCode = incrementVersionCode(appStoreSubmission.result.versionNumber);
+        $('[name="' + name + '"]').val(newVersionCode);
+      } else {
+        $('[name="' + name + '"]').val('1000');
+      }
+      return;
+    }
 
     $('[name="' + name + '"]').val((typeof appStoreSubmission.data[name] !== "undefined") ? appStoreSubmission.data[name] : '');
   });
@@ -88,11 +128,14 @@ function loadAppStoreData() {
     if (appSettings.splashScreen && appSettings.splashScreen.size && (appSettings.splashScreen.size[0] && appSettings.splashScreen.size[1]) < 2732) {
       $('.app-details-appStore .app-splash-screen').addClass('has-warning');
     }
+    if (appSettings.iconData && appSettings.iconData.size && (appSettings.iconData.size[0] && appSettings.iconData.size[1]) < 1024) {
+      $('.app-details-appStore .app-icon-name').addClass('has-error');
+    }
     allAppData.push('appStore');
   } else {
     $('.app-details-appStore').addClass('required-fill');
 
-    if (!appIcon) {
+    if (!appIcon || !appSettings.iconData || !appSettings.iconData.size || (appSettings.iconData.size[0] && appSettings.iconData.size[1]) < 1024) {
       $('.app-details-appStore .app-icon-name').addClass('has-error');
     }
     if (appSettings.splashScreen && appSettings.splashScreen.size && (appSettings.splashScreen.size[0] && appSettings.splashScreen.size[1]) < 2732) {
@@ -134,6 +177,24 @@ function loadUnsignedData() {
       }
       return;
     }
+    if (name === "fl-uns-versionNumber") {
+      if (typeof unsignedSubmission.result !== 'undefined' && typeof unsignedSubmission.result.versionNumber !== 'undefined' && unsignedSubmission.result.versionNumber !== '') {
+        var newVersionNumber = incrementVersionNumber(unsignedSubmission.result.versionNumber);
+        $('[name="' + name + '"]').val(newVersionNumber);
+      } else {
+        $('[name="' + name + '"]').val('1.0.0');
+      }
+      return;
+    }
+    if (name === "fl-uns-versionCode") {
+      if (typeof unsignedSubmission.result !== 'undefined' && typeof unsignedSubmission.result.versionCode !== 'undefined' && unsignedSubmission.result.versionCode !== '') {
+        var newVersionCode = incrementVersionCode(unsignedSubmission.result.versionNumber);
+        $('[name="' + name + '"]').val(newVersionCode);
+      } else {
+        $('[name="' + name + '"]').val('1000');
+      }
+      return;
+    }
 
     $('[name="' + name + '"]').val((typeof unsignedSubmission.data[name] !== "undefined") ? unsignedSubmission.data[name] : '');
   });
@@ -142,11 +203,14 @@ function loadUnsignedData() {
     if (appSettings.splashScreen.size && (appSettings.splashScreen.size[0] && appSettings.splashScreen.size[1]) < 2732) {
       $('.app-details-uns .app-splash-screen').addClass('has-warning');
     }
+    if (appSettings.iconData && appSettings.iconData.size && (appSettings.iconData.size[0] && appSettings.iconData.size[1]) < 1024) {
+      $('.app-details-uns .app-icon-name').addClass('has-error');
+    }
     allAppData.push('unsigned');
   } else {
     $('.app-details-uns').addClass('required-fill');
 
-    if (!appIcon) {
+    if (!appIcon || !appSettings.iconData || !appSettings.iconData.size || (appSettings.iconData.size[0] && appSettings.iconData.size[1]) < 1024) {
       $('.app-details-uns .app-icon-name').addClass('has-error');
     }
     if (appSettings.splashScreen && appSettings.splashScreen.size && (appSettings.splashScreen.size[0] && appSettings.splashScreen.size[1]) < 2732) {
