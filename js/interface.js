@@ -107,16 +107,16 @@ function loadAppStoreData() {
         var newVersionNumber = incrementVersionNumber(appStoreSubmission.result.versionNumber);
         $('[name="' + name + '"]').val(newVersionNumber);
       } else {
-        $('[name="' + name + '"]').val('1.0.0');
+        $('[name="' + name + '"]').val(appStoreSubmission.data['fl-store-versionNumber'] || '1.0.0');
       }
       return;
     }
     if (name === "fl-store-versionCode") {
       if (typeof appStoreSubmission.result !== 'undefined' && typeof appStoreSubmission.result.versionCode !== 'undefined' && appStoreSubmission.result.versionCode !== '') {
-        var newVersionCode = incrementVersionCode(appStoreSubmission.result.versionNumber);
+        var newVersionCode = incrementVersionCode(appStoreSubmission.result.versionCode);
         $('[name="' + name + '"]').val(newVersionCode);
       } else {
-        $('[name="' + name + '"]').val('1000');
+        $('[name="' + name + '"]').val(appStoreSubmission.data['fl-store-versionCode'] || '1000');
       }
       return;
     }
