@@ -723,6 +723,19 @@ $('[data-push-save]').on('click', function() {
   savePushData();
 });
 
+$(document).on('click', '[data-cancel-build-id]', function() {
+  var buildId = $(this).data('cancel-build-id');
+
+  Fliplet.API.request({
+    method: 'DELETE',
+    url: 'v1/apps/' + Fliplet.Env.get('appId') + '/submissions/' + buildId
+  })
+  .then(function() {
+    clearTimeout(initLoad);
+    initialLoad(false, 0);
+  })
+});
+
 /* INIT */
 $('#appStoreConfiguration, #unsignedConfiguration').validator().off('change.bs.validator input.bs.validator change.bs.validator focusout.bs.validator');
 $('[name="submissionType"][value="appStore"]').prop('checked', true).trigger('change');
