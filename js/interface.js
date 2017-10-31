@@ -776,8 +776,8 @@ function checkSubmissionStatus(origin, googleSubmissions) {
 
       if (submission.result.appBuild && submission.result.appBuild.files) {
         appBuild = _.find(submission.result.appBuild.files, function(file) {
-          var dotIndex = file.url.lastIndexOf('.');
-          var ext = file.url.substring(dotIndex);
+          var dotIndex = file.path.lastIndexOf('.');
+          var ext = file.path.substring(dotIndex);
           if (ext === '.apk') {
             return true;
           }
