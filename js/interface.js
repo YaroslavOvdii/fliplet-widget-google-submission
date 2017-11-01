@@ -6,12 +6,12 @@ var appIcon = '';
 var appSettings = {};
 var allAppData = [];
 var appStoreSubmission = {};
-var unsignedSubmission = {};
+var enterpriseSubmission = {};
 var notificationSettings = {};
 var appInfo;
 var statusTableTemplate = $('#status-table-template').html();
 var $statusAppStoreTableElement = $('.app-build-appstore-status-holder');
-var $statusUnsignedTableElement = $('.app-build-unsigned-status-holder');
+var $statusEnterpriseTableElement = $('.app-build-enterprise-status-holder');
 var initLoad;
 
 /* FUNCTIONS */
@@ -147,48 +147,48 @@ function loadAppStoreData() {
   }
 }
 
-function loadUnsignedData() {
+function loadEnterpriseData() {
 
-  $('#unsignedConfiguration [name]').each(function(i, el) {
+  $('#enterpriseConfiguration [name]').each(function(i, el) {
     var name = $(el).attr("name");
 
     /* ADD BUNDLE ID */
-    if (name === "fl-uns-bundleId" && typeof unsignedSubmission.data[name] === "undefined") {
+    if (name === "fl-ent-bundleId" && typeof enterpriseSubmission.data[name] === "undefined") {
       createBundleID(organizationName.toCamelCase(), appName.toCamelCase()).then(function(response) {
         if (response.resultCount === 0) {
-          $('.bundleId-uns-text').html('com.' + organizationName.toCamelCase() + '.' + appName.toCamelCase());
+          $('.bundleId-ent-text').html('com.' + organizationName.toCamelCase() + '.' + appName.toCamelCase());
           $('[name="' + name + '"]').val('com.' + organizationName.toCamelCase() + '.' + appName.toCamelCase());
         } else {
-          $('.bundleId-uns-text').html('com.' + organizationName.toCamelCase() + '.' + appName.toCamelCase() + (response.resultCount + 1));
+          $('.bundleId-ent-text').html('com.' + organizationName.toCamelCase() + '.' + appName.toCamelCase() + (response.resultCount + 1));
           $('[name="' + name + '"]').val('com.' + organizationName.toCamelCase() + '.' + appName.toCamelCase() + (response.resultCount + 1));
         }
       });
       return;
     }
-    if (name === "fl-uns-bundleId" && typeof unsignedSubmission.data[name] !== "undefined") {
-      $('.bundleId-uns-text').html(unsignedSubmission.data[name]);
-      $('[name="' + name + '"]').val(unsignedSubmission.data[name]);
+    if (name === "fl-ent-bundleId" && typeof enterpriseSubmission.data[name] !== "undefined") {
+      $('.bundleId-ent-text').html(enterpriseSubmission.data[name]);
+      $('[name="' + name + '"]').val(enterpriseSubmission.data[name]);
       return;
     }
     /* NOTIFICATION ICON */
-    if (name === "fl-uns-notificationIcon") {
-      if (unsignedSubmission.data[name]) {
-        $(el).parents('.fileUpload').next('.image-name').find('small').html((typeof unsignedSubmission.data[name] !== "undefined") ? unsignedSubmission.data[name][0].name : '');
+    if (name === "fl-ent-notificationIcon") {
+      if (enterpriseSubmission.data[name]) {
+        $(el).parents('.fileUpload').next('.image-name').find('small').html((typeof enterpriseSubmission.data[name] !== "undefined") ? enterpriseSubmission.data[name][0].name : '');
       }
       return;
     }
-    if (name === "fl-uns-versionNumber") {
-      if (typeof unsignedSubmission.result !== 'undefined' && typeof unsignedSubmission.result.versionNumber !== 'undefined' && unsignedSubmission.result.versionNumber !== '') {
-        var newVersionNumber = incrementVersionNumber(unsignedSubmission.result.versionNumber);
+    if (name === "fl-ent-versionNumber") {
+      if (typeof enterpriseSubmission.result !== 'undefined' && typeof enterpriseSubmission.result.versionNumber !== 'undefined' && enterpriseSubmission.result.versionNumber !== '') {
+        var newVersionNumber = incrementVersionNumber(enterpriseSubmission.result.versionNumber);
         $('[name="' + name + '"]').val(newVersionNumber);
       } else {
         $('[name="' + name + '"]').val('1.0.0');
       }
       return;
     }
-    if (name === "fl-uns-versionCode") {
-      if (typeof unsignedSubmission.result !== 'undefined' && typeof unsignedSubmission.result.versionCode !== 'undefined' && unsignedSubmission.result.versionCode !== '') {
-        var newVersionCode = incrementVersionCode(unsignedSubmission.result.versionNumber);
+    if (name === "fl-ent-versionCode") {
+      if (typeof enterpriseSubmission.result !== 'undefined' && typeof enterpriseSubmission.result.versionCode !== 'undefined' && enterpriseSubmission.result.versionCode !== '') {
+        var newVersionCode = incrementVersionCode(enterpriseSubmission.result.versionNumber);
         $('[name="' + name + '"]').val(newVersionCode);
       } else {
         $('[name="' + name + '"]').val('1000');
@@ -196,25 +196,25 @@ function loadUnsignedData() {
       return;
     }
 
-    $('[name="' + name + '"]').val((typeof unsignedSubmission.data[name] !== "undefined") ? unsignedSubmission.data[name] : '');
+    $('[name="' + name + '"]').val((typeof enterpriseSubmission.data[name] !== "undefined") ? enterpriseSubmission.data[name] : '');
   });
 
   if (appIcon) {
     if (appSettings.splashScreen && appSettings.splashScreen.size && (appSettings.splashScreen.size[0] && appSettings.splashScreen.size[1]) < 2732) {
-      $('.app-details-uns .app-splash-screen').addClass('has-warning');
+      $('.app-details-ent .app-splash-screen').addClass('has-warning');
     }
     // if (appSettings.iconData && appSettings.iconData.size && (appSettings.iconData.size[0] && appSettings.iconData.size[1]) < 1024) {
-    //   $('.app-details-uns .app-icon-name').addClass('has-error');
+    //   $('.app-details-ent .app-icon-name').addClass('has-error');
     // }
-    allAppData.push('unsigned');
+    allAppData.push('enterprise');
   } else {
-    $('.app-details-uns').addClass('required-fill');
+    $('.app-details-ent').addClass('required-fill');
 
     if (!appIcon) {
-      $('.app-details-uns .app-icon-name').addClass('has-error');
+      $('.app-details-ent .app-icon-name').addClass('has-error');
     }
     if (appSettings.splashScreen && appSettings.splashScreen.size && (appSettings.splashScreen.size[0] && appSettings.splashScreen.size[1]) < 2732) {
-      $('.app-details-uns .app-splash-screen').addClass('has-warning');
+      $('.app-details-ent .app-splash-screen').addClass('has-warning');
     }
   }
 }
@@ -242,8 +242,8 @@ function submissionBuild(appSubmission, origin) {
       appStoreSubmission = builtSubmission.submission;
     }
 
-    if (origin === "unsigned") {
-      unsignedSubmission = builtSubmission.submission;
+    if (origin === "enterprise") {
+      enterpriseSubmission = builtSubmission.submission;
     }
 
     Fliplet.Studio.emit('refresh-app-submissions');
@@ -290,8 +290,8 @@ function save(origin, submission) {
             if (origin === "appStore") {
               appStoreSubmission = newSubmission;
             }
-            if (origin === "unsigned") {
-              unsignedSubmission = newSubmission;
+            if (origin === "enterprise") {
+              enterpriseSubmission = newSubmission;
             }
 
             Fliplet.App.Submissions.update(newSubmission.id, newSubmission.data).then(function() {
@@ -360,8 +360,8 @@ function requestBuild(origin, submission) {
             if (origin === "appStore") {
               appStoreSubmission = newSubmission;
             }
-            if (origin === "unsigned") {
-              unsignedSubmission = newSubmission;
+            if (origin === "enterprise") {
+              enterpriseSubmission = newSubmission;
             }
 
             submissionBuild(newSubmission, origin);
@@ -429,11 +429,11 @@ function saveAppStoreData(request) {
   });
 }
 
-function saveUnsignedData(request) {
-  var data = unsignedSubmission.data;
+function saveEnterpriseData(request) {
+  var data = enterpriseSubmission.data;
   var uploadFilePromise = Promise.resolve();
 
-  $('#unsignedConfiguration [name]').each(function(idx, el) {
+  $('#enterpriseConfiguration [name]').each(function(idx, el) {
     var name = $(el).attr("name");
     var value = $(el).val();
 
@@ -461,12 +461,12 @@ function saveUnsignedData(request) {
   });
 
   uploadFilePromise.then(function() {
-    unsignedSubmission.data = data;
+    enterpriseSubmission.data = data;
 
     if (request) {
-      requestBuild('unsigned', unsignedSubmission);
+      requestBuild('enterprise', enterpriseSubmission);
     } else {
-      save('unsigned', unsignedSubmission);
+      save('enterprise', enterpriseSubmission);
     }
   });
 }
@@ -533,7 +533,7 @@ function init() {
   }
 
   loadAppStoreData();
-  loadUnsignedData();
+  loadEnterpriseData();
   loadPushNotesData();
   Fliplet.Widget.autosize();
 }
@@ -548,7 +548,7 @@ function checkGroupErrors() {
     var withError = $(el).find('.has-error').length;
 
     if (withError === 0) {
-      $(el).not('.app-details-appStore, .app-details-ent, .app-details-uns').removeClass('required-fill');
+      $(el).not('.app-details-appStore, .app-details-ent, .app-details-ent').removeClass('required-fill');
     }
   });
 }
@@ -639,7 +639,7 @@ $('[name="fl-store-type"]').on('change', function() {
 
 });
 
-$('#appStoreConfiguration, #unsignedConfiguration').on('validated.bs.validator', function() {
+$('#appStoreConfiguration, #enterpriseConfiguration').on('validated.bs.validator', function() {
   checkGroupErrors();
   Fliplet.Widget.autosize();
 });
@@ -678,7 +678,7 @@ $('#appStoreConfiguration').validator().on('submit', function(event) {
   setTimeout(checkGroupErrors, 0);
 });
 
-$('#unsignedConfiguration').validator().on('submit', function(event) {
+$('#enterpriseConfiguration').validator().on('submit', function(event) {
   if (event.isDefaultPrevented()) {
     // Gives time to Validator to apply classes
     setTimeout(checkGroupErrors, 0);
@@ -689,17 +689,17 @@ $('#unsignedConfiguration').validator().on('submit', function(event) {
   event.preventDefault();
 
   if (appInfo && appInfo.productionAppId) {
-    if (allAppData.indexOf('unsigned') > -1) {
+    if (allAppData.indexOf('enterprise') > -1) {
       var requestAppConfirm;
 
-      if (unsignedSubmission.status === "started") {
+      if (enterpriseSubmission.status === "started") {
         requestAppConfirm = confirm("Are you sure you wish to request your app to be published?");
       } else {
         requestAppConfirm = confirm("Are you sure you wish to update your published app?");
       }
 
       if (requestAppConfirm) {
-        saveUnsignedData(true);
+        saveEnterpriseData(true);
       }
     } else {
       alert('Please configure your App Settings to contain the required information.');
@@ -716,8 +716,8 @@ $('#unsignedConfiguration').validator().on('submit', function(event) {
 $('[data-app-store-save]').on('click', function() {
   saveAppStoreData();
 });
-$('[data-unsigned-save]').on('click', function() {
-  saveUnsignedData();
+$('[data-enterprise-save]').on('click', function() {
+  saveEnterpriseData();
 });
 $('[data-push-save]').on('click', function() {
   savePushData();
@@ -737,7 +737,7 @@ $(document).on('click', '[data-cancel-build-id]', function() {
 });
 
 /* INIT */
-$('#appStoreConfiguration, #unsignedConfiguration').validator().off('change.bs.validator input.bs.validator change.bs.validator focusout.bs.validator');
+$('#appStoreConfiguration, #enterpriseConfiguration').validator().off('change.bs.validator input.bs.validator change.bs.validator focusout.bs.validator');
 $('[name="submissionType"][value="appStore"]').prop('checked', true).trigger('change');
 
 function compileStatusTable(withData, origin, buildsData) {
@@ -748,15 +748,15 @@ function compileStatusTable(withData, origin, buildsData) {
     if (origin === "appStore") {
       $statusAppStoreTableElement.html(html);
     }
-    if (origin === "unsigned") {
-      $statusUnsignedTableElement.html(html);
+    if (origin === "enterprise") {
+      $statusEnterpriseTableElement.html(html);
     }
   } else {
     if (origin === "appStore") {
       $statusAppStoreTableElement.html('');
     }
-    if (origin === "unsigned") {
-      $statusUnsignedTableElement.html('');
+    if (origin === "enterprise") {
+      $statusEnterpriseTableElement.html('');
     }
   }
 
@@ -815,16 +815,16 @@ function submissionChecker(submissions) {
   });
   appStoreSubmission = asub;
 
-  var usub = _.filter(submissions, function(submission) {
-    return submission.data.submissionType === "unsigned" && submission.platform === "android";
+  var esub = _.filter(submissions, function(submission) {
+    return submission.data.submissionType === "enterprise" && submission.platform === "android";
   });
 
-  checkSubmissionStatus("unsigned", usub);
+  checkSubmissionStatus("enterprise", esub);
 
-  usub = _.maxBy(usub, function(el) {
+  esub = _.maxBy(esub, function(el) {
     return new Date(el.updatedAt).getTime();
   });
-  unsignedSubmission = usub;
+  enterpriseSubmission = esub;
 
   if (_.isEmpty(appStoreSubmission)) {
     Fliplet.App.Submissions.create({
@@ -838,15 +838,15 @@ function submissionChecker(submissions) {
       });
   }
 
-  if (_.isEmpty(unsignedSubmission)) {
+  if (_.isEmpty(enterpriseSubmission)) {
     Fliplet.App.Submissions.create({
         platform: 'android',
         data: {
-          submissionType: "unsigned"
+          submissionType: "enterprise"
         }
       })
       .then(function(submission) {
-        unsignedSubmission = submission;
+        enterpriseSubmission = submission;
       });
   }
 }
@@ -856,12 +856,12 @@ function googleSubmissionChecker(submissions) {
     return submission.data.submissionType === "appStore" && submission.platform === "android";
   });
 
-  var usub = _.filter(submissions, function(submission) {
-    return submission.data.submissionType === "unsigned" && submission.platform === "android";
+  var esub = _.filter(submissions, function(submission) {
+    return submission.data.submissionType === "enterprise" && submission.platform === "android";
   });
 
   checkSubmissionStatus("appStore", asub);
-  checkSubmissionStatus("unsigned", usub);
+  checkSubmissionStatus("enterprise", esub);
 }
 
 function getSubmissions() {
@@ -894,11 +894,11 @@ function initialLoad(initial, timeout) {
             Fliplet.App.Submissions.create({
               platform: 'android',
               data: {
-                submissionType: "unsigned"
+                submissionType: "enterprise"
               }
             })
             .then(function(submission) {
-              unsignedSubmission = submission;
+              enterpriseSubmission = submission;
             }),
           ]);
         }

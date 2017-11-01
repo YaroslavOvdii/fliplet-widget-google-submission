@@ -186,18 +186,18 @@
       <p>Now you just need to follow the steps on by one in the Google Play Console website. If you get lost at any point, Google provides extensive documentation along the way and check our <a href="https://help.fliplet.com/article/86-our-tips-to-submitting-your-app-to-google-play-store-successfully" target="_blank">recommendations in our help articles</a>.</p>
     </div>
     <div role="tabpanel" class="tab-pane fl-sb-fliplet-signed" id="fliplet-signed-tab">
-      <div class="app-build-unsigned-status-holder app-build-status-holder">
+      <div class="app-build-enterprise-status-holder app-build-status-holder">
         <!-- App Status Area -->
       </div>
       <p class="text-info">Signed apps can be installed onto devices by <a href="https://support.google.com/nexus/answer/7391672?hl=en-GB#download_from_other" target="_blank">following these instructions</a>. If you would like to resign this app with your own certificate,
         please review <a href="https://developer.android.com/studio/publish/app-signing.html" target="_blank">this Google Developer article</a>.</p>
-      <form data-disable="false" role="form" id="unsignedConfiguration">
-        <div class="panel-group" id="accordionUnsigned" role="tablist" aria-multiselectable="true">
-          <div class="panel panel-default app-details-uns">
-            <div class="panel-heading" role="tab" id="unsignedSettingsHeading">
-              <h4 class="panel-title collapsed" role="button" data-toggle="collapse" data-parent="#accordionUnsigned" href="#unsignedSettings" aria-expanded="true" aria-controls="unsignedSettings"><strong>1 -</strong> App details <small>(Required)</small> <i class="fa fa-angle-down" aria-hidden="true"></i></h4>
+      <form data-disable="false" role="form" id="enterpriseConfiguration">
+        <div class="panel-group" id="accordionEnterprise" role="tablist" aria-multiselectable="true">
+          <div class="panel panel-default app-details-ent">
+            <div class="panel-heading" role="tab" id="enterpriseSettingsHeading">
+              <h4 class="panel-title collapsed" role="button" data-toggle="collapse" data-parent="#accordionEnterprise" href="#enterpriseSettings" aria-expanded="true" aria-controls="enterpriseSettings"><strong>1 -</strong> App details <small>(Required)</small> <i class="fa fa-angle-down" aria-hidden="true"></i></h4>
             </div>
-            <div id="unsignedSettings" class="panel-collapse collapse" role="tabpanel" aria-labelledby="unsignedSettingsHeading">
+            <div id="enterpriseSettings" class="panel-collapse collapse" role="tabpanel" aria-labelledby="enterpriseSettingsHeading">
               <div class="panel-body">
                 <p style="margin-bottom: 25px;"><strong>Go to the <a href="#" class="redirectToSettings">App settings</a> page to change these fields. They are all required.</strong></p>
                 <div class="form-group clearfix app-icon-name">
@@ -219,7 +219,7 @@
                   </div>
                   <div class="col-sm-8">
                     <div class="setting-splash-screen userUploaded hidden" style="background-image: url();"></div>
-                    <div class="setting-splash-screen default" data-unsigned-default-splash-url="{{ asset 'img/splash-screen.png' }}" style="background-image: url({{ asset 'img/splash-screen.png' }});"></div>
+                    <div class="setting-splash-screen default" data-enterprise-default-splash-url="{{ asset 'img/splash-screen.png' }}" style="background-image: url({{ asset 'img/splash-screen.png' }});"></div>
                     <div class="help-block text-danger app-details-error">Upload a 1024 × 1024 pixels image. Click the change button to upload a new app icon.</div>
                     <div class="help-block text-warning app-details-warning">This image is not the recommended size and may result in a low quality image.</div>
                   </div>
@@ -228,18 +228,18 @@
             </div>
           </div>
           <div class="panel panel-default">
-            <div class="panel-heading" role="tab" id="unsignedGeneralHeading">
-              <h4 class="panel-title collapsed" role="button" data-toggle="collapse" data-parent="#accordionUnsigned" href="#unsignedGeneral" aria-expanded="true" aria-controls="unsignedGeneral"><strong>2 -</strong> App listing details <small>(Required)</small> <i class="fa fa-angle-down" aria-hidden="true"></i></h4>
+            <div class="panel-heading" role="tab" id="enterpriseGeneralHeading">
+              <h4 class="panel-title collapsed" role="button" data-toggle="collapse" data-parent="#accordionEnterprise" href="#enterpriseGeneral" aria-expanded="true" aria-controls="enterpriseGeneral"><strong>2 -</strong> App listing details <small>(Required)</small> <i class="fa fa-angle-down" aria-hidden="true"></i></h4>
             </div>
-            <div id="unsignedGeneral" class="panel-collapse collapse" role="tabpanel" aria-labelledby="unsignedGeneralHeading">
+            <div id="enterpriseGeneral" class="panel-collapse collapse" role="tabpanel" aria-labelledby="enterpriseGeneralHeading">
               <div class="panel-body">
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
-                    <label for="fl-uns-iconName">App icon name</label>
+                    <label for="fl-ent-iconName">App icon name</label>
                     <p class="help-block label-helper"><small>The name below the icon on the home screen.</small></p>
                   </div>
                   <div class="col-sm-8">
-                    <input type="text" name="fl-uns-iconName" class="form-control" id="fl-uns-iconName" maxlength="13" data-error="Please enter an app icon name" required/>
+                    <input type="text" name="fl-ent-iconName" class="form-control" id="fl-ent-iconName" maxlength="13" data-error="Please enter an app icon name" required/>
                     <div class="help-block with-errors"></div>
                     <p class="help-block"><small>The length of your app icon name is limited to 13 characters</small></p>
                   </div>
@@ -248,10 +248,10 @@
             </div>
           </div>
           <div class="panel panel-default">
-            <div class="panel-heading" role="tab" id="unsignedPushHeading">
-              <h4 class="panel-title collapsed" role="button" data-toggle="collapse" data-parent="#accordionUnsigned" href="#unsignedPush" aria-expanded="true" aria-controls="unsignedPush"><strong>3 -</strong> Push notification assets <small>(Optional)</small> <i class="fa fa-angle-down" aria-hidden="true"></i></h4>
+            <div class="panel-heading" role="tab" id="enterprisePushHeading">
+              <h4 class="panel-title collapsed" role="button" data-toggle="collapse" data-parent="#accordionEnterprise" href="#enterprisePush" aria-expanded="true" aria-controls="enterprisePush"><strong>3 -</strong> Push notification assets <small>(Optional)</small> <i class="fa fa-angle-down" aria-hidden="true"></i></h4>
             </div>
-            <div id="unsignedPush" class="panel-collapse collapse" role="tabpanel" aria-labelledby="unsignedPushHeading">
+            <div id="enterprisePush" class="panel-collapse collapse" role="tabpanel" aria-labelledby="enterprisePushHeading">
               <div class="panel-body">
                 <p>If you want to enable push notifications on your app, we recommend you upload the notification icon, doing it at a later stage will require a new submission.</p>
                 <div class="form-group clearfix">
@@ -260,10 +260,10 @@
                     <p class="help-block label-helper"><small>This will be the icon users will see when they receive a notification from your app<br><strong>The image should be 512x512</strong></small></p>
                   </div>
                   <div class="col-sm-8">
-                    <label for="fl-uns-notificationIcon" class="fileUpload btn btn-primary">
+                    <label for="fl-ent-notificationIcon" class="fileUpload btn btn-primary">
                       <i class="fa fa-plus"></i>
                       <span>Choose image</span>
-                      <input type="file" id="fl-uns-notificationIcon" name="fl-uns-notificationIcon" class="input-file selectfile" accept="image/png">
+                      <input type="file" id="fl-ent-notificationIcon" name="fl-ent-notificationIcon" class="input-file selectfile" accept="image/png">
                     </label>
                     <p class="help-block image-name"><small></small></p>
                   </div>
@@ -272,46 +272,46 @@
             </div>
           </div>
           <div class="panel panel-default">
-            <div class="panel-heading" role="tab" id="unsignedTechHeading">
-              <h4 class="panel-title collapsed" role="button" data-toggle="collapse" data-parent="#accordionUnsigned" href="#unsignedTech" aria-expanded="true" aria-controls="unsignedTech"><strong>4 -</strong> App technical details <small>(Required)</small> <i class="fa fa-angle-down" aria-hidden="true"></i></h4>
+            <div class="panel-heading" role="tab" id="enterpriseTechHeading">
+              <h4 class="panel-title collapsed" role="button" data-toggle="collapse" data-parent="#accordionEnterprise" href="#enterpriseTech" aria-expanded="true" aria-controls="enterpriseTech"><strong>4 -</strong> App technical details <small>(Required)</small> <i class="fa fa-angle-down" aria-hidden="true"></i></h4>
             </div>
-            <div id="unsignedTech" class="panel-collapse collapse" role="tabpanel" aria-labelledby="unsignedTechHeading">
+            <div id="enterpriseTech" class="panel-collapse collapse" role="tabpanel" aria-labelledby="enterpriseTechHeading">
               <div class="panel-body">
                 <p>We will need some technical information now. Don't worry, these details will be safe with us. We need them in order to publish your app for you.</p>
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
-                    <label for="fl-uns-versionNumber">App version number</label>
+                    <label for="fl-ent-versionNumber">App version number</label>
                     <p class="help-block label-helper"><small>This is the version number of your app.</small></p>
                   </div>
                   <div class="col-sm-8">
-                    <input type="text" name="fl-uns-versionNumber" class="form-control" id="fl-uns-versionNumber" data-error="Please enter an app version number" required/>
+                    <input type="text" name="fl-ent-versionNumber" class="form-control" id="fl-ent-versionNumber" data-error="Please enter an app version number" required/>
                     <div class="help-block with-errors"></div>
                     <p class="help-block"><small>The recommended format for version number is <code>1.0.0</code>. With a maximum value of <code>99</code> per number.</small></p>
                   </div>
                 </div>
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
-                    <label for="fl-uns-versionCode">App version code</label>
+                    <label for="fl-ent-versionCode">App version code</label>
                     <p class="help-block label-helper"><small>This is the version code of your app.</small></p>
                   </div>
                   <div class="col-sm-8">
-                    <input type="text" name="fl-uns-versionCode" class="form-control" id="fl-uns-versionCode" data-error="Please enter an app version code" required/>
+                    <input type="text" name="fl-ent-versionCode" class="form-control" id="fl-ent-versionCode" data-error="Please enter an app version code" required/>
                     <div class="help-block with-errors"></div>
                     <p class="help-block"><small>The recommended format for version code is <code>1000</code>. With maximum value of <code>9999</code>.</small></p>
                   </div>
                 </div>
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
-                    <label for="fl-uns-bundleId">Bundle ID</label>
+                    <label for="fl-ent-bundleId">Bundle ID</label>
                     <p class="help-block label-helper"><small>This is a unique ID for your app on Google Play. Fliplet auto-generated one for you.</small></p>
                   </div>
                   <div class="col-sm-8 fl-bundleId-holder">
-                    <span class="bundleId-uns-text"></span> <span class="btn btn-sm btn-default" change-bundleid>Change</span>
+                    <span class="bundleId-ent-text"></span> <span class="btn btn-sm btn-default" change-bundleid>Change</span>
                     <div class="help-block with-errors"></div>
                   </div>
                   <div class="fl-bundleId-field">
                     <div class="col-sm-8">
-                      <input type="text" name="fl-uns-bundleId" class="form-control" id="fl-uns-bundleId" data-error="Please enter your Bundle ID" required/>
+                      <input type="text" name="fl-ent-bundleId" class="form-control" id="fl-ent-bundleId" data-error="Please enter your Bundle ID" required/>
                       <div class="help-block with-errors"></div>
                       <p class="help-block"><small>This value needs to be unique and the structure must be <code>com.<i>organizationName</i>.<i>appName</i></code>.</small></p>
                     </div>
@@ -321,11 +321,11 @@
                 <p>Fill in the fields bellow if you want to enable Push Notifications for your app.</p>
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
-                    <label for="fl-uns-senderId">Sender ID</label>
+                    <label for="fl-ent-senderId">Sender ID</label>
                     <p class="help-block label-helper"><small>A unique numerical value created when you configure your API project. The sender ID is used in the <a target="_blank" href="https://developers.google.com/cloud-messaging/registration">registration process</a> to identify an app server that is permitted to send messages to the client app.</small></p>
                   </div>
                   <div class="col-sm-8">
-                    <input type="text" name="fl-uns-senderId" class="form-control" id="fl-uns-senderId" />
+                    <input type="text" name="fl-ent-senderId" class="form-control" id="fl-ent-senderId" />
                   </div>
                 </div>
               </div>
@@ -335,13 +335,13 @@
         <hr>
         <div class="col-xs-5 save-btn-holder">
           <p class="help-block"><small>Save your progress at any point.<br>You can come back and finish it.</small></p>
-          <div class="btn btn-primary" data-unsigned-save>Save progress <i class="fa fa-cloud-upload"></i></div>
-          <p class="text-success save-unsigned-progress">Your progress was saved successfully!</p>
+          <div class="btn btn-primary" data-enterprise-save>Save progress <i class="fa fa-cloud-upload"></i></div>
+          <p class="text-success save-enterprise-progress">Your progress was saved successfully!</p>
         </div>
         <div class="col-xs-5 save-btn-holder col-xs-offset-2 text-right">
           <p class="help-block"><small>Submit your information when you are ready!<br>We will take care of the rest.</small></p>
-          <button type="submit" class="btn btn-primary fl-green button-unsigned-request" data-unsigned-build>Request App <i class="fa fa-paper-plane"></i></button>
-          <p class="text-success save-unsigned-request">Your request was sent successfully!</p>
+          <button type="submit" class="btn btn-primary fl-green button-enterprise-request" data-enterprise-build>Request App <i class="fa fa-paper-plane"></i></button>
+          <p class="text-success save-enterprise-request">Your request was sent successfully!</p>
         </div>
       </form>
     </div>
