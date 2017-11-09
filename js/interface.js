@@ -505,7 +505,7 @@ function savePushData() {
       }, 4000);
     });
   } else {
-    alert('Changes weren\'t saved.\nPlease fill in the Bundle ID in the Google Play tab first. We also recommend filling in all other fields related to Push Notifications.');
+    alert('Changes weren\'t saved.\nPlease fill in the Bundle ID in the Signed APK tab first. We also recommend filling in all other fields related to Push Notifications.');
   }
 }
 
