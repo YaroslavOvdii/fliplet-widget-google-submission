@@ -791,7 +791,7 @@ function checkSubmissionStatus(origin, googleSubmissions) {
         debugApp = _.find(submission.result.debugApp.files, function(file) {
           var dotIndex = file.url.lastIndexOf('.');
           var ext = file.url.substring(dotIndex);
-          if (ext === '.ipa') {
+          if (ext === '.apk') {
             return true;
           }
         });
