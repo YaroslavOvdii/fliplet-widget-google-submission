@@ -13,6 +13,7 @@ var statusTableTemplate = $('#status-table-template').html();
 var $statusAppStoreTableElement = $('.app-build-appstore-status-holder');
 var $statusEnterpriseTableElement = $('.app-build-enterprise-status-holder');
 var initLoad;
+var userInfo;
 
 /* FUNCTIONS */
 String.prototype.toCamelCase = function() {
@@ -362,6 +363,7 @@ function requestBuild(origin, submission) {
 
   submission.data.splashScreen = appSettings.splashScreen ? appSettings.splashScreen : defaultSplashScreenData;
   submission.data.appIcon = appIcon;
+  submission.data.legacyBuild = appSettings.legacyBuild || false;
 
   Fliplet.App.Submissions.get()
     .then(function(submissions) {
@@ -796,9 +798,20 @@ function checkSubmissionStatus(origin, googleSubmissions) {
     submissionsToShow.forEach(function(submission) {
       var build = {};
       var appBuild;
+      var debugApp;
 
       if (submission.result.appBuild && submission.result.appBuild.files) {
         appBuild = _.find(submission.result.appBuild.files, function(file) {
+          var dotIndex = file.url.lastIndexOf('.');
+          var ext = file.url.substring(dotIndex);
+          if (ext === '.apk') {
+            return true;
+          }
+        });
+      }
+
+      if (submission.result.debugApp && submission.result.debugApp.files) {
+        debugApp = _.find(submission.result.debugApp.files, function(file) {
           var dotIndex = file.url.lastIndexOf('.');
           var ext = file.url.substring(dotIndex);
           if (ext === '.apk') {
@@ -816,6 +829,10 @@ function checkSubmissionStatus(origin, googleSubmissions) {
         '';
       build[submission.status] = true;
       build.fileUrl = appBuild ? appBuild.url : '';
+
+      if (userInfo.isAdmin && userInfo.isImpersonating) {
+        build.debugFileUrl = debugApp ? debugApp.url : '';
+      }
 
       buildsData.push(build);
     });
@@ -949,6 +966,13 @@ function initialLoad(initial, timeout) {
           })
           .then(function(org) {
             organizationName = org.name;
+          }),
+          Fliplet.API.request({
+            cache: true,
+            url: 'v1/user'
+          })
+          .then(function(user) {
+            userInfo = user;
           })
         ]);
       })
