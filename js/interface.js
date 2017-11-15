@@ -105,11 +105,9 @@ function loadAppStoreData() {
     }
     if (name === "fl-store-versionNumber") {
       if (typeof appStoreSubmission.data[name] !== 'undefined' && appStoreSubmission.data[name] !== '') {
-        var newVersionNumber = incrementVersionNumber(appStoreSubmission.data[name]);
-        $('[name="' + name + '"]').val(newVersionNumber);
+        $('[name="' + name + '"]').val(appStoreSubmission.data[name]);
       } else if (typeof appStoreSubmission.previousResults !== 'undefined' && typeof appStoreSubmission.previousResults.versionNumber !== 'undefined' && appStoreSubmission.previousResults.versionNumber !== '') {
-        var newVersionNumber = incrementVersionNumber(appStoreSubmission.previousResults.versionNumber);
-        $('[name="' + name + '"]').val(newVersionNumber);
+        $('[name="' + name + '"]').val(appStoreSubmission.previousResults.versionNumber);
       } else {
         $('[name="' + name + '"]').val('1.0.0');
       }
@@ -117,11 +115,9 @@ function loadAppStoreData() {
     }
     if (name === "fl-store-versionCode") {
       if (typeof appStoreSubmission.data[name] !== 'undefined' && appStoreSubmission.data[name] !== '') {
-        var newVersionCode = incrementVersionCode(appStoreSubmission.data[name]);
-        $('[name="' + name + '"]').val(newVersionCode);
+        $('[name="' + name + '"]').val(appStoreSubmission.data[name]);
       } else if (typeof appStoreSubmission.previousResults !== 'undefined' && typeof appStoreSubmission.previousResults.versionCode !== 'undefined' && appStoreSubmission.previousResults.versionCode !== '') {
-        var newVersionCode = incrementVersionCode(appStoreSubmission.previousResults.versionCode);
-        $('[name="' + name + '"]').val(newVersionCode);
+        $('[name="' + name + '"]').val(appStoreSubmission.previousResults.versionCode);
       } else {
         $('[name="' + name + '"]').val('1000');
       }
@@ -198,11 +194,9 @@ function loadEnterpriseData() {
     }
     if (name === "fl-ent-versionCode") {
       if (typeof enterpriseSubmission.data[name] !== 'undefined' && enterpriseSubmission.data[name] !== '') {
-        var newVersionCode = incrementVersionCode(enterpriseSubmission.data[name]);
-        $('[name="' + name + '"]').val(newVersionCode);
+        $('[name="' + name + '"]').val(enterpriseSubmission.data[name]);
       } else if (typeof enterpriseSubmission.previousResults !== 'undefined' && typeof enterpriseSubmission.previousResults.versionCode !== 'undefined' && enterpriseSubmission.previousResults.versionCode !== '') {
-        var newVersionCode = incrementVersionCode(enterpriseSubmission.previousResults.versionCode);
-        $('[name="' + name + '"]').val(newVersionCode);
+        $('[name="' + name + '"]').val(enterpriseSubmission.previousResults.versionCode);
       } else {
         $('[name="' + name + '"]').val('1000');
       }
@@ -256,7 +250,7 @@ function submissionBuild(appSubmission, origin) {
       // Auto increments the version number and saves the submission
       var newVersionNumber = incrementVersionNumber(appStoreSubmission.data['fl-store-versionNumber']);
       $('[name="fl-store-versionNumber"]').val(newVersionNumber);
-      var newVersionCode = incrementVersionCode(appStoreSubmission.data['fl-store-versionCode']);
+      var newVersionCode = incrementVersionCode(appStoreSubmission.data['fl-store-versionNumber']);
       $('[name="fl-store-versionCode"]').val(newVersionCode);
       saveAppStoreData();
     }
@@ -266,7 +260,7 @@ function submissionBuild(appSubmission, origin) {
       // Auto increments the version number and saves the submission
       var newVersionNumber = incrementVersionNumber(enterpriseSubmission.data['fl-ent-versionNumber']);
       $('[name="fl-ent-versionNumber"]').val(newVersionNumber);
-      var newVersionCode = incrementVersionCode(enterpriseSubmission.data['fl-ent-versionCode']);
+      var newVersionCode = incrementVersionCode(enterpriseSubmission.data['fl-ent-versionNumber']);
       $('[name="fl-ent-versionCode"]').val(newVersionCode);
       saveEnterpriseData();
     }
