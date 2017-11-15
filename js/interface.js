@@ -182,11 +182,9 @@ function loadEnterpriseData() {
     }
     if (name === "fl-ent-versionNumber") {
       if (typeof enterpriseSubmission.data[name] !== 'undefined' && enterpriseSubmission.data[name] !== '') {
-        var newVersionNumber = incrementVersionNumber(enterpriseSubmission.data[name]);
-        $('[name="' + name + '"]').val(newVersionNumber);
+        $('[name="' + name + '"]').val(enterpriseSubmission.data[name]);
       } else if (typeof enterpriseSubmission.previousResults !== 'undefined' && typeof enterpriseSubmission.previousResults.versionNumber !== 'undefined' && enterpriseSubmission.previousResults.versionNumber !== '') {
-        var newVersionNumber = incrementVersionNumber(enterpriseSubmission.previousResults.versionNumber);
-        $('[name="' + name + '"]').val(newVersionNumber);
+        $('[name="' + name + '"]').val(enterpriseSubmission.previousResults.versionNumber);
       } else {
         $('[name="' + name + '"]').val('1.0.0');
       }
