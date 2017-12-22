@@ -142,9 +142,6 @@ function loadAppStoreData() {
     if (appSettings.splashScreen && appSettings.splashScreen.size && (appSettings.splashScreen.size[0] && appSettings.splashScreen.size[1]) < 2732) {
       $('.app-details-appStore .app-splash-screen').addClass('has-warning');
     }
-    // if (appSettings.iconData && appSettings.iconData.size && (appSettings.iconData.size[0] && appSettings.iconData.size[1]) < 1024) {
-    //   $('.app-details-appStore .app-icon-name').addClass('has-error');
-    // }
 
     $('.app-details-appStore .app-screenshots').removeClass('has-error');
 
@@ -226,9 +223,7 @@ function loadEnterpriseData() {
     if (appSettings.splashScreen && appSettings.splashScreen.size && (appSettings.splashScreen.size[0] && appSettings.splashScreen.size[1]) < 2732) {
       $('.app-details-ent .app-splash-screen').addClass('has-warning');
     }
-    // if (appSettings.iconData && appSettings.iconData.size && (appSettings.iconData.size[0] && appSettings.iconData.size[1]) < 1024) {
-    //   $('.app-details-ent .app-icon-name').addClass('has-error');
-    // }
+
     allAppData.push('enterprise');
   } else {
     $('.app-details-ent').addClass('required-fill');
