@@ -465,13 +465,12 @@ h3 small {
   padding: 15px 15px 1px 15px;
   margin-top: 10px;
   margin-bottom: 20px;
-  margin-left: 25px;
 }
 
-.hidden-area.warning {
-  color: #8a6d3b;
-  background-color: #fcf8e3;
-  border: 1px solid #faebcc;
+.hidden-area.info {
+  color: #31708f;
+  background-color: #d9edf7;
+  border-color: #bce8f1;
 }
 
 .radio.radio-icon ~ .radio.radio-icon,

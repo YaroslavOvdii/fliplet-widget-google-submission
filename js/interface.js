@@ -138,12 +138,10 @@ function loadAppStoreData() {
     $('[name="' + name + '"]').val((typeof appStoreSubmission.data[name] !== "undefined") ? appStoreSubmission.data[name] : '');
   });
 
-  if (appIcon && ((hasFolders && screenShotsMobile.length && screenShotsTablet.length) || screenshotValidationNotRequired)) {
+  if (appIcon) {
     if (appSettings.splashScreen && appSettings.splashScreen.size && (appSettings.splashScreen.size[0] && appSettings.splashScreen.size[1]) < 2732) {
       $('.app-details-appStore .app-splash-screen').addClass('has-warning');
     }
-
-    $('.app-details-appStore .app-screenshots').removeClass('has-error');
 
     allAppData.push('appStore');
   } else {
@@ -155,13 +153,26 @@ function loadAppStoreData() {
     if (appSettings.splashScreen && appSettings.splashScreen.size && (appSettings.splashScreen.size[0] && appSettings.splashScreen.size[1]) < 2732) {
       $('.app-details-appStore .app-splash-screen').addClass('has-warning');
     }
-    if (hasFolders) {
-      if (screenShotsMobile.length == 0 || screenShotsTablet.length == 0) {
-        $('.app-details-appStore .app-screenshots').addClass('has-error');
-      }
-    } else {
-      $('.app-details-appStore .app-screenshots').addClass('has-error');
-    }
+  }
+
+  checkHasScreenshots();
+  if (!haveScreenshots) {
+    $('[data-item="fl-store-screenshots-new-warning"]').addClass('show');
+    $('[data-item="fl-store-screenshots-new"]').removeClass('show');
+    return;
+  }
+  if (haveScreenshots) {
+    $('[data-item="fl-store-screenshots-new-warning"]').removeClass('show');
+    $('[data-item="fl-store-screenshots-new"]').addClass('show');
+
+    _.take(screenShotsMobile, 4).forEach(function(thumb) {
+      $('.mobile-thumbs').append(addThumb(thumb));
+    });
+
+    _.take(screenShotsTablet, 4).forEach(function(thumb) {
+      $('.tablet-thumbs').append(addThumb(thumb));
+    });
+    return;
   }
 }
 
@@ -584,41 +595,6 @@ function checkGroupErrors() {
 }
 
 /* ATTACH LISTENERS */
-$('[name="fl-store-screenshots"]').on('change', function() {
-  var value = $(this).val();
-  var id = $(this).attr('id');
-  checkHasScreenshots();
-
-  if (value === 'new' && !haveScreenshots) {
-    $('[data-item="fl-store-screenshots-new-warning"]').addClass('show');
-
-    $('[data-item="fl-store-screenshots-new"]').removeClass('show');
-    $('[data-item="fl-store-screenshots-existing"]').removeClass('show');
-  }
-  if (value === 'new' && haveScreenshots) {
-    $('[data-item="fl-store-screenshots-new-warning"]').removeClass('show');
-    $('[data-item="fl-store-screenshots-new"]').addClass('show');
-
-    $('[data-item="fl-store-screenshots-existing"]').removeClass('show');
-
-    
-    _.take(screenShotsMobile, 4).forEach(function(thumb) {
-      $('.mobile-thumbs').append(addThumb(thumb));
-    });
-
-    _.take(screenShotsTablet, 4).forEach(function(thumb) {
-      $('.tablet-thumbs').append(addThumb(thumb));
-    });
-  }
-  if (value === 'existing') {
-    $('.app-details-appStore .app-screenshots').removeClass('has-error');
-    $('[data-item="fl-store-screenshots-existing"]').addClass('show');
-
-    $('[data-item="fl-store-screenshots-new-warning"]').removeClass('show');
-    $('[data-item="fl-store-screenshots-new"]').removeClass('show');
-  }
-});
-
 $('[name="submissionType"]').on('change', function() {
   var selectedOptionId = $(this).attr('id');
 
