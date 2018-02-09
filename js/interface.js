@@ -424,8 +424,7 @@ function saveAppStoreData(request) {
   var data = appStoreSubmission.data;
   var pushData = notificationSettings;
   var uploadFilePromise = Promise.resolve();
-  previousAppStoreSubmission = appStoreSubmission;
-
+  
   $('#appStoreConfiguration [name]').each(function(idx, el) {
     var name = $(el).attr("name");
     var value = $(el).val();
@@ -474,8 +473,7 @@ function saveAppStoreData(request) {
 function saveEnterpriseData(request) {
   var data = enterpriseSubmission.data;
   var uploadFilePromise = Promise.resolve();
-  previousEnterpriseSubmission = enterpriseSubmission;
-
+  
   $('#enterpriseConfiguration [name]').each(function(idx, el) {
     var name = $(el).attr("name");
     var value = $(el).val();
