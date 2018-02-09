@@ -334,7 +334,7 @@ function save(origin, submission) {
             if (origin === "enterprise") {
               enterpriseSubmission = newSubmission;
             }
-
+            
             Fliplet.App.Submissions.update(newSubmission.id, newSubmission.data).then(function() {
               $('.save-' + origin + '-progress').addClass('saved').hide().fadeIn(250);
               Fliplet.Widget.autosize();
@@ -407,7 +407,6 @@ function requestBuild(origin, submission) {
             }
 
             submissionBuild(newSubmission, origin);
-
           });
       }
 
@@ -425,6 +424,7 @@ function saveAppStoreData(request) {
   var data = appStoreSubmission.data;
   var pushData = notificationSettings;
   var uploadFilePromise = Promise.resolve();
+  previousAppStoreSubmission = appStoreSubmission;
 
   $('#appStoreConfiguration [name]').each(function(idx, el) {
     var name = $(el).attr("name");
@@ -474,6 +474,7 @@ function saveAppStoreData(request) {
 function saveEnterpriseData(request) {
   var data = enterpriseSubmission.data;
   var uploadFilePromise = Promise.resolve();
+  previousEnterpriseSubmission = enterpriseSubmission;
 
   $('#enterpriseConfiguration [name]').each(function(idx, el) {
     var name = $(el).attr("name");
@@ -883,7 +884,7 @@ function submissionChecker(submissions) {
   checkSubmissionStatus("appStore", asub);
 
   asub = _.maxBy(asub, function(el) {
-    return new Date(el.updatedAt).getTime();
+    return el.id;
   });
   appStoreSubmission = asub;
 
@@ -894,7 +895,7 @@ function submissionChecker(submissions) {
   checkSubmissionStatus("enterprise", esub);
 
   esub = _.maxBy(esub, function(el) {
-    return new Date(el.updatedAt).getTime();
+    return el.id;
   });
   enterpriseSubmission = esub;
 
