@@ -439,6 +439,8 @@ function saveAppStoreData(request) {
     appStoreSubmission.data = data;
     notificationSettings = pushData;
 
+    savePushData(true);
+
     if (request) {
       requestBuild('appStore', appStoreSubmission);
     } else {
@@ -489,7 +491,7 @@ function saveEnterpriseData(request) {
   });
 }
 
-function savePushData() {
+function savePushData(silentSave) {
   var data = notificationSettings;
 
   $('#pushConfiguration [name]').each(function(i, el) {
@@ -516,7 +518,7 @@ function savePushData() {
     data: notificationSettings
   }).then(function() {
     $('.save-push-progress').addClass('saved');
-    if (!notificationSettings.gcm) {
+    if (!notificationSettings.gcm && !silentSave) {
       alert('If using Signed APK, you will need to fill in the Bundle ID field and request an app.');
     }
 
