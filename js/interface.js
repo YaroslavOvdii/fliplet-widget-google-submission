@@ -506,6 +506,8 @@ function saveEnterpriseData(request) {
   uploadFilePromise.then(function() {
     enterpriseSubmission.data = data;
 
+    savePushData(true);
+
     if (request) {
       requestBuild('enterprise', enterpriseSubmission);
     } else {
@@ -531,7 +533,7 @@ function savePushData(silentSave) {
     }
   });
 
-  data.gcm = !!((data.gcmSenderId && data.gcmSenderId !== '') && (data.gcmServerKey && data.gcmServerKey !== '') && (data.gcmPackageName && data.gcmPackageName !== ''));
+  data.gcm = !!((data.gcmSenderId && data.gcmSenderId !== '') && (data.gcmServerKey && data.gcmServerKey !== ''));
 
   notificationSettings = data;
 
@@ -541,10 +543,11 @@ function savePushData(silentSave) {
     data: notificationSettings
   }).then(function() {
     $('.save-push-progress').addClass('saved');
-    if (!notificationSettings.gcm && !silentSave) {
-      alert('If using Signed APK, you will need to fill in the Bundle ID field and request an app.');
-    }
-
+    
+    if (!silentSave && (typeof appStoreSubmission.data['fl-store-bundleId'] == 'undefined' || typeof enterpriseSubmission.data['fl-ent-bundleId'] == 'undefined')) {
+      alert('For notifications to work, you will need to fill in the Bundle ID field and request an app.');  
+    }    
+    
     setTimeout(function() {
       $('.save-push-progress').removeClass('saved');
     }, 4000);
