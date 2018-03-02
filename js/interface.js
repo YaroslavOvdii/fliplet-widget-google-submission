@@ -6,7 +6,9 @@ var appIcon = '';
 var appSettings = {};
 var allAppData = [];
 var appStoreSubmission = {};
+var previousAppStoreSubmission = {};
 var enterpriseSubmission = {};
+var previousEnterpriseSubmission = {};
 var notificationSettings = {};
 var appInfo;
 var statusTableTemplate = $('#status-table-template').html();
@@ -458,6 +460,10 @@ function saveAppStoreData(request) {
     data[name] = value;
   });
 
+  if (!_.isUndefined(previousAppStoreSubmission)) {
+    data["previousResults"] = previousAppStoreSubmission.result;
+  }
+
   uploadFilePromise.then(function() {
     appStoreSubmission.data = data;
     notificationSettings = pushData;
@@ -502,6 +508,10 @@ function saveEnterpriseData(request) {
 
     data[name] = value;
   });
+
+  if (!_.isUndefined(previousEnterpriseSubmission)) {
+    data["previousResults"] = previousEnterpriseSubmission.result;
+  }
 
   uploadFilePromise.then(function() {
     enterpriseSubmission.data = data;
@@ -884,23 +894,45 @@ function submissionChecker(submissions) {
     return submission.data.submissionType === "appStore" && submission.platform === "android";
   });
 
+  var completedSubs = _.filter(asub, function(submission) {
+    return submission.status === "completed";
+  });
+
   checkSubmissionStatus("appStore", asub);
 
-  asub = _.maxBy(asub, function(el) {
+  appStoreSubmission = _.maxBy(asub, function(el) {
     return el.id;
   });
-  appStoreSubmission = asub;
 
+  previousAppStoreSubmission = _.minBy(completedSubs, function(el) {
+    return el.id;
+  });
+  
   var esub = _.filter(submissions, function(submission) {
     return submission.data.submissionType === "enterprise" && submission.platform === "android";
   });
 
+  var completedEnterpriseSubs = _.filter(esub, function(submission) {
+    return submission.status === "completed";
+  });
+
   checkSubmissionStatus("enterprise", esub);
 
-  esub = _.maxBy(esub, function(el) {
+  enterpriseSubmission = _.maxBy(esub, function(el) {
     return el.id;
   });
-  enterpriseSubmission = esub;
+
+  previousEnterpriseSubmission = _.minBy(completedEnterpriseSubs, function(el) {
+    return el.id;
+  });
+
+  if (_.isUndefined(appStoreSubmission)) {
+    appStoreSubmission = {};
+  }
+
+  if (_.isUndefined(enterpriseSubmission)) {
+    enterpriseSubmission = {};
+  }
 
   if (_.isEmpty(appStoreSubmission)) {
     Fliplet.App.Submissions.create({
