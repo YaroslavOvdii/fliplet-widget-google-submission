@@ -961,6 +961,10 @@ function submissionChecker(submissions) {
     return submission.status === "completed";
   });
 
+  // Ordering
+  asub = _.orderBy(asub, function(submission) {
+    return new Date(submission.createdAt).getTime();
+  }, ['desc']);
   checkSubmissionStatus("appStore", asub);
 
   appStoreSubmission = _.maxBy(asub, function(el) {
@@ -979,6 +983,10 @@ function submissionChecker(submissions) {
     return submission.status === "completed";
   });
 
+  // Ordering
+  esub = _.orderBy(esub, function(submission) {
+    return new Date(submission.createdAt).getTime();
+  }, ['desc']);
   checkSubmissionStatus("enterprise", esub);
 
   enterpriseSubmission = _.maxBy(esub, function(el) {
@@ -1031,6 +1039,14 @@ function googleSubmissionChecker(submissions) {
     return submission.data.submissionType === "enterprise" && submission.platform === "android";
   });
 
+  // Ordering
+  asub = _.orderBy(asub, function(submission) {
+    return new Date(submission.createdAt).getTime();
+  }, ['desc']);
+  esub = _.orderBy(esub, function(submission) {
+    return new Date(submission.createdAt).getTime();
+  }, ['desc']);
+  
   checkSubmissionStatus("appStore", asub);
   checkSubmissionStatus("enterprise", esub);
 }
