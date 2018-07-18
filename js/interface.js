@@ -868,6 +868,10 @@ function compileStatusTable(withData, origin, buildsData) {
   Fliplet.Widget.autosize();
 }
 
+function fileIsAPK(file) {
+  return file.contentType === 'application/vnd.android.package-archive';
+}
+
 function checkSubmissionStatus(origin, googleSubmissions) {
   var submissionsToShow = _.filter(googleSubmissions, function(submission) {
     return submission.status === "queued" || submission.status === "submitted" || submission.status === "processing" || submission.status === "completed" || submission.status === "failed" || submission.status === "cancelled" || submission.status === "ready-for-testing" || submission.status === "tested";
@@ -895,37 +899,21 @@ function checkSubmissionStatus(origin, googleSubmissions) {
 
       if (submission.result.appBuild && submission.result.appBuild.files) {
         appBuild = _.find(submission.result.appBuild.files, function(file) {
-          var dotIndex = file.url.lastIndexOf('.');
-          var ext = file.url.substring(dotIndex);
-          if (ext === '.apk') {
-            return true;
-          }
+          return fileIsAPK(file);
         });
       } else if (submission.data.previousResults && submission.data.previousResults.appBuild && submission.data.previousResults.appBuild.files) {
         appBuild = _.find(submission.data.previousResults.appBuild.files, function(file) {
-          var dotIndex = file.url.lastIndexOf('.');
-          var ext = file.url.substring(dotIndex);
-          if (ext === '.apk') {
-            return true;
-          }
+          return fileIsAPK(file);
         });
       }
 
       if (submission.result.debugApp && submission.result.debugApp.files) {
         debugApp = _.find(submission.result.debugApp.files, function(file) {
-          var dotIndex = file.url.lastIndexOf('.');
-          var ext = file.url.substring(dotIndex);
-          if (ext === '.apk') {
-            return true;
-          }
+          return fileIsAPK(file);
         });
       } else if (submission.data.previousResults && submission.data.previousResults.debugApp && submission.data.previousResults.debugApp.files) {
         debugApp = _.find(submission.data.previousResults.debugApp.files, function(file) {
-          var dotIndex = file.url.lastIndexOf('.');
-          var ext = file.url.substring(dotIndex);
-          if (ext === '.apk') {
-            return true;
-          }
+          return fileIsAPK(file);
         });
       }
 
