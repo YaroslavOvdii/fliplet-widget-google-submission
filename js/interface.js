@@ -857,7 +857,7 @@ function publishApp(context) {
       type: 'silent',
       changelog: 'Initial version'
     }
-  }
+  };
   Fliplet.API.request({
     method: 'POST',
     url: 'v1/apps/' + Fliplet.Env.get('appId') + '/publish',
