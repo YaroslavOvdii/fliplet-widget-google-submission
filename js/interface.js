@@ -21,6 +21,11 @@ var screenShotsMobile = [];
 var screenShotsTablet = [];
 var haveScreenshots = false;
 var screenshotValidationNotRequired = false;
+var pushDataMap = {
+  'fl-push-senderId': 'gcmSenderId',
+  'fl-push-serverKey': 'gcmServerKey',
+  'fl-push-projectId': 'gcmProjectId'
+};
 
 /* FUNCTIONS */
 String.prototype.toCamelCase = function() {
@@ -254,19 +259,12 @@ function loadPushNotesData() {
   $('#pushConfiguration [name]').each(function(i, el) {
     var name = $(el).attr("name");
 
+    if (!pushDataMap.hasOwnProperty(name)) {
+      return;
+    }
+
     /* ADDING NOTIFICATIONS SETTINGS */
-    if (name === 'fl-push-senderId') {
-      $('[name="' + name + '"]').val(notificationSettings.gcmSenderId || '');
-      return;
-    }
-    if (name === 'fl-push-serverKey') {
-      $('[name="' + name + '"]').val(notificationSettings.gcmServerKey || '');
-      return;
-    }
-    if (name === 'fl-push-projectId') {
-      $('[name="' + name + '"]').val(notificationSettings.gcmProjectId || '');
-      return;
-    }
+    $(this).val(notificationSettings[pushDataMap[name]] || '');
   });
 }
 
@@ -441,6 +439,10 @@ function saveAppStoreData(request) {
     var name = $(el).attr("name");
     var value = $(el).val();
 
+    if (typeof value === 'string') {
+      value = value.trim();
+    }
+
     if (name === 'fl-store-bundleId') {
       pushData.gcmPackageName = value;
       data[name] = value;
@@ -496,6 +498,10 @@ function saveEnterpriseData(request) {
     var name = $(el).attr("name");
     var value = $(el).val();
 
+    if (typeof value === 'string') {
+      value = value.trim();
+    }
+
     if ($(el).attr('type') === "file") {
       var fileList = el.files;
       var file = new FormData();
@@ -541,20 +547,17 @@ function savePushData(silentSave) {
 
   $('#pushConfiguration [name]').each(function(i, el) {
     var name = $(el).attr("name");
-    var value = $(el).val();
 
-    if (name === 'fl-push-senderId') {
-      data.gcmSenderId = value;
+    if (!pushDataMap.hasOwnProperty(name)) {
       return;
     }
-    if (name === 'fl-push-serverKey') {
-      data.gcmServerKey = value;
-      return;
+
+    var value = $(el).val();
+    if (typeof value === 'string') {
+      value = value.trim();
     }
-    if (name === 'fl-push-projectId') {
-      data.gcmProjectId = value;
-      return;
-    }
+
+    data[pushDataMap[name]] = value;
   });
 
   data.gcm = !!((data.gcmSenderId && data.gcmSenderId !== '') && (data.gcmServerKey && data.gcmServerKey !== ''));
