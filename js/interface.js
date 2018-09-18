@@ -21,6 +21,11 @@ var screenShotsMobile = [];
 var screenShotsTablet = [];
 var haveScreenshots = false;
 var screenshotValidationNotRequired = false;
+var pushDataMap = {
+  'fl-push-senderId': 'gcmSenderId',
+  'fl-push-serverKey': 'gcmServerKey',
+  'fl-push-projectId': 'gcmProjectId'
+};
 
 /* FUNCTIONS */
 String.prototype.toCamelCase = function() {
@@ -254,19 +259,12 @@ function loadPushNotesData() {
   $('#pushConfiguration [name]').each(function(i, el) {
     var name = $(el).attr("name");
 
+    if (!pushDataMap.hasOwnProperty(name)) {
+      return;
+    }
+
     /* ADDING NOTIFICATIONS SETTINGS */
-    if (name === 'fl-push-senderId') {
-      $('[name="' + name + '"]').val(notificationSettings.gcmSenderId || '');
-      return;
-    }
-    if (name === 'fl-push-serverKey') {
-      $('[name="' + name + '"]').val(notificationSettings.gcmServerKey || '');
-      return;
-    }
-    if (name === 'fl-push-projectId') {
-      $('[name="' + name + '"]').val(notificationSettings.gcmProjectId || '');
-      return;
-    }
+    $(this).val(notificationSettings[pushDataMap[name]] || '');
   });
 }
 
@@ -311,7 +309,9 @@ function submissionBuild(appSubmission, origin) {
     }, 10000);
   }, function(err) {
     $('.button-' + origin + '-request').html('Request App <i class="fa fa-paper-plane"></i>');
-    alert(err.responseJSON.message);
+    Fliplet.Modal.alert({
+      message: Fliplet.parseError(err)
+    });
   });
 }
 
@@ -368,7 +368,9 @@ function save(origin, submission) {
       });
     })
     .catch(function(err) {
-      alert(err.responseJSON.message);
+      Fliplet.Modal.alert({
+        message: Fliplet.parseError(err)
+      });
     });
 }
 
@@ -422,7 +424,9 @@ function requestBuild(origin, submission) {
     })
     .catch(function(err) {
       $('.button-' + origin + '-request').html('Request App <i class="fa fa-paper-plane"></i>');
-      alert(err.responseJSON.message);
+      Fliplet.Modal.alert({
+        message: Fliplet.parseError(err)
+      });
     });
 }
 
@@ -434,6 +438,10 @@ function saveAppStoreData(request) {
   $('#appStoreConfiguration [name]').each(function(idx, el) {
     var name = $(el).attr("name");
     var value = $(el).val();
+
+    if (typeof value === 'string') {
+      value = value.trim();
+    }
 
     if (name === 'fl-store-bundleId') {
       pushData.gcmPackageName = value;
@@ -490,6 +498,10 @@ function saveEnterpriseData(request) {
     var name = $(el).attr("name");
     var value = $(el).val();
 
+    if (typeof value === 'string') {
+      value = value.trim();
+    }
+
     if ($(el).attr('type') === "file") {
       var fileList = el.files;
       var file = new FormData();
@@ -535,20 +547,17 @@ function savePushData(silentSave) {
 
   $('#pushConfiguration [name]').each(function(i, el) {
     var name = $(el).attr("name");
-    var value = $(el).val();
 
-    if (name === 'fl-push-senderId') {
-      data.gcmSenderId = value;
+    if (!pushDataMap.hasOwnProperty(name)) {
       return;
     }
-    if (name === 'fl-push-serverKey') {
-      data.gcmServerKey = value;
-      return;
+
+    var value = $(el).val();
+    if (typeof value === 'string') {
+      value = value.trim();
     }
-    if (name === 'fl-push-projectId') {
-      data.gcmProjectId = value;
-      return;
-    }
+
+    data[pushDataMap[name]] = value;
   });
 
   data.gcm = !!((data.gcmSenderId && data.gcmSenderId !== '') && (data.gcmServerKey && data.gcmServerKey !== ''));
@@ -563,7 +572,9 @@ function savePushData(silentSave) {
     $('.save-push-progress').addClass('saved');
 
     if (!silentSave && (typeof appStoreSubmission.data['fl-store-bundleId'] == 'undefined' || typeof enterpriseSubmission.data['fl-ent-bundleId'] == 'undefined')) {
-      alert('For notifications to work, you will need to fill in the Bundle ID field and request an app.');
+      Fliplet.Modal.alert({
+        message: 'For notifications to work, you will need to fill in the Bundle ID field and request an app.'
+      });
     }
 
     setTimeout(function() {
@@ -627,14 +638,18 @@ $('[name="submissionType"]').on('change', function() {
 });
 
 $('.fl-sb-appStore [change-bundleid], .fl-sb-fliplet-signed [change-bundleid]').on('click', function() {
-  var changeBundleId = confirm("Are you sure you want to change the unique Bundle ID?");
+  Fliplet.Modal.confirm({
+    message: 'Are you sure you want to change the unique Bundle ID?'
+  }).then(function (confirmed) {
+    if (!confirmed) {
+      return;
+    }
 
-  if (changeBundleId) {
     $('.fl-bundleId-holder').addClass('hidden');
     $('.fl-bundleId-field').addClass('show');
 
     Fliplet.Widget.autosize();
-  }
+  });
 });
 
 $('.panel-group').on('shown.bs.collapse', '.panel-collapse', function() {
@@ -711,7 +726,9 @@ $('#appStoreConfiguration').validator().on('submit', function(event) {
   if (event.isDefaultPrevented()) {
     // Gives time to Validator to apply classes
     setTimeout(checkGroupErrors, 0);
-    alert('Please fill in all the required information.');
+    Fliplet.Modal.alert({
+      message: 'Please fill in all the required information.'
+    });
     return;
   }
 
@@ -719,19 +736,25 @@ $('#appStoreConfiguration').validator().on('submit', function(event) {
 
   if (appInfo && appInfo.productionAppId) {
     if (allAppData.indexOf('appStore') > -1) {
-      var requestAppConfirm;
+      var message = 'Are you sure you wish to update your published app?';
 
       if (appStoreSubmission.status === "started") {
-        requestAppConfirm = confirm("Are you sure you wish to request your app to be published?");
-      } else {
-        requestAppConfirm = confirm("Are you sure you wish to update your published app?");
+        message = 'Are you sure you wish to request your app to be published?';
       }
 
-      if (requestAppConfirm) {
+      Fliplet.Modal.confirm({
+        message: message
+      }).then(function (confirmed) {
+        if (!confirmed) {
+          return;
+        }
+
         saveAppStoreData(true);
-      }
+      });
     } else {
-      alert('Please configure your App Settings to contain the required information.');
+      Fliplet.Modal.alert({
+        message: 'Please configure your App Settings to contain the required information.'
+      });
     }
   } else {
     $('.button-appStore-request').html('Please wait <i class="fa fa-spinner fa-pulse fa-fw"></i>');
@@ -746,7 +769,9 @@ $('#enterpriseConfiguration').validator().on('submit', function(event) {
   if (event.isDefaultPrevented()) {
     // Gives time to Validator to apply classes
     setTimeout(checkGroupErrors, 0);
-    alert('Please fill in all the required information.');
+    Fliplet.Modal.alert({
+      message: 'Please fill in all the required information.'
+    });
     return;
   }
 
@@ -754,19 +779,25 @@ $('#enterpriseConfiguration').validator().on('submit', function(event) {
 
   if (appInfo && appInfo.productionAppId) {
     if (allAppData.indexOf('enterprise') > -1) {
-      var requestAppConfirm;
+      var message = 'Are you sure you wish to update your published app?';
 
       if (enterpriseSubmission.status === "started") {
-        requestAppConfirm = confirm("Are you sure you wish to request your app to be published?");
-      } else {
-        requestAppConfirm = confirm("Are you sure you wish to update your published app?");
+        message = 'Are you sure you wish to request your app to be published?';
       }
 
-      if (requestAppConfirm) {
+      Fliplet.Modal.confirm({
+        message: message
+      }).then(function (confirmed) {
+        if (!confirmed) {
+          return;
+        }
+
         saveEnterpriseData(true);
-      }
+      });
     } else {
-      alert('Please configure your App Settings to contain the required information.');
+      Fliplet.Modal.alert({
+        message: 'Please configure your App Settings to contain the required information.'
+      });
     }
   } else {
     $('.button-enterprise-request').html('Please wait <i class="fa fa-spinner fa-pulse fa-fw"></i>');
@@ -829,7 +860,7 @@ function publishApp(context) {
       type: 'silent',
       changelog: 'Initial version'
     }
-  }
+  };
   Fliplet.API.request({
     method: 'POST',
     url: 'v1/apps/' + Fliplet.Env.get('appId') + '/publish',
