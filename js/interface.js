@@ -796,7 +796,7 @@ $('#enterpriseConfiguration').validator().on('submit', function(event) {
       });
     } else {
       Fliplet.Modal.alert({
-        'Please configure your App Settings to contain the required information.'
+        message: 'Please configure your App Settings to contain the required information.'
       });
     }
   } else {
