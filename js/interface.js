@@ -879,7 +879,7 @@ function publishApp(context) {
     method: 'POST',
     url: 'v1/apps/' + Fliplet.Env.get('appId') + '/publish',
     data: options
-  }).then((response) => {
+  }).then(function(response) {
     // Update appInfo
     appInfo.productionAppId = response.app.id;
 
@@ -1173,7 +1173,7 @@ function initialLoad(initial, timeout) {
             return obj.platform === 'apple';
           });
 
-          return Promise.all(appleOnly.map((obj) => {
+          return Promise.all(appleOnly.map(function(obj) {
             return Fliplet.Media.Folders.get({folderId: obj.folderId})
               .then(function(result) {
                 var tempObject = {
