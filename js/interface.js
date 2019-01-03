@@ -294,6 +294,7 @@ function submissionBuild(appSubmission, origin) {
     Fliplet.Studio.emit('refresh-app-submissions');
 
     $('.button-' + origin + '-request').html('Request App <i class="fa fa-paper-plane"></i>');
+    $('.button-' + origin + '-request').prop('disabled', false);
     $('.save-' + origin + '-request').addClass('saved').hide().fadeIn(250);
 
     clearTimeout(initLoad);
@@ -309,6 +310,7 @@ function submissionBuild(appSubmission, origin) {
     }, 10000);
   }, function(err) {
     $('.button-' + origin + '-request').html('Request App <i class="fa fa-paper-plane"></i>');
+    $('.button-' + origin + '-request').prop('disabled', false);
     Fliplet.Modal.alert({
       message: Fliplet.parseError(err)
     });
@@ -424,6 +426,7 @@ function requestBuild(origin, submission) {
     })
     .catch(function(err) {
       $('.button-' + origin + '-request').html('Request App <i class="fa fa-paper-plane"></i>');
+      $('.button-' + origin + '-request').prop('disabled', false);
       Fliplet.Modal.alert({
         message: Fliplet.parseError(err)
       });
@@ -772,6 +775,7 @@ $('#appStoreConfiguration').validator().on('submit', function(event) {
     }
   } else {
     $('.button-appStore-request').html('Please wait <i class="fa fa-spinner fa-pulse fa-fw"></i>');
+    $('.button-appStore-request').prop('disabled', true);
     publishApp('appStore');
   }
 
@@ -815,6 +819,7 @@ $('#enterpriseConfiguration').validator().on('submit', function(event) {
     }
   } else {
     $('.button-enterprise-request').html('Please wait <i class="fa fa-spinner fa-pulse fa-fw"></i>');
+    $('.button-enterprise-request').prop('disabled', true);
     publishApp('enterprise');
   }
 
@@ -886,10 +891,12 @@ function publishApp(context) {
     switch(context) {
       case 'appStore':
         $('.button-appStore-request').html('Request App <i class="fa fa-paper-plane"></i>');
+        $('.button-appStore-request').prop('disabled', false);
         $('#appStoreConfiguration').validator().trigger('submit');
         break;
       case 'enterprise':
         $('.button-enterprise-request').html('Request App <i class="fa fa-paper-plane"></i>');
+        $('.button-enterprise-request').prop('disabled', false);
         $('#enterpriseConfiguration').validator().trigger('submit');
         break;
       default:
