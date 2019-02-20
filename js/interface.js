@@ -880,7 +880,8 @@ function publishApp(context) {
       changelog: 'Initial version'
     }
   };
-  Fliplet.API.request({
+
+  return Fliplet.API.request({
     method: 'POST',
     url: 'v1/apps/' + Fliplet.Env.get('appId') + '/publish',
     data: options
@@ -902,6 +903,9 @@ function publishApp(context) {
       default:
         break;
     }
+  }).catch(function (err) {
+    Fliplet.Modal.alert({ message: Fliplet.parseError(err) });
+    return Promise.reject(err);
   });
 }
 
@@ -1220,6 +1224,9 @@ function initialLoad(initial, timeout) {
           notificationSettings = {};
         }
 
+        init();
+        initialLoad(false, 5000);
+      }).catch(function () {
         init();
         initialLoad(false, 5000);
       });
