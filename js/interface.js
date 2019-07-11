@@ -21,6 +21,11 @@ var screenShotsMobile = [];
 var screenShotsTablet = [];
 var haveScreenshots = false;
 var screenshotValidationNotRequired = false;
+var pushDataMap = {
+  'fl-push-senderId': 'gcmSenderId',
+  'fl-push-serverKey': 'gcmServerKey',
+  'fl-push-projectId': 'gcmProjectId'
+};
 
 /* FUNCTIONS */
 String.prototype.toCamelCase = function() {
@@ -254,15 +259,12 @@ function loadPushNotesData() {
   $('#pushConfiguration [name]').each(function(i, el) {
     var name = $(el).attr("name");
 
+    if (!pushDataMap.hasOwnProperty(name)) {
+      return;
+    }
+
     /* ADDING NOTIFICATIONS SETTINGS */
-    if (name === 'fl-push-senderId') {
-      $('[name="' + name + '"]').val(notificationSettings.gcmSenderId || '');
-      return;
-    }
-    if (name === 'fl-push-serverKey') {
-      $('[name="' + name + '"]').val(notificationSettings.gcmServerKey || '');
-      return;
-    }
+    $(this).val(notificationSettings[pushDataMap[name]] || '');
   });
 }
 
@@ -292,6 +294,7 @@ function submissionBuild(appSubmission, origin) {
     Fliplet.Studio.emit('refresh-app-submissions');
 
     $('.button-' + origin + '-request').html('Request App <i class="fa fa-paper-plane"></i>');
+    $('.button-' + origin + '-request').prop('disabled', false);
     $('.save-' + origin + '-request').addClass('saved').hide().fadeIn(250);
 
     clearTimeout(initLoad);
@@ -307,7 +310,10 @@ function submissionBuild(appSubmission, origin) {
     }, 10000);
   }, function(err) {
     $('.button-' + origin + '-request').html('Request App <i class="fa fa-paper-plane"></i>');
-    alert(err.responseJSON.message);
+    $('.button-' + origin + '-request').prop('disabled', false);
+    Fliplet.Modal.alert({
+      message: Fliplet.parseError(err)
+    });
   });
 }
 
@@ -336,7 +342,7 @@ function save(origin, submission) {
             if (origin === "enterprise") {
               enterpriseSubmission = newSubmission;
             }
-            
+
             Fliplet.App.Submissions.update(newSubmission.id, newSubmission.data).then(function() {
               $('.save-' + origin + '-progress').addClass('saved').hide().fadeIn(250);
               Fliplet.Widget.autosize();
@@ -364,7 +370,9 @@ function save(origin, submission) {
       });
     })
     .catch(function(err) {
-      alert(err.responseJSON.message);
+      Fliplet.Modal.alert({
+        message: Fliplet.parseError(err)
+      });
     });
 }
 
@@ -418,7 +426,10 @@ function requestBuild(origin, submission) {
     })
     .catch(function(err) {
       $('.button-' + origin + '-request').html('Request App <i class="fa fa-paper-plane"></i>');
-      alert(err.responseJSON.message);
+      $('.button-' + origin + '-request').prop('disabled', false);
+      Fliplet.Modal.alert({
+        message: Fliplet.parseError(err)
+      });
     });
 }
 
@@ -426,10 +437,14 @@ function saveAppStoreData(request) {
   var data = appStoreSubmission.data;
   var pushData = notificationSettings;
   var uploadFilePromise = Promise.resolve();
-  
+
   $('#appStoreConfiguration [name]').each(function(idx, el) {
     var name = $(el).attr("name");
     var value = $(el).val();
+
+    if (typeof value === 'string') {
+      value = value.trim();
+    }
 
     if (name === 'fl-store-bundleId') {
       pushData.gcmPackageName = value;
@@ -481,10 +496,14 @@ function saveAppStoreData(request) {
 function saveEnterpriseData(request) {
   var data = enterpriseSubmission.data;
   var uploadFilePromise = Promise.resolve();
-  
+
   $('#enterpriseConfiguration [name]').each(function(idx, el) {
     var name = $(el).attr("name");
     var value = $(el).val();
+
+    if (typeof value === 'string') {
+      value = value.trim();
+    }
 
     if ($(el).attr('type') === "file") {
       var fileList = el.files;
@@ -531,16 +550,17 @@ function savePushData(silentSave) {
 
   $('#pushConfiguration [name]').each(function(i, el) {
     var name = $(el).attr("name");
-    var value = $(el).val();
 
-    if (name === 'fl-push-senderId') {
-      data.gcmSenderId = value;
+    if (!pushDataMap.hasOwnProperty(name)) {
       return;
     }
-    if (name === 'fl-push-serverKey') {
-      data.gcmServerKey = value;
-      return;
+
+    var value = $(el).val();
+    if (typeof value === 'string') {
+      value = value.trim();
     }
+
+    data[pushDataMap[name]] = value;
   });
 
   data.gcm = !!((data.gcmSenderId && data.gcmSenderId !== '') && (data.gcmServerKey && data.gcmServerKey !== ''));
@@ -553,11 +573,13 @@ function savePushData(silentSave) {
     data: notificationSettings
   }).then(function() {
     $('.save-push-progress').addClass('saved');
-    
+
     if (!silentSave && (typeof appStoreSubmission.data['fl-store-bundleId'] == 'undefined' || typeof enterpriseSubmission.data['fl-ent-bundleId'] == 'undefined')) {
-      alert('For notifications to work, you will need to fill in the Bundle ID field and request an app.');  
-    }    
-    
+      Fliplet.Modal.alert({
+        message: 'For notifications to work, you will need to fill in the Bundle ID field and request an app.'
+      });
+    }
+
     setTimeout(function() {
       $('.save-push-progress').removeClass('saved');
     }, 4000);
@@ -619,14 +641,18 @@ $('[name="submissionType"]').on('change', function() {
 });
 
 $('.fl-sb-appStore [change-bundleid], .fl-sb-fliplet-signed [change-bundleid]').on('click', function() {
-  var changeBundleId = confirm("Are you sure you want to change the unique Bundle ID?");
+  Fliplet.Modal.confirm({
+    message: 'Are you sure you want to change the unique Bundle ID?'
+  }).then(function (confirmed) {
+    if (!confirmed) {
+      return;
+    }
 
-  if (changeBundleId) {
     $('.fl-bundleId-holder').addClass('hidden');
     $('.fl-bundleId-field').addClass('show');
 
     Fliplet.Widget.autosize();
-  }
+  });
 });
 
 $('.panel-group').on('shown.bs.collapse', '.panel-collapse', function() {
@@ -636,7 +662,7 @@ $('.panel-group').on('shown.bs.collapse', '.panel-collapse', function() {
     Fliplet.Widget.autosize();
   });
 
-$('a[data-toggle="tab"').on('shown.bs.tab', function() {
+$('a[data-toggle="tab"]').on('shown.bs.tab', function() {
     Fliplet.Widget.autosize();
   })
   .on('hidden.bs.tab', function() {
@@ -660,9 +686,16 @@ $('input[type="file"]').on('change', function() {
 $('.redirectToSettings, [data-change-settings]').on('click', function(event) {
   event.preventDefault();
 
-  Fliplet.Studio.emit('navigate', {
-    name: 'appSettings',
-    params: {
+  Fliplet.Studio.emit('close-overlay', {
+    name: 'publish-google'
+  });
+
+  Fliplet.Studio.emit('overlay', {
+    name: 'app-settings',
+    options: {
+      size: 'large',
+      title: 'App Settings',
+      section: 'appSettingsGeneral',
       appId: Fliplet.Env.get('appId')
     }
   });
@@ -671,9 +704,16 @@ $('.redirectToSettings, [data-change-settings]').on('click', function(event) {
 $('[data-change-assets]').on('click', function(event) {
   event.preventDefault();
 
-  Fliplet.Studio.emit('navigate', {
-    name: 'launchAssets',
-    params: {
+  Fliplet.Studio.emit('close-overlay', {
+    name: 'publish-google'
+  });
+
+  Fliplet.Studio.emit('overlay', {
+    name: 'app-settings',
+    options: {
+      size: 'large',
+      title: 'App Settings',
+      section: 'launchAssets',
       appId: Fliplet.Env.get('appId')
     }
   });
@@ -703,7 +743,9 @@ $('#appStoreConfiguration').validator().on('submit', function(event) {
   if (event.isDefaultPrevented()) {
     // Gives time to Validator to apply classes
     setTimeout(checkGroupErrors, 0);
-    alert('Please fill in all the required information.');
+    Fliplet.Modal.alert({
+      message: 'Please fill in all the required information.'
+    });
     return;
   }
 
@@ -711,22 +753,29 @@ $('#appStoreConfiguration').validator().on('submit', function(event) {
 
   if (appInfo && appInfo.productionAppId) {
     if (allAppData.indexOf('appStore') > -1) {
-      var requestAppConfirm;
+      var message = 'Are you sure you wish to update your published app?';
 
       if (appStoreSubmission.status === "started") {
-        requestAppConfirm = confirm("Are you sure you wish to request your app to be published?");
-      } else {
-        requestAppConfirm = confirm("Are you sure you wish to update your published app?");
+        message = 'Are you sure you wish to request your app to be published?';
       }
 
-      if (requestAppConfirm) {
+      Fliplet.Modal.confirm({
+        message: message
+      }).then(function (confirmed) {
+        if (!confirmed) {
+          return;
+        }
+
         saveAppStoreData(true);
-      }
+      });
     } else {
-      alert('Please configure your App Settings to contain the required information.');
+      Fliplet.Modal.alert({
+        message: 'Please configure your App Settings to contain the required information.'
+      });
     }
   } else {
     $('.button-appStore-request').html('Please wait <i class="fa fa-spinner fa-pulse fa-fw"></i>');
+    $('.button-appStore-request').prop('disabled', true);
     publishApp('appStore');
   }
 
@@ -738,7 +787,9 @@ $('#enterpriseConfiguration').validator().on('submit', function(event) {
   if (event.isDefaultPrevented()) {
     // Gives time to Validator to apply classes
     setTimeout(checkGroupErrors, 0);
-    alert('Please fill in all the required information.');
+    Fliplet.Modal.alert({
+      message: 'Please fill in all the required information.'
+    });
     return;
   }
 
@@ -746,22 +797,29 @@ $('#enterpriseConfiguration').validator().on('submit', function(event) {
 
   if (appInfo && appInfo.productionAppId) {
     if (allAppData.indexOf('enterprise') > -1) {
-      var requestAppConfirm;
+      var message = 'Are you sure you wish to update your published app?';
 
       if (enterpriseSubmission.status === "started") {
-        requestAppConfirm = confirm("Are you sure you wish to request your app to be published?");
-      } else {
-        requestAppConfirm = confirm("Are you sure you wish to update your published app?");
+        message = 'Are you sure you wish to request your app to be published?';
       }
 
-      if (requestAppConfirm) {
+      Fliplet.Modal.confirm({
+        message: message
+      }).then(function (confirmed) {
+        if (!confirmed) {
+          return;
+        }
+
         saveEnterpriseData(true);
-      }
+      });
     } else {
-      alert('Please configure your App Settings to contain the required information.');
+      Fliplet.Modal.alert({
+        message: 'Please configure your App Settings to contain the required information.'
+      });
     }
   } else {
     $('.button-enterprise-request').html('Please wait <i class="fa fa-spinner fa-pulse fa-fw"></i>');
+    $('.button-enterprise-request').prop('disabled', true);
     publishApp('enterprise');
   }
 
@@ -795,7 +853,7 @@ $(document).on('click', '[data-cancel-build-id]', function() {
 
 $('.browse-files').on('click', function(e) {
   e.preventDefault();
-  
+
   Fliplet.Studio.emit('overlay', {
     name: 'widget',
     options: {
@@ -821,27 +879,33 @@ function publishApp(context) {
       type: 'silent',
       changelog: 'Initial version'
     }
-  }
-  Fliplet.API.request({
+  };
+
+  return Fliplet.API.request({
     method: 'POST',
     url: 'v1/apps/' + Fliplet.Env.get('appId') + '/publish',
     data: options
-  }).then((response) => {
+  }).then(function(response) {
     // Update appInfo
     appInfo.productionAppId = response.app.id;
 
     switch(context) {
       case 'appStore':
         $('.button-appStore-request').html('Request App <i class="fa fa-paper-plane"></i>');
+        $('.button-appStore-request').prop('disabled', false);
         $('#appStoreConfiguration').validator().trigger('submit');
         break;
       case 'enterprise':
         $('.button-enterprise-request').html('Request App <i class="fa fa-paper-plane"></i>');
+        $('.button-enterprise-request').prop('disabled', false);
         $('#enterpriseConfiguration').validator().trigger('submit');
         break;
       default:
         break;
     }
+  }).catch(function (err) {
+    Fliplet.Modal.alert({ message: Fliplet.parseError(err) });
+    return Promise.reject(err);
   });
 }
 
@@ -962,7 +1026,7 @@ function submissionChecker(submissions) {
   previousAppStoreSubmission = _.minBy(completedSubs, function(el) {
     return el.id;
   });
-  
+
   var esub = _.filter(submissions, function(submission) {
     return submission.data.submissionType === "enterprise" && submission.platform === "android";
   });
@@ -1034,7 +1098,7 @@ function googleSubmissionChecker(submissions) {
   esub = _.orderBy(esub, function(submission) {
     return new Date(submission.createdAt).getTime();
   }, ['desc']);
-  
+
   checkSubmissionStatus("appStore", asub);
   checkSubmissionStatus("enterprise", esub);
 }
@@ -1120,7 +1184,7 @@ function initialLoad(initial, timeout) {
             return obj.platform === 'apple';
           });
 
-          return Promise.all(appleOnly.map((obj) => {
+          return Promise.all(appleOnly.map(function(obj) {
             return Fliplet.Media.Folders.get({folderId: obj.folderId})
               .then(function(result) {
                 var tempObject = {
@@ -1160,6 +1224,9 @@ function initialLoad(initial, timeout) {
           notificationSettings = {};
         }
 
+        init();
+        initialLoad(false, 5000);
+      }).catch(function () {
         init();
         initialLoad(false, 5000);
       });
