@@ -715,7 +715,7 @@ $('.redirectToSettings, [data-change-settings]').on('click', function(event) {
   }).catch(function (error) {
     Fliplet.Modal.alert({
       message: Fliplet.parseError(error)
-    })
+    });
   });
 
 });
@@ -740,9 +740,9 @@ $('[data-change-assets]').on('click', function(event) {
   }).catch(function (error) {
     Fliplet.Modal.alert({
       message: Fliplet.parseError(error)
-    })
+    });
   });
-  
+
 });
 
 $('[name="fl-store-type"]').on('change', function() {
