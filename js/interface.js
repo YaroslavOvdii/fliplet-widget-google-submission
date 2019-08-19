@@ -737,7 +737,12 @@ $('[data-change-assets]').on('click', function(event) {
         appId: Fliplet.Env.get('appId')
       }
     });
+  }).catch(function (error) {
+    Fliplet.Modal.alert({
+      message: Fliplet.parseError(error)
+    })
   });
+  
 });
 
 $('[name="fl-store-type"]').on('change', function() {
