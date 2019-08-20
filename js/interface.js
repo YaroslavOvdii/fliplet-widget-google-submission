@@ -318,7 +318,7 @@ function submissionBuild(appSubmission, origin) {
 }
 
 function save(origin, submission) {
-  Fliplet.App.Submissions.get()
+  return Fliplet.App.Submissions.get()
     .then(function(submissions) {
       var savedSubmission = _.find(submissions, function(sub) {
         return sub.id === submission.id;
@@ -391,7 +391,7 @@ function requestBuild(origin, submission) {
   submission.data.appIcon = appIcon;
   submission.data.legacyBuild = appSettings.legacyBuild || false;
 
-  Fliplet.App.Submissions.get()
+  return Fliplet.App.Submissions.get()
     .then(function(submissions) {
       var savedSubmission = _.find(submissions, function(sub) {
         return sub.id === submission.id;
@@ -479,7 +479,7 @@ function saveAppStoreData(request) {
     data["previousResults"] = previousAppStoreSubmission.result;
   }
 
-  uploadFilePromise.then(function() {
+  return uploadFilePromise.then(function() {
     appStoreSubmission.data = data;
     notificationSettings = pushData;
 
@@ -532,7 +532,7 @@ function saveEnterpriseData(request) {
     data["previousResults"] = previousEnterpriseSubmission.result;
   }
 
-  uploadFilePromise.then(function() {
+  return uploadFilePromise.then(function() {
     enterpriseSubmission.data = data;
 
     savePushData(true);
@@ -584,6 +584,18 @@ function savePushData(silentSave) {
       $('.save-push-progress').removeClass('saved');
     }, 4000);
   });
+}
+
+function saveProgressOnClose () {
+  var savingFunctions = {
+    "appstore-control": saveAppStoreData,
+    "fliplet-signed-control": saveEnterpriseData
+  }
+  
+  //Finding out active tab to use correct save method
+  var activeTabId = $(".nav.nav-tabs li.active").prop("id");
+
+  return savingFunctions[activeTabId]()
 }
 
 function init() {
@@ -686,37 +698,51 @@ $('input[type="file"]').on('change', function() {
 $('.redirectToSettings, [data-change-settings]').on('click', function(event) {
   event.preventDefault();
 
-  Fliplet.Studio.emit('close-overlay', {
-    name: 'publish-google'
+  saveProgressOnClose().then(function () {
+    Fliplet.Studio.emit('close-overlay', {
+      name: 'publish-google'
+    });
+  
+    Fliplet.Studio.emit('overlay', {
+      name: 'app-settings',
+      options: {
+        size: 'large',
+        title: 'App Settings',
+        section: 'appSettingsGeneral',
+        appId: Fliplet.Env.get('appId')
+      }
+    });
+  }).catch(function (error) {
+    Fliplet.Modal.alert({
+      message: Fliplet.parseError(error)
+    });
   });
 
-  Fliplet.Studio.emit('overlay', {
-    name: 'app-settings',
-    options: {
-      size: 'large',
-      title: 'App Settings',
-      section: 'appSettingsGeneral',
-      appId: Fliplet.Env.get('appId')
-    }
-  });
 });
 
 $('[data-change-assets]').on('click', function(event) {
   event.preventDefault();
 
-  Fliplet.Studio.emit('close-overlay', {
-    name: 'publish-google'
+  saveProgressOnClose().then(function () {
+    Fliplet.Studio.emit('close-overlay', {
+      name: 'publish-google'
+    });
+  
+    Fliplet.Studio.emit('overlay', {
+      name: 'app-settings',
+      options: {
+        size: 'large',
+        title: 'App Settings',
+        section: 'launchAssets',
+        appId: Fliplet.Env.get('appId')
+      }
+    });
+  }).catch(function (error) {
+    Fliplet.Modal.alert({
+      message: Fliplet.parseError(error)
+    });
   });
 
-  Fliplet.Studio.emit('overlay', {
-    name: 'app-settings',
-    options: {
-      size: 'large',
-      title: 'App Settings',
-      section: 'launchAssets',
-      appId: Fliplet.Env.get('appId')
-    }
-  });
 });
 
 $('[name="fl-store-type"]').on('change', function() {
