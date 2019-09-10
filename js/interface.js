@@ -6,6 +6,9 @@ var appIcon = '';
 var appSettings = {};
 var allAppData = [];
 var appStoreSubmission = {};
+var appStoreFirebaseFileField = undefined;
+var enterpriseFirebaseFileField = undefined;
+var unsignedFirebaseFileField = undefined;
 var previousAppStoreSubmission = {};
 var enterpriseSubmission = {};
 var previousEnterpriseSubmission = {};
@@ -41,6 +44,34 @@ var createBundleID = function(orgName, appName) {
     dataType: "jsonp"
   });
 };
+
+function saveFirebaseSettings(origin) {
+  if (origin === 'appStore' && appStoreFirebaseFileField && appStoreFirebaseFileField.files[0]) {
+    var formData = new FormData();
+
+    formData.append('firebase', appStoreFirebaseFileField.files[0]);
+
+    return setFirebaseConfigFile(appStoreSubmission.id, formData);
+  }
+
+  if (origin === 'enterprise' && enterpriseFirebaseFileField && enterpriseFirebaseFileField.files[0]) {
+    var formData = new FormData();
+
+    formData.append('firebase', enterpriseFirebaseFileField.files[0]);
+
+    return setFirebaseConfigFile(enterpriseSubmission.id, formData);
+  }
+
+  if (origin === 'unsigned' && unsignedFirebaseFileField && unsignedFirebaseFileField.files[0]) {
+    var formData = new FormData();
+
+    formData.append('firebase', unsignedFirebaseFileField.files[0]);
+
+    return setFirebaseConfigFile(unsignedSubmission.id, formData);
+  }
+
+  return Promise.resolve();
+}
 
 function incrementVersionNumber(versionNumber) {
   var splitNumber = versionNumber.split('.');
@@ -131,6 +162,12 @@ function loadAppStoreData() {
       }
       return;
     }
+
+    // Firebase
+    if (name === 'fl-store-firebase') {
+      return;
+    }
+
     if (name === "fl-store-versionCode") {
       if (typeof appStoreSubmission.data[name] !== 'undefined' && appStoreSubmission.data[name] !== '') {
         $('[name="' + name + '"]').val(appStoreSubmission.data[name]);
@@ -269,9 +306,11 @@ function loadPushNotesData() {
 }
 
 function submissionBuild(appSubmission, origin) {
-  Fliplet.App.Submissions.build(appSubmission.id).then(function(builtSubmission) {
-
+  saveFirebaseSettings(origin).then(function () {
+    return Fliplet.App.Submissions.build(appSubmission.id);
+  }).then(function(builtSubmission) {
     if (origin === "appStore") {
+
       appStoreSubmission = builtSubmission.submission;
       // Auto increments the version number and saves the submission
       var newVersionNumber = incrementVersionNumber(appStoreSubmission.data['fl-store-versionNumber']);
@@ -935,6 +974,36 @@ function publishApp(context) {
   });
 }
 
+// Firebase
+
+$('#fl-store-firebase').on('change', function () {
+  appStoreFirebaseFileField = this;
+  var fileName = this.value.replace(/\\/g, '/').replace(/.*\//, '');
+
+  if (this.files && this.files[0]) {
+    $('#fl-store-firebase-uploaded').html('File uploaded: <strong>' + fileName + '</strong>').removeClass('hidden');
+  }
+});
+
+$('#fl-ent-firebase').on('change', function () {
+  enterpriseFirebaseFileField = this;
+  var fileName = this.value.replace(/\\/g, '/').replace(/.*\//, '');
+
+  if (this.files && this.files[0]) {
+    $('#fl-ent-firebase-uploaded').html('File uploaded: <strong>' + fileName + '</strong>').removeClass('hidden');
+  }
+});
+
+$('#fl-uns-firebase').on('change', function () {
+  unsignedFirebaseFileField = this;
+  var fileName = this.value.replace(/\\/g, '/').replace(/.*\//, '');
+
+  if (this.files && this.files[0]) {
+    $('#fl-uns-firebase-uploaded').html('File uploaded: <strong>' + fileName + '</strong>').removeClass('hidden');
+  }
+});
+
+
 function compileStatusTable(withData, origin, buildsData) {
   if (withData) {
     var template = Handlebars.compile(statusTableTemplate);
@@ -1107,6 +1176,23 @@ function submissionChecker(submissions) {
       });
   }
 }
+var cloneUnsignedCredentialsPromise = Promise.resolve();
+  if (unsignedSubmission.data && !unsignedSubmission.data['fl-credentials']) {
+
+    var prevSubCred = _.filter(esub, function (submission) {
+      return submission.data && submission.data['fl-credentials'];
+    });
+
+    var previousSubWithCredentials = _.maxBy(prevSubCred, function (el) {
+      return new Date(el.createdAt).getTime();
+    });
+
+    unsignedSubmission.data['fl-credentials'] = 'submission-' + unsignedSubmission.id;
+
+    if (previousSubWithCredentials) {
+      cloneUnsignedCredentialsPromise = cloneCredentials(previousSubWithCredentials.data['fl-credentials'], unsignedSubmission, true);
+    }
+  }
 
 function googleSubmissionChecker(submissions) {
   var asub = _.filter(submissions, function(submission) {

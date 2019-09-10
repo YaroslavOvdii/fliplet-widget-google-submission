@@ -138,7 +138,7 @@
           </div>
           <div class="panel panel-default">
             <div class="panel-heading" role="tab" id="appStorePushHeading">
-              <h4 class="panel-title collapsed" role="button" data-toggle="collapse" data-parent="#accordionAppStore" href="#appStorePush" aria-expanded="true" aria-controls="appStorePush"><strong>2 -</strong> Push notification <small>(Optional)</small> <i class="fa fa-angle-down" aria-hidden="true"></i></h4>
+              <h4 class="panel-title collapsed" role="button" data-toggle="collapse" data-parent="#accordionAppStore" href="#appStorePush" aria-expanded="true" aria-controls="appStorePush"><strong>2 -</strong> App Analytics & Push <small>(Optional)</small> <i class="fa fa-angle-down" aria-hidden="true"></i></h4>
             </div>
             <div id="appStorePush" class="panel-collapse collapse" role="tabpanel" aria-labelledby="appStorePushHeading">
               <div class="panel-body">
@@ -164,6 +164,21 @@
                   </div>
                   <div class="col-sm-8">
                     <input type="text" name="fl-store-senderId" class="form-control" id="fl-store-senderId" />
+                  </div>
+                </div>
+                <h3><small>Google Firebase (optional)</small></h3>
+                <div class="form-group clearfix">
+                  <div class="col-sm-4 control-label">
+                    <label for="fl-store-versionNumber">Firebase config file</label>
+                    <p class="help-block"><small><a href="https://console.firebase.google.com" target="_blank">Register your app on Firebase</a> and download the config file from the Firebase project settings.</small></p>
+                  </div>
+                  <div class="col-sm-8">
+                    <label class="input-group-btn">
+                      <span class="btn btn-default">Browse .plist file<input id="fl-store-firebase" name="fl-store-firebase" class="hidden" type="file" accept=".plist" data-error="Please upload a .plist file."></span>
+                    </label>
+                    <div class="help-block with-errors">
+                      <p id="fl-store-firebase-uploaded" class="hidden"><strong>✔ You selected a config file.</strong></p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -259,7 +274,7 @@
           </div>
           <div class="panel panel-default">
             <div class="panel-heading" role="tab" id="enterprisePushHeading">
-              <h4 class="panel-title collapsed" role="button" data-toggle="collapse" data-parent="#accordionEnterprise" href="#enterprisePush" aria-expanded="true" aria-controls="enterprisePush"><strong>3 -</strong> Push notification assets <small>(Optional)</small> <i class="fa fa-angle-down" aria-hidden="true"></i></h4>
+              <h4 class="panel-title collapsed" role="button" data-toggle="collapse" data-parent="#accordionEnterprise" href="#enterprisePush" aria-expanded="true" aria-controls="enterprisePush"><strong>3 -</strong> App Analytics & Push <small>(Optional)</small> <i class="fa fa-angle-down" aria-hidden="true"></i></h4>
             </div>
             <div id="enterprisePush" class="panel-collapse collapse" role="tabpanel" aria-labelledby="enterprisePushHeading">
               <div class="panel-body">
@@ -276,6 +291,21 @@
                       <input type="file" id="fl-ent-notificationIcon" name="fl-ent-notificationIcon" class="input-file selectfile" accept="image/png">
                     </label>
                     <p class="help-block image-name"><small></small></p>
+                  </div>
+                </div>
+                <h3><small>Google Firebase (optional)</small></h3>
+                <div class="form-group clearfix">
+                  <div class="col-sm-4 control-label">
+                    <label for="fl-store-versionNumber">Firebase config file</label>
+                    <p class="help-block"><small><a href="https://console.firebase.google.com" target="_blank">Register your app on Firebase</a> and download the config file from the Firebase project settings.</small></p>
+                  </div>
+                  <div class="col-sm-8">
+                    <label class="input-group-btn">
+                      <span class="btn btn-default">Browse .plist file<input id="fl-store-firebase" name="fl-store-firebase" class="hidden" type="file" accept=".plist" data-error="Please upload a .plist file."></span>
+                    </label>
+                    <div class="help-block with-errors">
+                      <p id="fl-store-firebase-uploaded" class="hidden"><strong>✔ You selected a config file.</strong></p>
+                    </div>
                   </div>
                 </div>
               </div>
