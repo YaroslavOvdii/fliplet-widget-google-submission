@@ -138,32 +138,45 @@
           </div>
           <div class="panel panel-default">
             <div class="panel-heading" role="tab" id="appStorePushHeading">
-              <h4 class="panel-title collapsed" role="button" data-toggle="collapse" data-parent="#accordionAppStore" href="#appStorePush" aria-expanded="true" aria-controls="appStorePush"><strong>2 -</strong> Push notification <small>(Optional)</small> <i class="fa fa-angle-down" aria-hidden="true"></i></h4>
+              <h4 class="panel-title collapsed" role="button" data-toggle="collapse" data-parent="#accordionAppStore" href="#appStorePush" aria-expanded="true" aria-controls="appStorePush"><strong>2 -</strong> App Analytics & Push <small>(Optional)</small> <i class="fa fa-angle-down" aria-hidden="true"></i></h4>
             </div>
             <div id="appStorePush" class="panel-collapse collapse" role="tabpanel" aria-labelledby="appStorePushHeading">
               <div class="panel-body">
-                <p>If you want to enable push notifications on your app, we recommend you upload the notification icon, doing it at a later stage will require a new submission.</p>
+                <h3>Fliplet Analytics</h3>
                 <div class="form-group clearfix">
-                  <div class="col-sm-4 control-label">
-                    <label>Notification icon</label>
-                    <p class="help-block label-helper"><small>This will be the icon users will see when they receive a notification from your app. <a href="https://developer.android.com/guide/practices/ui_guidelines/icon_design_status_bar.html" target="_blank">Learn More</a><br><strong>The image should be 512x512</strong></small></p>
-                  </div>
-                  <div class="col-sm-8">
-                    <label for="fl-store-notificationIcon" class="fileUpload btn btn-primary">
-                      <i class="fa fa-plus"></i>
-                      <span>Choose image</span>
-                      <input type="file" id="fl-store-notificationIcon" name="fl-store-notificationIcon" class="input-file selectfile" accept="image/png">
-                    </label>
-                    <p class="help-block image-name"><small></small></p>
+                  <div class="col-sm-12">
+                    <h4>Status: <span data-fl-analytics-status>Disabled</span> </h4>
+                    <br>
+                    <p>Fliplet’s analytics records usage data, including the user’s login if the app has a login, and displays the data within Fliplet Studio. <a href="#">Learn more about Fliplet Analytics</a></p>
+                    <small>To enable in Fliplet Studio visit App Settings > Add-ons tab > Fliplet Analytics</small>
                   </div>
                 </div>
+
+
+                <h3>Google Firebase & Push Notifications</h3>
                 <div class="form-group clearfix">
-                  <div class="col-sm-4 control-label">
-                    <label for="fl-store-senderId">Sender ID</label>
-                    <p class="help-block label-helper"><small>The sender ID can be found in the Firebase Console in <strong>Settings > Cloud Messaging</strong>.</small></p>
+                  <div class="col-sm-12">
+                    <h4>Status: <span id="fl-store-firebase-status">Disabled</span></h4>
+                    <br>
+                    <p>Google Firebase offers analytics via Google Analytics, push notifications and other features. <a href="">Learn more about Firebase</a></p>
+                    <small>
+                      To enable:
+                      <ol>
+                        <li>Login to a Firebase account (any existing Google Account can be used</li>
+                        <li>Create a new app</li>
+                        <li>Select Android</li>
+                        <li>Download your Firebase json file</li>
+                        <li>Upload it by clicking the button below</li>
+                      </ol>
+                    </small>
                   </div>
-                  <div class="col-sm-8">
-                    <input type="text" name="fl-store-senderId" class="form-control" id="fl-store-senderId" />
+                  <div class="col-sm-4">
+                    <label class="input-group-btn">
+                      <span class="btn btn-default">Upload Firebase .json file<input id="fl-store-firebase" name="fl-store-firebase" class="hidden" type="file" accept=".json" data-error="Please upload a .plist file."></span>
+                    </label>
+                    <div class="help-block with-errors">
+                      <p id="fl-store-firebase-uploaded" class="hidden"><strong>✔ You selected a config file.</strong></p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -259,25 +272,48 @@
           </div>
           <div class="panel panel-default">
             <div class="panel-heading" role="tab" id="enterprisePushHeading">
-              <h4 class="panel-title collapsed" role="button" data-toggle="collapse" data-parent="#accordionEnterprise" href="#enterprisePush" aria-expanded="true" aria-controls="enterprisePush"><strong>3 -</strong> Push notification assets <small>(Optional)</small> <i class="fa fa-angle-down" aria-hidden="true"></i></h4>
+              <h4 class="panel-title collapsed" role="button" data-toggle="collapse" data-parent="#accordionEnterprise" href="#enterprisePush" aria-expanded="true" aria-controls="enterprisePush"><strong>3 -</strong> App Analytics & Push <small>(Optional)</small> <i class="fa fa-angle-down" aria-hidden="true"></i></h4>
             </div>
             <div id="enterprisePush" class="panel-collapse collapse" role="tabpanel" aria-labelledby="enterprisePushHeading">
               <div class="panel-body">
-                <p>If you want to enable push notifications on your app, we recommend you upload the notification icon, doing it at a later stage will require a new submission.</p>
+
+                <h3>Fliplet Analytics</h3>
                 <div class="form-group clearfix">
-                  <div class="col-sm-4 control-label">
-                    <label>Notification icon</label>
-                    <p class="help-block label-helper"><small>This will be the icon users will see when they receive a notification from your app<br><strong>The image should be 512x512</strong></small></p>
-                  </div>
-                  <div class="col-sm-8">
-                    <label for="fl-ent-notificationIcon" class="fileUpload btn btn-primary">
-                      <i class="fa fa-plus"></i>
-                      <span>Choose image</span>
-                      <input type="file" id="fl-ent-notificationIcon" name="fl-ent-notificationIcon" class="input-file selectfile" accept="image/png">
-                    </label>
-                    <p class="help-block image-name"><small></small></p>
+                  <div class="col-sm-12">
+                    <h4>Status: <span data-fl-analytics-status>Disabled</span> </h4>
+                    <br>
+                    <p>Fliplet’s analytics records usage data, including the user’s login if the app has a login,anddisplays the data within Fliplet Studio. <a href="#">Learn more about Fliplet Analytics</a></p>
+                    <small>To enable in Fliplet Studio visit App Settings > Add-ons tab > Fliplet Analytics</small>
                   </div>
                 </div>
+
+                <h3>Google Firebase & Push Notifications</h3>
+                <div class="form-group clearfix">
+                  <div class="col-sm-12">
+                    <h4>Status: <span id="fl-ent-firebase-status">Disabled</span></h4>
+                    <br>
+                    <p>Google Firebase offers analytics via Google Analytics, push notifications and otherfeatures. <a href="#">Learn more about Firebase</a></p>
+                    <small>
+                      To enable:
+                      <ol>
+                        <li>Login to a Firebase account (any existing Google Account can be used</li>
+                        <li>Create a new app</li>
+                        <li>Select Android</li>
+                        <li>Download your Firebase json file</li>
+                        <li>Upload it by clicking the button below</li>
+                      </ol>
+                    </small>
+                  </div>
+                  <div class="col-sm-4">
+                    <label class="input-group-btn">
+                      <span class="btn btn-default">Upload Firebase .json file<input id="fl-ent-firebase" name="fl-ent-firebase" class="hidden" type="file" accept=".json"data-error="Please upload a.plist file."></span>
+                    </label>
+                    <div class="help-block with-errors">
+                      <p id="fl-ent-firebase-uploaded" class="hidden"><strong>✔ You selected a config file.<strong><p>
+                    </div>
+                  </div>
+                </div>
+
               </div>
             </div>
           </div>

@@ -497,3 +497,7 @@ h3 small {
 .screenshot-previews img {
   border: 1px solid #F0F0F0;
 }
+
+.analytic-enabled {
+  color: #6aa84f;
+}
