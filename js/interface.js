@@ -6,6 +6,8 @@ var appIcon = '';
 var appSettings = {};
 var allAppData = [];
 var appStoreSubmission = {};
+var appStoreFirebaseFileField = undefined;
+var enterpriseFirebaseFileField = undefined;
 var previousAppStoreSubmission = {};
 var enterpriseSubmission = {};
 var previousEnterpriseSubmission = {};
@@ -56,6 +58,36 @@ function incrementVersionNumber(versionNumber) {
   return splitNumber.join('.');
 }
 
+function saveFirebaseSettings(origin) {
+  if (origin === 'appStore' && appStoreFirebaseFileField && appStoreFirebaseFileField.files[0]) {
+    var formData = new FormData();
+
+    formData.append('firebase', appStoreFirebaseFileField.files[0]);
+
+    return setFirebaseConfigFile(appStoreSubmission.id, formData);
+  }
+
+  if (origin === 'enterprise' && enterpriseFirebaseFileField && enterpriseFirebaseFileField.files[0]) {
+    var formData = new FormData();
+
+    formData.append('firebase', enterpriseFirebaseFileField.files[0]);
+
+    return setFirebaseConfigFile(enterpriseSubmission.id, formData);
+  }
+
+  return Promise.resolve();
+}
+
+function setFirebaseConfigFile(id, file) {
+  return Fliplet.API.request({
+    method: 'PUT',
+    url: 'v1/organizations/' + Fliplet.Env.get('organizationId') + '/credentials/submission-' + id + '?fileName=firebase',
+    data: file,
+    contentType: false,
+    processData: false
+  });
+}
+
 function incrementVersionCode(versionNumber) {
   var newVersionNumber = incrementVersionNumber(versionNumber);
   var splitNumber = newVersionNumber.split('.');
@@ -92,6 +124,11 @@ function loadAppStoreData() {
     /* FEATURED GRAPHIC */
     if (name === "fl-store-featuredGraphic") {
       $(el).parents('.fileUpload').next('.image-name').find('small').html((typeof appStoreSubmission.data[name] !== "undefined") ? appStoreSubmission.data[name][0].name : '');
+      return;
+    }
+
+    // Firebase
+    if (name === 'fl-store-firebase') {
       return;
     }
 
@@ -206,6 +243,12 @@ function loadEnterpriseData() {
       $('[name="' + name + '"]').val(enterpriseSubmission.data[name]);
       return;
     }
+
+    // Firebase
+    if (name === 'fl-ent-firebase') {
+      return;
+    }
+
     /* NOTIFICATION ICON */
     if (name === "fl-ent-notificationIcon") {
       if (enterpriseSubmission.data[name]) {
@@ -269,7 +312,9 @@ function loadPushNotesData() {
 }
 
 function submissionBuild(appSubmission, origin) {
-  Fliplet.App.Submissions.build(appSubmission.id).then(function(builtSubmission) {
+  saveFirebaseSettings(origin).then(function () {
+    return Fliplet.App.Submissions.build(appSubmission.id);
+  }).then(function (builtSubmission) {
 
     if (origin === "appStore") {
       appStoreSubmission = builtSubmission.submission;
@@ -505,6 +550,10 @@ function saveEnterpriseData(request) {
       value = value.trim();
     }
 
+    if (name === 'fl-ent-firebase') {
+      return; // saved in credentials
+    }
+
     if ($(el).attr('type') === "file") {
       var fileList = el.files;
       var file = new FormData();
@@ -650,6 +699,26 @@ $('[name="submissionType"]').on('change', function() {
   $('.' + selectedOptionId).addClass('show');
 
   Fliplet.Widget.autosize();
+});
+
+$('#fl-store-firebase').on('change', function() {
+  appStoreFirebaseFileField = this;
+  var fileName = this.value.replace(/\\/g, '/').replace(/.*\//, '');
+
+  if (this.files && this.files[0]) {
+    $('#fl-store-firebase-uploaded').html('File uploaded: <strong>' + fileName + '</strong>').removeClass('hidden');
+    $('#fl-store-firebase-status').html('Enabled').addClass('analytic-enabled');
+  }
+});
+
+$("#fl-ent-firebase").on('change', function() {
+  enterpriseFirebaseFileField = this;
+  var fileName = this.value.replace(/\\/g, '/').replace(/.*\//, '');
+
+  if (this.files && this.files[0]) {
+    $('#fl-ent-firebase-uploaded').html('File uploaded: <strong>' + fileName + '</strong>').removeClass('hidden');
+    $('#fl-ent-firebase-status').html('Enabled').addClass('analytic-enabled');
+  }
 });
 
 $('.fl-sb-appStore [change-bundleid], .fl-sb-fliplet-signed [change-bundleid]').on('click', function() {
@@ -1199,6 +1268,19 @@ function initialLoad(initial, timeout) {
           })
           .then(function(org) {
             organizationName = org.name;
+          }),
+          Fliplet.API.request({
+            cache: true,
+            url: 'v1/widgets?include_instances=true&tags=type:appComponent&appId='+Fliplet.Env.get('appId')+'&package=com.fliplet.analytics'
+          })
+          .then(function(res) {
+            var isEnabled = !_.isEmpty(res.widgets[0].instances);
+            
+            if (isEnabled) {
+              $('[data-fl-analytics-status]').each(function(index, item) {
+                $(item).html('Enabled').addClass('analytic-enabled');
+              }) 
+            } 
           })
         ]);
       })
