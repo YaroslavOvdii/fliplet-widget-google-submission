@@ -342,7 +342,7 @@ function submissionBuild(appSubmission, origin) {
         title: 'Your request was sent successfully!',
         message: 'Your app is building!'
       }).then(function () {
-        document.getElementById('nav-tabs').scrollIntoView({behavior: "smooth", block: "start"});
+        document.getElementById('nav-tabs').scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
 
     $('.button-' + origin + '-request').html('Request App <i class="fa fa-paper-plane"></i>');
