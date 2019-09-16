@@ -338,21 +338,20 @@ function submissionBuild(appSubmission, origin) {
 
     Fliplet.Studio.emit('refresh-app-submissions');
 
+    Fliplet.Modal.alert({
+        title: 'Your request was sent successfully!',
+        message: 'Your app is building!'
+      }).then(function () {
+        document.getElementById('nav-tabs').scrollIntoView({behavior: "smooth", block: "start"});
+      });
+
     $('.button-' + origin + '-request').html('Request App <i class="fa fa-paper-plane"></i>');
     $('.button-' + origin + '-request').prop('disabled', false);
-    $('.save-' + origin + '-request').addClass('saved').hide().fadeIn(250);
 
     clearTimeout(initLoad);
     initialLoad(false, 0);
 
     Fliplet.Widget.autosize();
-
-    setTimeout(function() {
-      $('.save-' + origin + '-request').fadeOut(250, function() {
-        $('.save-' + origin + '-request').removeClass('saved');
-        Fliplet.Widget.autosize();
-      });
-    }, 10000);
   }, function(err) {
     $('.button-' + origin + '-request').html('Request App <i class="fa fa-paper-plane"></i>');
     $('.button-' + origin + '-request').prop('disabled', false);
@@ -640,7 +639,7 @@ function saveProgressOnClose () {
     "appstore-control": saveAppStoreData,
     "fliplet-signed-control": saveEnterpriseData
   }
-  
+
   //Finding out active tab to use correct save method
   var activeTabId = $(".nav.nav-tabs li.active").prop("id");
 
@@ -771,7 +770,7 @@ $('.redirectToSettings, [data-change-settings]').on('click', function(event) {
     Fliplet.Studio.emit('close-overlay', {
       name: 'publish-google'
     });
-  
+
     Fliplet.Studio.emit('overlay', {
       name: 'app-settings',
       options: {
@@ -796,7 +795,7 @@ $('[data-change-assets]').on('click', function(event) {
     Fliplet.Studio.emit('close-overlay', {
       name: 'publish-google'
     });
-  
+
     Fliplet.Studio.emit('overlay', {
       name: 'app-settings',
       options: {
@@ -1275,12 +1274,12 @@ function initialLoad(initial, timeout) {
           })
           .then(function(res) {
             var isEnabled = !_.isEmpty(res.widgets[0].instances);
-            
+
             if (isEnabled) {
               $('[data-fl-analytics-status]').each(function(index, item) {
                 $(item).html('Enabled').addClass('analytic-enabled');
-              }) 
-            } 
+              })
+            }
           })
         ]);
       })
