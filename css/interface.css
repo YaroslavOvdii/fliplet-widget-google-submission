@@ -234,8 +234,6 @@ h3 small {
 
 .save-enterprise-progress,
 .save-unsigned-progress,
-.save-enterprise-request,
-.save-unsigned-request,
 .save-push-progress {
   opacity: 0;
   -webkit-transition: opacity 0.25s ease;
@@ -244,22 +242,14 @@ h3 small {
 
 .save-enterprise-progress.saved,
 .save-unsigned-progress.saved,
-.save-enterprise-request.saved,
-.save-unsigned-request.saved,
 .save-push-progress.saved {
   opacity: 1;
 }
 
 .save-appStore-progress,
-.save-appStore-request {
+.save-appStore-progress.saved {
   display: none;
 }
-
-.save-appStore-progress.saved,
-.save-appStore-request.saved {
-  display: none;
-}
-
 
 /* App Settings Replica */
 
