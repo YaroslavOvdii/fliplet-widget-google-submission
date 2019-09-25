@@ -691,6 +691,18 @@ function checkGroupErrors() {
 }
 
 /* ATTACH LISTENERS */
+
+$('[data-toggle="tooltip"]').tooltip({
+  title: function() {
+    var tooltipText = $(this).text();
+    if (tooltipText.length < 41) {
+      return;
+    }
+    return tooltipText;
+  },
+  delay: { "show": 500, "hide": 300 }
+});
+
 $('[name="submissionType"]').on('change', function() {
   var selectedOptionId = $(this).attr('id');
 
