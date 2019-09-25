@@ -107,6 +107,19 @@
   margin: 0;
 }
 
+.bundleId-store-text,
+.bundleId-apk-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bundleId-store-text:before,
+.bundleId-apk-text:before {
+  content: '';
+  display: block;
+}
+
 .nav-tabs>li>a span {
   display: block;
   text-align: center;
@@ -489,4 +502,9 @@ h3 small {
 
 .analytic-enabled {
   color: #6aa84f;
+}
+
+.tooltip-inner {
+  max-width: 320px;
+  word-wrap: break-word;
 }
