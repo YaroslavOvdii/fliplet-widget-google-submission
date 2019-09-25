@@ -144,17 +144,17 @@ function loadAppStoreData() {
     if (name === "fl-store-bundleId" && typeof appStoreSubmission.data[name] === "undefined") {
       createBundleID(organizationName.toCamelCase(), appName.toCamelCase()).then(function(response) {
         if (response.resultCount === 0) {
-          $('.bundleId-ast-text').html('com.' + organizationName.toCamelCase() + '.' + appName.toCamelCase());
+          $('.bundleId-store-text').html('com.' + organizationName.toCamelCase() + '.' + appName.toCamelCase());
           $('[name="' + name + '"]').val('com.' + organizationName.toCamelCase() + '.' + appName.toCamelCase());
         } else {
-          $('.bundleId-ast-text').html('com.' + organizationName.toCamelCase() + '.' + appName.toCamelCase() + (response.resultCount + 1));
+          $('.bundleId-store-text').html('com.' + organizationName.toCamelCase() + '.' + appName.toCamelCase() + (response.resultCount + 1));
           $('[name="' + name + '"]').val('com.' + organizationName.toCamelCase() + '.' + appName.toCamelCase() + (response.resultCount + 1));
         }
       });
       return;
     }
     if (name === "fl-store-bundleId" && typeof appStoreSubmission.data[name] !== "undefined") {
-      $('.bundleId-ast-text').html(appStoreSubmission.data[name]);
+      $('.bundleId-store-text').html(appStoreSubmission.data[name]);
       $('[name="' + name + '"]').val(appStoreSubmission.data[name]);
       return;
     }
@@ -229,17 +229,17 @@ function loadEnterpriseData() {
     if (name === "fl-ent-bundleId" && typeof enterpriseSubmission.data[name] === "undefined") {
       createBundleID(organizationName.toCamelCase(), appName.toCamelCase()).then(function(response) {
         if (response.resultCount === 0) {
-          $('.bundleId-ent-text').html('com.' + organizationName.toCamelCase() + '.' + appName.toCamelCase());
+          $('.bundleId-apk-text').html('com.' + organizationName.toCamelCase() + '.' + appName.toCamelCase());
           $('[name="' + name + '"]').val('com.' + organizationName.toCamelCase() + '.' + appName.toCamelCase());
         } else {
-          $('.bundleId-ent-text').html('com.' + organizationName.toCamelCase() + '.' + appName.toCamelCase() + (response.resultCount + 1));
+          $('.bundleId-apk-text').html('com.' + organizationName.toCamelCase() + '.' + appName.toCamelCase() + (response.resultCount + 1));
           $('[name="' + name + '"]').val('com.' + organizationName.toCamelCase() + '.' + appName.toCamelCase() + (response.resultCount + 1));
         }
       });
       return;
     }
     if (name === "fl-ent-bundleId" && typeof enterpriseSubmission.data[name] !== "undefined") {
-      $('.bundleId-ent-text').html(enterpriseSubmission.data[name]);
+      $('.bundleId-apk-text').html(enterpriseSubmission.data[name]);
       $('[name="' + name + '"]').val(enterpriseSubmission.data[name]);
       return;
     }
@@ -700,7 +700,7 @@ $('[data-toggle="tooltip"]').tooltip({
     }
     return tooltipText;
   },
-  delay: { "show": 500, "hide": 300 }
+  delay: { show: 500, hide: 300 }
 });
 
 $('[name="submissionType"]').on('change', function() {

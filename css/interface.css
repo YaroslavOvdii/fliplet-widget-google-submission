@@ -107,15 +107,15 @@
   margin: 0;
 }
 
-.bundleId-ast-text,
-.bundleId-ent-text {
+.bundleId-store-text,
+.bundleId-apk-text {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.bundleId-ast-text:before,
-.bundleId-ent-text:before {
+.bundleId-store-text:before,
+.bundleId-apk-text:before {
   content: '';
   display: block;
 }
