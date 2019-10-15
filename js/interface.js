@@ -1056,7 +1056,7 @@ function checkSubmissionStatus(origin, googleSubmissions) {
 
       // Default copy for testing status for different users
       if (submission.status === 'ready-for-testing') {
-        if (userInfo.user && (userInfo.user.isAdmin || userInfo.user.isImpersonating)) {
+        if (userInfo && userInfo.user && (userInfo.user.isAdmin || userInfo.user.isImpersonating)) {
           // Fliplet users
           build.testingStatus = 'Ready for testing';
           build.testingMessage = 'App is ready for testing';
@@ -1097,7 +1097,7 @@ function checkSubmissionStatus(origin, googleSubmissions) {
       build[submission.status] = true;
       build.fileUrl = appBuild ? appBuild.url : '';
 
-      if (userInfo.user && (userInfo.user.isAdmin || userInfo.user.isImpersonating)) {
+      if (userInfo && userInfo.user && (userInfo.user.isAdmin || userInfo.user.isImpersonating)) {
         build.debugFileUrl = debugApp ? debugApp.url : '';
       }
 
