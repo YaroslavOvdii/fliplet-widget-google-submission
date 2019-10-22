@@ -220,6 +220,24 @@ function loadAppStoreData() {
   }
 }
 
+function checkFileExtension (fileName, element) {
+  var regexp = /[^.]+$/;
+  var fileExtension = fileName.match(regexp);
+  var isCorrectExtension = fileExtension ? fileExtension[0] : undefined;
+
+  if (isCorrectExtension !== 'json') {
+    $(element).val('');
+    Fliplet.Modal.alert({
+      title: 'Wrong file extension',
+      message: 'Please select a .json file',
+      size: 'small'
+    });
+    return false;
+  }
+
+  return true;
+}
+
 function loadEnterpriseData() {
 
   $('#enterpriseConfiguration [name]').each(function(i, el) {
@@ -713,8 +731,14 @@ $('[name="submissionType"]').on('change', function() {
 });
 
 $('#fl-store-firebase').on('change', function() {
-  appStoreFirebaseFileField = this;
   var fileName = this.value.replace(/\\/g, '/').replace(/.*\//, '');
+  var fileExtension = checkFileExtension(fileName, this); 
+
+  if (!fileExtension) {
+    return;
+  }
+
+  appStoreFirebaseFileField = this;
 
   if (this.files && this.files[0]) {
     $('#fl-store-firebase-uploaded').html('File uploaded: <strong>' + fileName + '</strong>').removeClass('hidden');
@@ -723,8 +747,14 @@ $('#fl-store-firebase').on('change', function() {
 });
 
 $("#fl-ent-firebase").on('change', function() {
-  enterpriseFirebaseFileField = this;
   var fileName = this.value.replace(/\\/g, '/').replace(/.*\//, '');
+  var fileExtension = checkFileExtension(fileName, this); 
+
+  if (!fileExtension) {
+    return;
+  }
+
+  enterpriseFirebaseFileField = this;
 
   if (this.files && this.files[0]) {
     $('#fl-ent-firebase-uploaded').html('File uploaded: <strong>' + fileName + '</strong>').removeClass('hidden');
