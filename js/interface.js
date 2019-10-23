@@ -802,7 +802,10 @@ $('[name="fl-store-keywords"]').on('tokenfield:createtoken', function(e) {
 });
 
 $('input[type="file"]').on('change', function() {
-  $(this).parents('.fileUpload').next('.image-name').find('small').html($(this)[0].files[0].name);
+  // To avoid console error added check for the needed key
+  var $element = $(this);
+  var file = $element[0].files[0];
+  $element.parents('.fileUpload').next('.image-name').find('small').html(file ? file.name : '');
 });
 
 $('.redirectToSettings, [data-change-settings]').on('click', function(event) {
@@ -1276,6 +1279,13 @@ function initialLoad(initial, timeout) {
               enterpriseSubmission = submission;
             }),
           ]);
+        } else {
+          submissions.forEach(function (submission) {
+            var environment = submission.data.submissionType === 'appStore' ? 'store' : 'ent';
+            if (submission.data['fl-' + environment + '-firebase'] && submission.platform === 'android') {
+              $('#fl-' + environment + '-firebase-status').html('Enabled').addClass('analytic-enabled');
+            }
+          });
         }
 
         return Fliplet.API.request({
