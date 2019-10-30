@@ -567,10 +567,6 @@ function saveEnterpriseData(request) {
       value = value.trim();
     }
 
-    if (name === 'fl-ent-firebase') {
-      return; // saved in credentials
-    }
-
     if ($(el).attr('type') === "file") {
       var fileList = el.files;
       var file = new FormData();
