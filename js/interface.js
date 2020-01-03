@@ -981,7 +981,7 @@ $('.panel-collapse').on('shown.bs.collapse', function () {
     return;
   }
 
-  Fliplet.Studio.emit('accordionScroll', $panel.offset().top);
+  Fliplet.Studio.emit('scrollTo', $panel.offset().top);
 });
 
 $(document).on('click', '[data-cancel-build-id]', function() {
