@@ -728,7 +728,7 @@ $('[name="submissionType"]').on('change', function() {
 
 $('#fl-store-firebase').on('change', function() {
   var fileName = this.value.replace(/\\/g, '/').replace(/.*\//, '');
-  var fileExtension = checkFileExtension(fileName, this); 
+  var fileExtension = checkFileExtension(fileName, this);
 
   if (!fileExtension) {
     return;
@@ -744,7 +744,7 @@ $('#fl-store-firebase').on('change', function() {
 
 $("#fl-ent-firebase").on('change', function() {
   var fileName = this.value.replace(/\\/g, '/').replace(/.*\//, '');
-  var fileExtension = checkFileExtension(fileName, this); 
+  var fileExtension = checkFileExtension(fileName, this);
 
   if (!fileExtension) {
     return;
@@ -971,6 +971,17 @@ $('[data-enterprise-save]').on('click', function() {
 });
 $('[data-push-save]').on('click', function() {
   savePushData();
+});
+
+// Scroll accordion tab to the top
+$('.panel-collapse').on('shown.bs.collapse', function () {
+  var $panel = $(this).closest('.panel');
+
+  if (!$panel || !$panel.offset()) {
+    return;
+  }
+
+  Fliplet.Studio.emit('scrollTo', $panel.offset().top);
 });
 
 $(document).on('click', '[data-cancel-build-id]', function() {
